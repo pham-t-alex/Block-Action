@@ -7,13 +7,14 @@ public class Battle : MonoBehaviour
 {
     Vector3 prevMousePosition = new Vector3(0, 0);
     public Grid grid;
-    public List<SoulBlock> soulBlocks;
-    public List<SoulBlock> placedBlocks;        //this should be a list of placed blocks in grid
+    public List<SoulObject> soulObjects;
+    //Note: potentially not necessary if using grid.soulObjectsInGrid;
+    public List<SoulObject> placedSoulObjects;        //this should be a list of placed blocks in grid
     public BattleState bs;
     public static Battle b;
     public List<Enemy> enemies;
 
-    SoulBlock selectedBlock;
+    SoulObject selectedSoulObject;
     float selectedTime = float.MinValue;
 
     // Start is called before the first frame update
@@ -37,11 +38,11 @@ public class Battle : MonoBehaviour
 
     void PlayerTurn() {
         //take the list of soul blocks placed in the grid
-        foreach (SoulBlock block in placedBlocks) {
+        foreach (SoulObject soulObject in placedSoulObjects) {
             //attack animation
-            PlayerSequence(block);
+            PlayerSequence(soulObject);
         }
-        placedBlocks.Clear();
+        placedSoulObjects.Clear();
         bs = BattleState.EnemyAction;
         Debug.Log("Enemy Turn");
     }
@@ -55,25 +56,30 @@ public class Battle : MonoBehaviour
         Debug.Log("Grid Fitting");
     }
 
-    void PlayerSequence(SoulBlock s) {
-        //after single target, where do we save the attack enemy?
-
-        if (s.isAoe)
+    void PlayerSequence(SoulObject obj) {
+        //change later to add frames
+        if (obj is SoulBlock)
         {
-            foreach (Enemy e in enemies)
+            //after single target, where do we save the attack enemy?
+            SoulBlock s = (SoulBlock) obj;
+            if (s.isAoe)
             {
-                e.health -= s.damage;
+                foreach (Enemy e in enemies)
+                {
+                    e.health -= s.damage;
+                }
             }
-        }
-        else if (s.isSingleTarget)
-        {
-            //s.getEnemy().health -= s.damage; //this getEnemy does not work
-        }
-        else if (s.isHeal)
-        {
-            Player.player.health += s.heal;
-            if (Player.player.health > Player.player.MaxHealth) { //this number shouldn't be hard coded
-                Player.player.health = Player.player.MaxHealth;
+            else if (s.isSingleTarget)
+            {
+                //s.getEnemy().health -= s.damage; //this getEnemy does not work
+            }
+            else if (s.isHeal)
+            {
+                Player.player.health += s.heal;
+                if (Player.player.health > Player.player.MaxHealth)
+                { //this number shouldn't be hard coded
+                    Player.player.health = Player.player.MaxHealth;
+                }
             }
         }
     }
@@ -89,31 +95,38 @@ public class Battle : MonoBehaviour
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
 
-        if (selectedBlock != null)
+        if (selectedSoulObject != null)
         {
             if (selectedTime > 0)
             {
-                selectedBlock.transform.position += mousePosition - prevMousePosition;
+                selectedSoulObject.transform.position += mousePosition - prevMousePosition;
             }
             else if (selectedTime > float.MinValue)
             {
                 selectedTime = float.MinValue;
-                placeBlock(selectedBlock);
-                selectedBlock = null;
+                placeSoulObject(selectedSoulObject);
+                selectedSoulObject = null;
             }
         }
         if (Input.GetMouseButton(0))
         {
-            if (selectedBlock == null)
+            if (selectedSoulObject == null)
             {
-                foreach (SoulBlock block in soulBlocks)
+                foreach (SoulObject soulObject in soulObjects)
                 {
-                    if (!block.placed)
+                    if (!soulObject.placed)
                     {
-                        if (block.mouseTouching)
+                        if (soulObject.mouseTouching)
                         {
-                            selectedBlock = block;
-                            selectedBlock.blockRenderer.sortingOrder = 10;
+                            selectedSoulObject = soulObject;
+                            if (soulObject is SoulBlock)
+                            {
+                                selectedSoulObject.soulRenderer.sortingOrder = 10;
+                            }
+                            else
+                            {
+                                selectedSoulObject.soulRenderer.sortingOrder = 4;
+                            }
                             selectedTime = 0.05f;
                         }
                     }
@@ -128,36 +141,73 @@ public class Battle : MonoBehaviour
     }
 
 
-    void placeBlock(SoulBlock block)
+    void placeSoulObject(SoulObject soulObject)
     {
         List<Tile> touchingTiles = new List<Tile>();
         foreach (Tile t in grid.tiles)
         {
-            if(!t.filled && t.TouchingBlock(block))
+            if (soulObject is SoulBlock)
             {
-                touchingTiles.Add(t);
+                if (!t.filled && t.TouchingSoulObject(soulObject))
+                {
+                    touchingTiles.Add(t);
+                }
+            }
+            else
+            {
+                if (!t.filled && !t.framed && t.TouchingSoulObject(soulObject))
+                {
+                    touchingTiles.Add(t);
+                }
             }
         }
 
-        if (touchingTiles.Count >= block.squareCount)
+        if (touchingTiles.Count >= soulObject.squareCount)
         {
-            foreach (Tile tile in touchingTiles)
+            if (soulObject is SoulBlock)
             {
-                tile.filled = true;
+                foreach (Tile tile in touchingTiles)
+                {
+                    tile.filled = true;
+                }
             }
-            float refX = block.transform.position.x + block.relX;
-            float refY = block.transform.position.y + block.relY;
+            else
+            {
+                foreach (Tile tile in touchingTiles)
+                {
+                    tile.framed = true;
+                }
+            }
+            float refX = soulObject.transform.position.x + soulObject.relX;
+            float refY = soulObject.transform.position.y + soulObject.relY;
 
             Tile t = closestTile(touchingTiles, refX, refY);
 
-            block.transform.position += new Vector3(t.transform.position.x - (refX), t.transform.position.y - (refY), 0);
+            soulObject.transform.position += new Vector3(t.transform.position.x - (refX), t.transform.position.y - (refY), 0);
 
-            block.placed = true;
-            block.blockRenderer.sortingOrder = 4;
-        } 
+            soulObject.placed = true;
+            if (soulObject is SoulBlock)
+            {
+                soulObject.soulRenderer.sortingOrder = 5;
+                updateFrames();
+            }
+            else
+            {
+                soulObject.soulRenderer.sortingOrder = 2;
+            }
+
+            grid.soulObjectsInGrid.Add(soulObject);
+        }
         else
         {
-            block.blockRenderer.sortingOrder = 5;
+            if (soulObject is SoulBlock)
+            {
+                soulObject.soulRenderer.sortingOrder = 6;
+            }
+            else
+            {
+                soulObject.soulRenderer.sortingOrder = 3;
+            }
         }
     }
 
@@ -180,5 +230,33 @@ public class Battle : MonoBehaviour
     float distanceBetween(Tile t, float refX, float refY)
     {
         return Vector3.Distance(t.transform.position - new Vector3(0, 0, t.transform.position.z), new Vector3(refX, refY, 0));
+    }
+
+    void updateFrames()
+    {
+        foreach (SoulObject soulObject in grid.soulObjectsInGrid)
+        {
+            if (soulObject is SoulFrame)
+            {
+                SoulFrame soulFrame = (SoulFrame)soulObject;
+                if (soulFrame.filled)
+                {
+                    continue;
+                }
+                int count = 0;
+                foreach (Tile t in grid.tiles)
+                {
+                    if (t.filled && t.TouchingSoulObject(soulFrame))
+                    {
+                        count++;
+                    }
+                }
+                if (count >= soulFrame.squareCount)
+                {
+                    soulFrame.filled = true;
+                    soulFrame.soulRenderer.sortingOrder = 20;
+                }
+            }
+        }
     }
 }

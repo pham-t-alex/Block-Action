@@ -672,13 +672,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 1769995683}
-  soulBlocks:
+  soulObjects:
   - {fileID: 1780669865}
   - {fileID: 1454338463}
-  placedBlocks: []
+  placedSoulObjects: []
   bs: 0
   enemies: []
-  player: {fileID: 0}
 --- !u!1001 &1238209733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -998,13 +997,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54d137149c05d44b6b8ce5fa0b3ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedTime: 0
   placed: 0
   mouseTouching: 0
   squareCount: 5
-  blockCollider: {fileID: 0}
+  soulCollider: {fileID: 0}
   relX: 0
   relY: 0
+  soulRenderer: {fileID: 0}
   isAoe: 0
   isSingleTarget: 0
   isHeal: 0
@@ -1204,6 +1203,7 @@ MonoBehaviour:
   - {fileID: 850796002}
   - {fileID: 1238209735}
   - {fileID: 1132225393}
+  soulObjectsInGrid: []
 --- !u!1 &1780669861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,13 +1324,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54d137149c05d44b6b8ce5fa0b3ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedTime: 0
   placed: 0
   mouseTouching: 0
   squareCount: 3
-  blockCollider: {fileID: 0}
+  soulCollider: {fileID: 0}
   relX: -1
   relY: -1
+  soulRenderer: {fileID: 0}
   isAoe: 0
   isSingleTarget: 0
   isHeal: 0

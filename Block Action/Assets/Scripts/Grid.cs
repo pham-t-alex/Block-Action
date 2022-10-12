@@ -6,7 +6,7 @@ public class Grid : MonoBehaviour
 {
     // Start is called before the first frame update
     public List<Tile> tiles;
-    List<SoulBlock> blocksInGrid;
+    public List<SoulObject> soulObjectsInGrid;
     void Start()
     {
         
