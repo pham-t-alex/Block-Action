@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class SoulBlock : MonoBehaviour
 {
-    Vector3 prevMousePosition = new Vector3(0, 0, 0);
-    public float selectedTime = 0;
     public bool placed;
     public bool mouseTouching;
     public int squareCount;
     public Collider2D blockCollider;
     public float relX;
     public float relY;
+    public SpriteRenderer blockRenderer;
 
     //list of variables used for turn calculations
     public bool isAoe;
@@ -31,6 +30,9 @@ public class SoulBlock : MonoBehaviour
         //make sure damage or heal is set
         damage = 0;
         heal = 0;
+
+        blockRenderer = GetComponent<SpriteRenderer>();
+        blockRenderer.sortingOrder = 5;
     }
 
     // Update is called once per frame

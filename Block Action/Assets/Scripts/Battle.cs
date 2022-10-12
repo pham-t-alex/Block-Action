@@ -13,6 +13,9 @@ public class Battle : MonoBehaviour
     public static Battle b;
     public List<Enemy> enemies;
 
+    SoulBlock selectedBlock;
+    float selectedTime = float.MinValue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,31 +89,41 @@ public class Battle : MonoBehaviour
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
 
-        foreach (SoulBlock block in soulBlocks)
+        if (selectedBlock != null)
         {
-            if (!block.placed)
+            if (selectedTime > 0)
             {
-                if (Input.GetMouseButton(0) && block.mouseTouching)
+                selectedBlock.transform.position += mousePosition - prevMousePosition;
+            }
+            else if (selectedTime > float.MinValue)
+            {
+                selectedTime = float.MinValue;
+                placeBlock(selectedBlock);
+                selectedBlock = null;
+            }
+        }
+        if (Input.GetMouseButton(0))
+        {
+            if (selectedBlock == null)
+            {
+                foreach (SoulBlock block in soulBlocks)
                 {
-                    block.selectedTime = 0.05f;
-                }
-                else
-                {
-                    block.selectedTime -= Time.deltaTime;
-                }
-                if (block.selectedTime < 0)
-                {
-                    block.selectedTime = 0;
-                    placeBlock(block);
-                }
-                if (block.selectedTime > 0)
-                {
-                    block.transform.position += mousePosition - prevMousePosition;
+                    if (!block.placed)
+                    {
+                        if (block.mouseTouching)
+                        {
+                            selectedBlock = block;
+                            selectedBlock.blockRenderer.sortingOrder = 10;
+                            selectedTime = 0.05f;
+                        }
+                    }
                 }
             }
         }
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0;
+        else
+        {
+            selectedTime -= Time.deltaTime;
+        }
         prevMousePosition = mousePosition;
     }
 
@@ -140,6 +153,11 @@ public class Battle : MonoBehaviour
             block.transform.position += new Vector3(t.transform.position.x - (refX), t.transform.position.y - (refY), 0);
 
             block.placed = true;
+            block.blockRenderer.sortingOrder = 4;
+        } 
+        else
+        {
+            block.blockRenderer.sortingOrder = 5;
         }
     }
 
