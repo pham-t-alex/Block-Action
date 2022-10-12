@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Button : MonoBehaviour
 { 
 
     // Start is called before the first frame update
@@ -18,7 +18,10 @@ public class Block : MonoBehaviour
     }
 
     void OnMouseDown() {
-        Debug.Log("clicked");
-        Player.playerTurn = true;
+        if (Battle.b.bs.Equals(BattleState.PlayerGrid))
+        {
+            Debug.Log("Beginning Battle Sequence\nPlayer Turn");
+            Battle.b.bs = BattleState.PlayerAction;
+        }
     }
 }
