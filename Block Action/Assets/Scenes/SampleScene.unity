@@ -1006,9 +1006,10 @@ MonoBehaviour:
   soulRenderer: {fileID: 0}
   isAoe: 0
   isSingleTarget: 0
-  isHeal: 0
+  isHeal: 1
   damage: 0
-  heal: 0
+  heal: 5
+  targets: []
 --- !u!60 &1454338464
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1331,11 +1332,13 @@ MonoBehaviour:
   relX: -0.5
   relY: -0.5
   soulRenderer: {fileID: 0}
-  isAoe: 0
+  isAoe: 1
   isSingleTarget: 0
   isHeal: 0
-  damage: 0
+  damage: 50
   heal: 0
+  targets:
+  - {fileID: 2935217150233905201}
 --- !u!60 &1780669866
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1667,7 +1670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  attack: 
+  attack: 0a00000014000000
 --- !u!1001 &6480571395126144278
 PrefabInstance:
   m_ObjectHideFlags: 0

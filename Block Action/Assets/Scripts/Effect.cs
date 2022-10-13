@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Fighter
-{ 
-    public int MaxHealth;
-    public static Player player;
+public abstract class Effect
+{
+    public bool self;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = 100; //might not be valid
-        MaxHealth = 100;
-        player = this;
+        
     }
 
     // Update is called once per frame
@@ -20,4 +17,6 @@ public class Player : Fighter
     {
         
     }
+
+    public abstract void ActivateEffect(List<Fighter> t);
 }

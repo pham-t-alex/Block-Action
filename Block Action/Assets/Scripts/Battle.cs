@@ -9,7 +9,7 @@ public class Battle : MonoBehaviour
     public Grid grid;
     public List<SoulObject> soulObjects;
     //Note: potentially not necessary if using grid.soulObjectsInGrid;
-    public List<SoulObject> placedSoulObjects;        //this should be a list of placed blocks in grid
+    public List<SoulObject> placedSoulObjects;
     public BattleState bs;
     public static Battle b;
     public List<Enemy> enemies;
@@ -22,6 +22,12 @@ public class Battle : MonoBehaviour
     {
         b = this;
         bs = BattleState.PlayerGrid;
+        Effect e1 = new Damage(100);
+        Effect e2 = new Heal(20);
+        e1.self = false;
+        e2.self = true;
+        soulObjects[0].effects.Add(e1);
+        soulObjects[1].effects.Add(e2);
     }
 
     // Update is called once per frame
@@ -53,43 +59,32 @@ public class Battle : MonoBehaviour
             EnemySequence(e);
         }
         bs = BattleState.PlayerGrid;
+        //reset soulblocks to original position
         Debug.Log("Grid Fitting");
     }
 
-    void PlayerSequence(SoulObject obj) {
+    void PlayerSequence(SoulObject s) {
         //change later to add frames
-        if (obj is SoulBlock)
+        //after single target, where do we save the attack enemy?
+        s.ActivateEffect();
+        foreach (Enemy e in enemies)
         {
-            //after single target, where do we save the attack enemy?
-            SoulBlock s = (SoulBlock) obj;
-            if (s.isAoe)
-            {
-                foreach (Enemy e in enemies)
-                {
-                    e.health -= s.damage;
-                }
-            }
-            else if (s.isSingleTarget)
-            {
-                //s.getEnemy().health -= s.damage; //this getEnemy does not work
-            }
-            else if (s.isHeal)
-            {
-                Player.player.health += s.heal;
-                if (Player.player.health > Player.player.MaxHealth)
-                { //this number shouldn't be hard coded
-                    Player.player.health = Player.player.MaxHealth;
-                }
+            if (e.health <= 0) {
+                e.gameObject.SetActive(false);
             }
         }
     }
 
+    //revamp this
     void EnemySequence(Enemy e) {
         // do smt
         Random rand = new Random();
-        int i = rand.Next(0, 1);
+        int i = rand.Next(0, 2);
         Player.player.health -= e.attack[i];
+        Debug.Log(Player.player.health);
+        Player.player.gameObject.SetActive(false);
     }
+
 
     void GridFitting() {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -189,6 +184,7 @@ public class Battle : MonoBehaviour
             if (soulObject is SoulBlock)
             {
                 soulObject.soulRenderer.sortingOrder = 5;
+                placedSoulObjects.Add(soulObject);
                 updateFrames();
             }
             else
@@ -255,6 +251,7 @@ public class Battle : MonoBehaviour
                 {
                     soulFrame.filled = true;
                     soulFrame.soulRenderer.sortingOrder = 20;
+                    placedSoulObjects.Add(soulObject);
                 }
             }
         }

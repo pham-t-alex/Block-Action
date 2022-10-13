@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Fighter
 {
-    public int health;
-    public List<int> attack;
+    public List<int> attack; // change to effect
+
     // Start is called before the first frame update
     void Start()
     {
         health = 100;
-        attack = new List<int>();
-        attack.Add(10);
-        attack.Add(20);
+        Battle.b.enemies.Add(this);
     }
 
     // Update is called once per frame

@@ -20,6 +20,15 @@ public class SoulObject : MonoBehaviour
     public float relY;
     public SpriteRenderer soulRenderer;
 
+    public bool isAoe;
+    public bool isSingleTarget;
+    public bool isHeal;
+    public int damage;
+    public int heal;
+
+    public List<Effect> effects = new List<Effect>();
+    public List<Fighter> targets;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,4 +51,21 @@ public class SoulObject : MonoBehaviour
     {
         mouseTouching = false;
     }
+
+    public void ActivateEffect() {
+        foreach (Effect effect in effects)
+        {
+            if (effect.self)
+            {
+                List<Fighter> l = new List<Fighter>();
+                l.Add(Player.player);
+                effect.ActivateEffect(l);
+            }
+            else
+            {
+                effect.ActivateEffect(targets);
+            }
+        }
+    }
+
 }
