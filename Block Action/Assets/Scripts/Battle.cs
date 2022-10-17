@@ -19,24 +19,24 @@ public class Battle : MonoBehaviour
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
 
-        foreach (SoulBlock block in soulBlocks)
+        foreach (SoulBlock block in soulBlocks) // iterates through all available soul blocks
         {
-            if (!block.placed)
+            if (!block.placed) // when the block has not been placed down
             {
-                if (Input.GetMouseButton(0) && block.mouseTouching)
+                if (Input.GetMouseButton(0) && block.mouseTouching) // if mouse held down on block
                 {
-                    block.selectedTime = 0.05f;
+                    block.selectedTime = 0.05f; // amt of time it is stuck to mouse
                 }
-                else
+                else // if mouse isn't held down on block
                 {
                     block.selectedTime -= Time.deltaTime;
                 }
-                if (block.selectedTime < 0)
+                if (block.selectedTime < 0) // place down block
                 {
                     block.selectedTime = 0;
                     placeBlock(block);
                 }
-                if (block.selectedTime > 0)
+                if (block.selectedTime > 0) // move mouse towards block
                 {
                     block.transform.position += mousePosition - prevMousePosition;
                 }
@@ -48,37 +48,41 @@ public class Battle : MonoBehaviour
     }
     void placeBlock(SoulBlock block)
     {
-        List<Tile> touchingTiles = new List<Tile>();
-        foreach (Tile t in grid.tiles)
+        List<GameObject> touchingTiles = new List<GameObject>(); // creation of array list
+        foreach (GameObject t in grid.tiles) // test if block is touching all tiles
         {
-            if(!t.filled && t.TouchingBlock(block))
+            if(!t.GetComponent<Tile>().filled && t.GetComponent<Tile>().TouchingBlock(block))
             {
                 touchingTiles.Add(t);
             }
         }
 
         if (touchingTiles.Count >= block.squareCount)
+        // are all of the tiles touching the correct amount of squares?
         {
-            foreach (Tile tile in touchingTiles)
+            foreach (GameObject tile in touchingTiles)
             {
-                tile.filled = true;
+                tile.GetComponent<Tile>().filled = true;
+                //sets all tiles in array list so that they are filed by the block
             }
             float refX = block.transform.position.x + block.relX;
             float refY = block.transform.position.y + block.relY;
+            // sets reference points for block
 
-            Tile t = closestTile(touchingTiles, refX, refY);
+            GameObject t = closestTile(touchingTiles, refX, refY);
 
             block.transform.position += new Vector3(t.transform.position.x - (refX), t.transform.position.y - (refY), 0);
+            // snaps blocks to closest tile.
 
             block.placed = true;
         }
     }
 
-    Tile closestTile(List<Tile> tiles, float refX, float refY)
+    GameObject closestTile(List<GameObject> tiles, float refX, float refY)
     {
-        Tile closest = tiles[0];
+        GameObject closest = tiles[0];
         float minDist = distanceBetween(closest, refX, refY);
-        foreach (Tile t in tiles)
+        foreach (GameObject t in tiles)
         {
             float dist = distanceBetween(t, refX, refY);
             if (dist < minDist)
@@ -90,7 +94,7 @@ public class Battle : MonoBehaviour
         return closest;
     }
 
-    float distanceBetween(Tile t, float refX, float refY)
+    float distanceBetween(GameObject t, float refX, float refY)
     {
         return Vector3.Distance(t.transform.position - new Vector3(0, 0, t.transform.position.z), new Vector3(refX, refY, 0));
     }
