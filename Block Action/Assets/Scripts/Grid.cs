@@ -8,7 +8,7 @@ public class Grid : MonoBehaviour
     // Start is called before the first frame update
     public List<GameObject> tiles;
     public GameObject myPrefab;
-    List<SoulBlock> blocksInGrid;
+    public List<SoulObject> soulObjectsInGrid;
     int i, a, b;
 
     // text file
@@ -24,7 +24,6 @@ public class Grid : MonoBehaviour
     ~: regular tile
 
     */
-
     void Start()
     {
         using (FileStream fs = File.OpenRead(path)) {
