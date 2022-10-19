@@ -13,6 +13,7 @@ public class Battle : MonoBehaviour
     public BattleState bs;
     public static Battle b;
     public List<Enemy> enemies;
+    public GameObject target;
 
     SoulObject selectedSoulObject;
     float selectedTime = float.MinValue;
@@ -22,12 +23,16 @@ public class Battle : MonoBehaviour
     {
         b = this;
         bs = BattleState.PlayerGrid;
-        Effect e1 = new Damage(100);
+        Effect e1 = new Damage(50);
         Effect e2 = new Heal(20);
+        Effect e3 = new Damage(5);
         e1.self = false;
         e2.self = true;
+        e3.self = false;
         soulObjects[0].effects.Add(e1);
         soulObjects[1].effects.Add(e2);
+        soulObjects[2].effects.Add(e3);
+        target.GetComponent<SpriteRenderer>().sortingOrder = 100;
     }
 
     // Update is called once per frame
@@ -39,6 +44,8 @@ public class Battle : MonoBehaviour
             PlayerTurn();
         } else if (bs.Equals(BattleState.EnemyAction)) {
             EnemyTurn();
+        } else if (bs.Equals(BattleState.EnemySelect)) {
+            EnemySelect();
         }
     }
 
@@ -87,6 +94,7 @@ public class Battle : MonoBehaviour
 
 
     void GridFitting() {
+        target.SetActive(false);
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
 
@@ -100,7 +108,6 @@ public class Battle : MonoBehaviour
             {
                 selectedTime = float.MinValue;
                 placeSoulObject(selectedSoulObject);
-                selectedSoulObject = null;
             }
         }
         if (Input.GetMouseButton(0))
@@ -135,6 +142,35 @@ public class Battle : MonoBehaviour
         prevMousePosition = mousePosition;
     }
 
+    void EnemySelect()
+    {
+        target.SetActive(true);
+        bool touchingEnemy = false;
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy.mouseTouching)
+            {
+                touchingEnemy = true;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    selectedSoulObject.targets.Add(enemy);
+                    selectedSoulObject = null;
+                    bs = BattleState.PlayerGrid;
+                }
+                else
+                {
+                    target.transform.position = enemy.transform.position;
+                }
+                break;
+            }
+        }
+        if (!touchingEnemy)
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0;
+            target.transform.position = mousePosition;
+        }
+    }
 
     void placeSoulObject(SoulObject soulObject)
     {
@@ -193,9 +229,22 @@ public class Battle : MonoBehaviour
             }
 
             grid.soulObjectsInGrid.Add(soulObject);
+            if (soulObject.isAoe)
+            {
+                foreach (Enemy e in enemies)
+                {
+                    soulObject.targets.Add(e);
+                }
+                selectedSoulObject = null;
+            }
+            else if (soulObject.isSingleTarget)
+            {
+                bs = BattleState.EnemySelect;
+            }
         }
         else
         {
+            selectedSoulObject = null;
             if (soulObject is SoulBlock)
             {
                 soulObject.soulRenderer.sortingOrder = 6;

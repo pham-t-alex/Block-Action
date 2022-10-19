@@ -5,6 +5,7 @@ using UnityEngine;
 public enum BattleState 
 {
     PlayerGrid,
+    EnemySelect,
     PlayerAction,
     EnemyAction
 }

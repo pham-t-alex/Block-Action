@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : Fighter
 {
     public List<int> attack; // change to effect
+    public bool mouseTouching;
 
     // Start is called before the first frame update
     void Start()
@@ -17,5 +18,15 @@ public class Enemy : Fighter
     void Update()
     {
     
+    }
+
+    void OnMouseEnter()
+    {
+        mouseTouching = true;
+    }
+
+    private void OnMouseExit()
+    {
+        mouseTouching = false;
     }
 }
