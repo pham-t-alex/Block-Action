@@ -55,7 +55,6 @@ public class Battle : MonoBehaviour
             //attack animation
             PlayerSequence(soulObject);
         }
-        placedSoulObjects.Clear();
         bs = BattleState.EnemyAction;
         Debug.Log("Enemy Turn");
     }
@@ -67,6 +66,7 @@ public class Battle : MonoBehaviour
         }
         bs = BattleState.PlayerGrid;
         //reset soulblocks to original position
+        ResetSoulObjects();
         Debug.Log("Grid Fitting");
     }
 
@@ -89,7 +89,10 @@ public class Battle : MonoBehaviour
         int i = rand.Next(0, 2);
         Player.player.health -= e.attack[i];
         Debug.Log(Player.player.health);
-        Player.player.gameObject.SetActive(false);
+        if (Player.player.health <= 0)
+        {
+            Player.player.gameObject.SetActive(false);
+        }
     }
 
 
@@ -172,6 +175,39 @@ public class Battle : MonoBehaviour
         }
     }
 
+    void ResetSoulObjects()
+    {
+        foreach (SoulObject soulObject in placedSoulObjects)
+        {
+            foreach (GameObject t in grid.tiles)
+            {
+                if (t.GetComponent<Tile>().TouchingSoulObject(soulObject))
+                {
+                    if (soulObject is SoulBlock)
+                    {
+                        t.GetComponent<Tile>().filled = false;
+                    } 
+                    else if (soulObject is SoulFrame)
+                    {
+                        t.GetComponent<Tile>().framed = false;
+                    }
+                }
+            }
+            soulObject.placed = false;
+            if (soulObject is SoulFrame)
+            {
+                soulObject.soulRenderer.sortingOrder = 3;
+                SoulFrame s = (SoulFrame) soulObject;
+                s.filled = false;
+            }
+            else if (soulObject is SoulBlock)
+            {
+                soulObject.soulRenderer.sortingOrder = 6;
+            }
+        }
+        placedSoulObjects.Clear();
+    }
+
     void placeSoulObject(SoulObject soulObject)
     {
         List<GameObject> touchingTiles = new List<GameObject>(); // creation of array list
@@ -240,6 +276,10 @@ public class Battle : MonoBehaviour
             else if (soulObject.isSingleTarget)
             {
                 bs = BattleState.EnemySelect;
+            }
+            else
+            {
+                selectedSoulObject = null;
             }
         }
         else
