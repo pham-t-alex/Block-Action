@@ -45,7 +45,7 @@ public class Grid : MonoBehaviour
             foreach (string line in System.IO.File.ReadLines(path)) {  
                 for (a = 0; a < line.Length; a++){
                     if (line[a] == '~') {
-                        tiles.Add(Instantiate(myPrefab, new Vector3(a * 2, b * 2 - 4, 0), Quaternion.identity));
+                        tiles.Add(Instantiate(myPrefab, new Vector3(a, b - 4, 0), Quaternion.identity));
                     }
                 }
                 b++;

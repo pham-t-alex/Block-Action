@@ -143,14 +143,14 @@ public class Battle : MonoBehaviour
         {
             if (soulObject is SoulBlock)
             {
-                if (!t.filled && t.TouchingSoulObject(soulObject))
+                if (!t.GetComponent<Tile>().filled && t.GetComponent<Tile>().TouchingSoulObject(soulObject))
                 {
                     touchingTiles.Add(t);
                 }
             }
             else
             {
-                if (!t.filled && !t.framed && t.TouchingSoulObject(soulObject))
+                if (!t.GetComponent<Tile>().filled && !t.GetComponent<Tile>().framed && t.GetComponent<Tile>().TouchingSoulObject(soulObject))
                 {
                     touchingTiles.Add(t);
                 }
@@ -240,9 +240,9 @@ public class Battle : MonoBehaviour
                     continue;
                 }
                 int count = 0;
-                foreach (Tile t in grid.tiles)
+                foreach (GameObject t in grid.tiles)
                 {
-                    if (t.filled && t.TouchingSoulObject(soulFrame))
+                    if (t.GetComponent<Tile>().filled && t.GetComponent<Tile>().TouchingSoulObject(soulFrame))
                     {
                         count++;
                     }
