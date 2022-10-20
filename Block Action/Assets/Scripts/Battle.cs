@@ -204,6 +204,7 @@ public class Battle : MonoBehaviour
             {
                 soulObject.soulRenderer.sortingOrder = 6;
             }
+            soulObject.targets.Clear();
         }
         placedSoulObjects.Clear();
     }
