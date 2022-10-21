@@ -88,7 +88,7 @@ public class Battle : MonoBehaviour
         Random rand = new Random();
         int i = rand.Next(0, 2);
         Player.player.health -= e.attack[i];
-        Debug.Log(Player.player.health);
+        Debug.Log("Enemy deals " + e.attack[i] + " damage to the player | HP: " + (Player.player.health + e.attack[i]) + " -> " + Player.player.health);
         if (Player.player.health <= 0)
         {
             Player.player.gameObject.SetActive(false);

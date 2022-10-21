@@ -27,7 +27,7 @@ public class Damage : Effect
     {
         foreach (Fighter f in t) {
             f.health -= dmg;
-            Debug.Log(f.health);
+            Debug.Log("Enemy takes " + dmg + " damage | HP: " + (f.health + dmg) + " -> " + f.health);
         }
     }
 }

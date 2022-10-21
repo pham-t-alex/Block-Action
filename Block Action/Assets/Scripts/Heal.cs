@@ -29,7 +29,7 @@ public class Heal : Effect
         foreach (Fighter f in t)
         {
             f.health += heal;
-            Debug.Log(f.health);
+            Debug.Log("Player heals " + heal + " health | HP: " + (f.health - heal) + " -> " + f.health);
         }
     }
 
