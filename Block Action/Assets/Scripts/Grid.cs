@@ -9,7 +9,8 @@ public class Grid : MonoBehaviour
     public List<GameObject> tiles;
     public GameObject myPrefab;
     public List<SoulObject> soulObjectsInGrid;
-    int i, a, b;
+    int i, a, lnCount, lnLength;
+    float b;
 
     // text file
     public string path = "Assets/TextFiles/gridtest.txt";
@@ -41,11 +42,19 @@ public class Grid : MonoBehaviour
             */
 
             // VERSION 2
-            b = 0;
+            // count number of lines & length
+            foreach (string l in System.IO.File.ReadLines(path)) {
+                ++lnCount;
+            }
+
+            // variable for center
+            b = (float) lnCount / 2;
+
+            // grid alignment/placing
             foreach (string line in System.IO.File.ReadLines(path)) {  
                 for (a = 0; a < line.Length; a++){
                     if (line[a] == '~') {
-                        tiles.Add(Instantiate(myPrefab, new Vector3(a, b, 0), Quaternion.identity));
+                        tiles.Add(Instantiate(myPrefab, new Vector3(-12 + a, b - (float) 0.5, 0), Quaternion.identity));
                     }
                 }
                 b--;
