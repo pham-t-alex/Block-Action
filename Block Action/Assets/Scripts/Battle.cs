@@ -26,6 +26,7 @@ public class Battle : MonoBehaviour
         soulObjects[1].effects.Add(e2);
         soulObjects[2].effects.Add(e3);
         GridFitter.PlaceBlocks();
+        FighterController.PlaceFighters();
     }
 
     // Update is called once per frame

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FighterController : MonoBehaviour
 {
-    public List<Enemy> enemies;
     public static FighterController fighterController;
 
     // Start is called before the first frame update
@@ -15,6 +14,11 @@ public class FighterController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    public static void PlaceFighters()
     {
 
     }
