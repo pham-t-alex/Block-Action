@@ -207,6 +207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1449887888}
   grid: {fileID: 1769995683}
+  leftOffset: 1
+  inBetweenSpace: 1
+  bottomOffset: 1
 --- !u!1 &416569848
 GameObject:
   m_ObjectHideFlags: 0

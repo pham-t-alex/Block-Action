@@ -7,11 +7,18 @@ public class GridFitter : MonoBehaviour
 
     public static GridFitter gridFitter;
 
-    public GameObject target;
-    static SoulObject selectedSoulObject;
+    public GameObject target; //target sprite gameobject
+    static SoulObject selectedSoulObject; //currently selected soul object
     static float selectedTime = float.MinValue;
-    static Vector3 prevMousePosition = new Vector3(0, 0);
+    static Vector3 prevMousePosition = new Vector3(0, 0); //the previous mouse position, to check delta mouse position
+    static Vector3 prevObjectPosition = new Vector3(0, 0); //the previous object position
     public Grid grid;
+
+    //For block placement
+    public float leftOffset;
+    public float inBetweenSpace;
+    public float bottomOffset;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -56,6 +63,7 @@ public class GridFitter : MonoBehaviour
                     {
                         if (soulObject.mouseTouching)
                         {
+                            prevObjectPosition = soulObject.transform.position;
                             selectedSoulObject = soulObject;
                             if (soulObject is SoulBlock)
                             {
@@ -154,6 +162,7 @@ public class GridFitter : MonoBehaviour
         }
         else
         {
+            selectedSoulObject.transform.position = prevObjectPosition;
             selectedSoulObject = null;
             if (soulObject is SoulBlock)
             {
@@ -278,5 +287,22 @@ public class GridFitter : MonoBehaviour
             soulObject.targets.Clear();
         }
         Battle.b.placedSoulObjects.Clear();
+        PlaceBlocks();
+    }
+
+    public static void PlaceBlocks()
+    {
+        float minX = -1 * Camera.main.orthographicSize * Screen.width / Screen.height;
+        float minY = -1 * Camera.main.orthographicSize;
+        float x = minX + gridFitter.leftOffset;
+        foreach (SoulObject soulObject in Battle.b.soulObjects)
+        {
+            float y = minY + gridFitter.bottomOffset;
+            SpriteRenderer spriteRenderer = soulObject.GetComponent<SpriteRenderer>();
+            x += (spriteRenderer.bounds.size.x / 2);
+            y += (spriteRenderer.bounds.size.y / 2);
+            soulObject.transform.position = new Vector3(x, y, 0);
+            x += (spriteRenderer.bounds.size.x / 2) + gridFitter.inBetweenSpace;
+        }
     }
 }
