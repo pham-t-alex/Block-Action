@@ -210,6 +210,7 @@ MonoBehaviour:
   leftOffset: 1
   inBetweenSpace: 1
   bottomOffset: 1
+  scale: 0.5
 --- !u!1 &416569848
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 315f2d36307fc2343a11151d10f63e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
 --- !u!1001 &453057049
 PrefabInstance:
   m_ObjectHideFlags: 0

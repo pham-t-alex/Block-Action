@@ -18,6 +18,7 @@ public class GridFitter : MonoBehaviour
     public float leftOffset;
     public float inBetweenSpace;
     public float bottomOffset;
+    public float scale;
 
     // Start is called before the first frame update
     private void Awake()
@@ -288,6 +289,16 @@ public class GridFitter : MonoBehaviour
         }
         Battle.b.placedSoulObjects.Clear();
         PlaceBlocks();
+    }
+
+    public static void ScaleBlocks()
+    {
+        foreach (SoulObject s in Battle.b.soulObjects)
+        {
+            s.transform.localScale = new Vector3(gridFitter.scale, gridFitter.scale, 1);
+            s.relX *= gridFitter.scale;
+            s.relY *= gridFitter.scale;
+        }
     }
 
     public static void PlaceBlocks()

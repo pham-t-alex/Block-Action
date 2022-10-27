@@ -51,14 +51,20 @@ public class Grid : MonoBehaviour
             b = (float) lnCount / 2;
 
             // grid alignment/placing
-            foreach (string line in System.IO.File.ReadLines(path)) {  
-                for (a = 0; a < line.Length; a++){
-                    if (line[a] == '~') {
-                        tiles.Add(Instantiate(myPrefab, new Vector3(-12 + a, b - (float) 0.5, 0), Quaternion.identity));
+            float scale = GridFitter.gridFitter.scale;
+            foreach (string line in System.IO.File.ReadLines(path))
+            {
+                for (a = 0; a < line.Length; a++)
+                {
+                    if (line[a] == '~')
+                    {
+                        GameObject tile = Instantiate(myPrefab, new Vector3(-12 + (a * scale), b - 0.5f, 0), Quaternion.identity);
+                        tile.transform.localScale = new Vector3(scale, scale, 0);
+                        tiles.Add(tile);
                     }
                 }
-                b--;
-            } 
+                b -= scale;
+            }
         }
     }
 
