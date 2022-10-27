@@ -297,12 +297,15 @@ public class GridFitter : MonoBehaviour
         float x = minX + gridFitter.leftOffset;
         foreach (SoulObject soulObject in Battle.b.soulObjects)
         {
-            float y = minY + gridFitter.bottomOffset;
-            SpriteRenderer spriteRenderer = soulObject.GetComponent<SpriteRenderer>();
-            x += (spriteRenderer.bounds.size.x / 2);
-            y += (spriteRenderer.bounds.size.y / 2);
-            soulObject.transform.position = new Vector3(x, y, 0);
-            x += (spriteRenderer.bounds.size.x / 2) + gridFitter.inBetweenSpace;
+            if (!soulObject.placed)
+            {
+                float y = minY + gridFitter.bottomOffset;
+                SpriteRenderer spriteRenderer = soulObject.GetComponent<SpriteRenderer>();
+                x += (spriteRenderer.bounds.size.x / 2);
+                y += (spriteRenderer.bounds.size.y / 2);
+                soulObject.transform.position = new Vector3(x, y, 0);
+                x += (spriteRenderer.bounds.size.x / 2) + gridFitter.inBetweenSpace;
+            }
         }
     }
 }
