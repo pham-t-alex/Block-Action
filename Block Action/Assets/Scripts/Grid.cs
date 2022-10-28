@@ -37,16 +37,17 @@ public class Grid : MonoBehaviour
             // grid alignment/placing
             foreach (string line in System.IO.File.ReadLines(path))
             {
-                for (a = 0; a < line.Length; a++)
+                for (a = 0; a < line.Length; a++) // a is each column
                 {
-                    if (line[a] == '~')
+                    if (line[a] == '~') // if it is a proper tile
                     {
+                        // place tile
                         GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((lnLength * scale) / 2), b, 0), Quaternion.identity);
-                        tile.transform.localScale = new Vector3(scale, scale, 0);
-                        tiles.Add(tile);
+                        tile.transform.localScale = new Vector3(scale, scale, 0); // set scale
+                        tiles.Add(tile); // add it to arraylist
                     }
                 }
-                b -= scale;
+                b -= scale; // move down a line
             }
         }
     }
@@ -57,14 +58,15 @@ public class Grid : MonoBehaviour
     }
 
     public static void SetScale() {
+        // open file
         using (FileStream fs = File.OpenRead(path)) {
-            lnLength = 0;
-            foreach (string l in System.IO.File.ReadLines(path)) {
+            lnLength = 0; // grid length
+            foreach (string l in System.IO.File.ReadLines(path)) { // go through each line in text file
                 ++lnCount;
-                if (lnLength < l.Length) lnLength = l.Length;
+                if (lnLength < l.Length) lnLength = l.Length; // find max row size
             }
-            scale = (lnCount <= lnLength) ? (5 / lnLength) : (5 / lnCount);
+            scale = (lnCount <= lnLength) ? (5 / lnLength) : (5 / lnCount); // find which is longer
         }
-        GridFitter.gridFitter.scale = scale;
+        GridFitter.gridFitter.scale = scale; // assign scale for blocks
     }
 }
