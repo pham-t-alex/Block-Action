@@ -22,9 +22,10 @@ public class Battle : MonoBehaviour
         e1.self = false;
         e2.self = true;
         e3.self = false;
-        soulObjects[0].effects.Add(e1);
+        soulObjects[0].effects.Add(e1); 
         soulObjects[1].effects.Add(e2);
         soulObjects[2].effects.Add(e3);
+        Grid.SetScale();
         GridFitter.ScaleBlocks();
         GridFitter.PlaceBlocks();
         FighterController.PlaceFighters();
