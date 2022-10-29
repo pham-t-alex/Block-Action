@@ -5,6 +5,19 @@ using UnityEngine;
 
 public class ActionController : MonoBehaviour
 {
+    private static ActionController _actionController;
+    
+    public static ActionController actionController
+    {
+        get
+        {
+            if (_actionController == null)
+            {
+                _actionController = FindObjectOfType<ActionController>();
+            }
+            return _actionController;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {

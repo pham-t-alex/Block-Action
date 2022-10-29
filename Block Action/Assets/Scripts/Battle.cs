@@ -8,13 +8,23 @@ public class Battle : MonoBehaviour
     //Note: potentially not necessary if using grid.soulObjectsInGrid;
     public List<SoulObject> placedSoulObjects;
     public BattleState bs;
-    public static Battle b;
+    private static Battle _b;
+    public static Battle b
+    {
+        get
+        {
+            if (_b == null)
+            {
+                _b = FindObjectOfType<Battle>();
+            }
+            return _b;
+        }
+    }
     public List<Enemy> enemies;
 
     // Start is called before the first frame update
     void Start()
     {
-        b = this;
         bs = BattleState.PlayerGrid;
         Effect e1 = new Damage(50);
         Effect e2 = new Heal(20);

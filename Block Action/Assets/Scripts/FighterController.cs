@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class FighterController : MonoBehaviour
 {
-    public static FighterController fighterController;
+    private static FighterController _fighterController;
+    public static FighterController fighterController
+    {
+        get
+        {
+            if (_fighterController == null)
+            {
+                _fighterController = FindObjectOfType<FighterController>();
+            }
+            return _fighterController;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        fighterController = this;
     }
 
     // Update is called once per frame
