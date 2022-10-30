@@ -5,9 +5,9 @@ using UnityEngine;
 public class Heal : Effect
 {
 
-    public int heal;
+    public double heal;
 
-    public Heal(int heal)
+    public Heal(double heal)
     {
         this.heal = heal;
     }
@@ -24,16 +24,36 @@ public class Heal : Effect
         
     }
 
-    public override void ActivateEffect(List<Fighter> t)
+    public override void ActivateEffect(Fighter fighter)
     {
-        foreach (Fighter f in t)
+        foreach (Fighter f in targets)
         {
-            f.health += heal;
-            Debug.Log("Player heals " + heal + " health | HP: " + (f.health - heal) + " -> " + f.health);
+            if (f.health < f.maxHealth)
+            {
+                f.health += (int)heal;
+                if (f.Equals(Player.player))
+                {
+                    Debug.Log("Player heals " + heal + " health | HP: " + (f.health - heal) + " -> " + f.health);
+                }
+                else
+                {
+                    Debug.Log("Enemy heals " + heal + " health | HP: " + (f.health - heal) + " -> " + f.health);
+                }
+            }
+            else {
+                if (f.Equals(Player.player))
+                {
+                    Debug.Log("Player is at max health! | HP: " + f.health);
+                }
+                else
+                {
+                    Debug.Log("Enemy is at max health! | HP: " + f.health);
+                }
+            }
         }
     }
 
-    void SetHeal(int heal)
+    void SetHeal(double heal)
     {
         this.heal = heal;
     }

@@ -59,11 +59,13 @@ public class SoulObject : MonoBehaviour
             {
                 List<Fighter> l = new List<Fighter>();
                 l.Add(Player.player);
-                effect.ActivateEffect(l);
+                effect.targets = l;
+                effect.ActivateEffect(Player.player);
             }
             else
             {
-                effect.ActivateEffect(targets);
+                effect.targets = targets;
+                effect.ActivateEffect(Player.player);
             }
         }
     }

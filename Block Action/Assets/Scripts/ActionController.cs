@@ -50,6 +50,17 @@ public class ActionController : MonoBehaviour
             EnemySequence(e);
         }
         Battle.b.bs = BattleState.PlayerGrid;
+        //count down the number of turns for buffs
+        foreach (Fighter f in Battle.b.fighters) {
+            foreach (BuffCounter bc in f.buffLeft) {
+                bc.numTurns--;
+                if (bc.numTurns == 0) {
+                    f.buff /= bc.buff;
+                    Debug.Log("Buff ended");
+                }
+            }
+        }
+
         //reset soulblocks to original position
         GridFitter.ResetSoulObjects();
         Debug.Log("Grid Fitting");
@@ -58,12 +69,13 @@ public class ActionController : MonoBehaviour
     static void PlayerSequence(SoulObject s)
     {
         //change later to add frames
-        //after single target, where do we save the attack enemy?
         s.ActivateEffect();
         foreach (Enemy e in Battle.b.enemies)
         {
             if (e.health <= 0)
             {
+                Battle.b.enemies.Remove(e);
+                Battle.b.fighters.Remove(e);
                 e.gameObject.SetActive(false);
             }
         }
@@ -72,11 +84,18 @@ public class ActionController : MonoBehaviour
     //revamp this
     static void EnemySequence(Enemy e)
     {
-        // do smt
+        //randomly runs one of many preset attacks
         Random rand = new Random();
-        int i = rand.Next(0, 2);
-        Player.player.health -= e.attack[i];
-        Debug.Log("Enemy deals " + e.attack[i] + " damage to the player | HP: " + (Player.player.health + e.attack[i]) + " -> " + Player.player.health);
+        int i = rand.Next(0, e.numAtk);
+        if (e.effects[i].self) {
+            e.effects[i].targets.Add(e);
+            e.effects[i].ActivateEffect(e);
+        }
+        else {
+            e.effects[i].ActivateEffect(e);
+        }
+        //Player.player.health -= e.attack[i];
+        // Debug.Log("Enemy deals " + e.attack[i] + " damage to the player | HP: " + (Player.player.health + e.attack[i]) + " -> " + Player.player.health);
         if (Player.player.health <= 0)
         {
             Player.player.gameObject.SetActive(false);

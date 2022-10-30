@@ -5,7 +5,7 @@ using UnityEngine;
 public class Damage : Effect
 {
 
-    public int dmg;
+    public double dmg;
 
     public Damage(int dmg) {
         this.dmg = dmg;
@@ -23,11 +23,17 @@ public class Damage : Effect
         
     }
 
-    public override void ActivateEffect(List<Fighter> t)
+    public override void ActivateEffect(Fighter fighter)
     {
-        foreach (Fighter f in t) {
-            f.health -= dmg;
-            Debug.Log("Enemy takes " + dmg + " damage | HP: " + (f.health + dmg) + " -> " + f.health);
+        foreach (Fighter f in targets) {
+            f.health -= (int) (dmg * fighter.buff);
+            if (f.Equals(Player.player))
+            {
+                Debug.Log("Player takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health);
+            }
+            else {
+                Debug.Log("Enemy takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health);
+            }
         }
     }
 }

@@ -21,20 +21,31 @@ public class Battle : MonoBehaviour
         }
     }
     public List<Enemy> enemies;
+    public List<Fighter> fighters;
 
     // Start is called before the first frame update
     void Start()
     {
+        //level initialization
+
+        //for player
         bs = BattleState.PlayerGrid;
         Effect e1 = new Damage(50);
         Effect e2 = new Heal(20);
         Effect e3 = new Damage(5);
+        Effect e4 = new Buff(2);
         e1.self = false;
         e2.self = true;
         e3.self = false;
+        e4.self = true;
+        e4.numTurns = 2;
         soulObjects[0].effects.Add(e1); 
         soulObjects[1].effects.Add(e2);
+        soulObjects[1].effects.Add(e4);
         soulObjects[2].effects.Add(e3);
+
+
+        //grid initialization
         Grid.SetScale();
         GridFitter.ScaleBlocks();
         GridFitter.PlaceBlocks();
