@@ -26,6 +26,13 @@ public class SoulObject : MonoBehaviour
     public int damage;
     public int heal;
 
+    // Variables required for cooldown calculations
+    public int defaultCooldown;
+    public int currentCooldown;
+
+    // Variable used for changing soul color when on cooldown
+    public SpriteRenderer soulCooldownColor;
+
     public List<Effect> effects = new List<Effect>();
     public List<Fighter> targets;
 
@@ -34,17 +41,21 @@ public class SoulObject : MonoBehaviour
     {
         soulCollider = GetComponent<Collider2D>();
         soulRenderer = GetComponent<SpriteRenderer>();
+        soulCooldownColor = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     void OnMouseEnter()
     {
-        mouseTouching = true;
+        if (currentCooldown == 0) // If block is on cooldown, disable mouse interaction
+        {
+            mouseTouching = true;
+        }
     }
 
     void OnMouseExit()
@@ -70,4 +81,15 @@ public class SoulObject : MonoBehaviour
         }
     }
 
+    public void changeCooldownColor()
+    {
+        if (currentCooldown > 0)
+        {
+            soulCooldownColor.color = new Color(0.2f, 0.2f, 0.2f); // Darken soul block if it is on cooldown
+        }
+        else
+        {
+            soulCooldownColor.color = new Color(1, 1, 1); // Revert soul block to original color if it is usable
+        }
+    }   
 }

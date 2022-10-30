@@ -179,6 +179,8 @@ public class GridFitter : MonoBehaviour
             {
                 selectedSoulObject = null; //unselect the object
             }
+
+            soulObject.currentCooldown = soulObject.defaultCooldown;
         }
         else //failed placement
         {
@@ -348,6 +350,11 @@ public class GridFitter : MonoBehaviour
                 soulObject.transform.position = new Vector3(x, y, 0); //sets position to x, y
                 x += (spriteRenderer.bounds.size.x / 2) + gridFitter.inBetweenSpace; //increments x by half of object's size (to reach the right edge of the object) and inbetween space
             }
+            if (soulObject.currentCooldown > 0)
+            {
+                soulObject.currentCooldown--;
+            }
+            soulObject.changeCooldownColor();
         }
     }
 }
