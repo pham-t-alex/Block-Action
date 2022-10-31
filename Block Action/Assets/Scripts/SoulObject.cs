@@ -91,5 +91,10 @@ public class SoulObject : MonoBehaviour
         {
             soulCooldownColor.color = new Color(1, 1, 1); // Revert soul block to original color if it is usable
         }
-    }   
+    }
+
+    public void cooldownStart()
+    {
+        currentCooldown = defaultCooldown;
+    }
 }
