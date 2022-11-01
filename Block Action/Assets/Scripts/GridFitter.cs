@@ -152,7 +152,6 @@ public class GridFitter : MonoBehaviour
             if (soulObject is SoulBlock)
             {
                 soulObject.soulRenderer.sortingOrder = 5;
-                soulObject.cooldownStart();
                 Battle.b.placedSoulObjects.Add(soulObject); //added to placed soul objects
                 updateFrames(); //if it is a block, it has to check to see if it filled any frames
             }
@@ -180,6 +179,8 @@ public class GridFitter : MonoBehaviour
             {
                 selectedSoulObject = null; //unselect the object
             }
+
+            soulObject.currentCooldown = soulObject.defaultCooldown;
         }
         else //failed placement
         {
@@ -244,7 +245,6 @@ public class GridFitter : MonoBehaviour
                 {
                     soulFrame.filled = true;
                     soulFrame.soulRenderer.sortingOrder = 20;
-                    soulFrame.cooldownStart();
                     Battle.b.placedSoulObjects.Add(soulObject);
                 }
             }
