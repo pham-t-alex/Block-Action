@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Fighter
-{ 
-    public static Player player;
+{
+    private static Player _player;
+    public static Player player
+    {
+        get
+        {
+            if (_player == null)
+            {
+                _player = FindObjectOfType<Player>();
+            }
+            return _player;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -12,7 +23,6 @@ public class Player : Fighter
         health = 100; //might not be valid
         buff = 1.0;
         maxHealth = 100;
-        player = this;
         buffLeft = new List<BuffCounter>();
 
         Battle.b.fighters.Add(this);
