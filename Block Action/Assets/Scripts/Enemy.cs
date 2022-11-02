@@ -43,8 +43,6 @@ public class Enemy : Fighter
         effects.Add(enemyeff4);
         numAtk = effects.Count;
 
-        Battle.b.enemies.Add(this);
-        Battle.b.fighters.Add(this);
     }
 
     // Update is called once per frame
