@@ -50,6 +50,7 @@ public class Battle : MonoBehaviour
         e6.self = true;
         Effect e7 = new Buff(1.2);
         e7.self = true;
+        e7.numTurns = 3;
         Effect e8 = new Damage(10);
         e8.self = false;
 
