@@ -79,14 +79,12 @@ public class FighterController : MonoBehaviour
             rightOffset = fighterController.minRightOffset;
         }
         float x = (Camera.main.orthographicSize * Screen.width / Screen.height) - rightOffset;
-        Debug.Log(Battle.b.enemies.Count - 1);
         for (int i = Battle.b.enemies.Count - 1; i >= 0; i--)
         {
             SpriteRenderer spriteRenderer = Battle.b.enemies[i].GetComponent<SpriteRenderer>();
             x -= spriteRenderer.bounds.size.x / 2;
             y += spriteRenderer.bounds.size.y / 2;
             Battle.b.enemies[i].transform.position = new Vector3(x, y, 0);
-            Debug.Log(y);
             x -= spriteRenderer.bounds.size.x / 2;
             y -= spriteRenderer.bounds.size.y / 2;
             x -= fighterController.spaceBetweenEnemies;
