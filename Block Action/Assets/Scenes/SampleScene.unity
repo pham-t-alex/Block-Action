@@ -383,7 +383,8 @@ MonoBehaviour:
   spaceBetweenEnemies: 0.5
   bottomOffset: 7
   minRightOffset: 0.5
-  enemySprites: {fileID: 11400000, guid: bb289c32af23e2842b6317bf427ef1fd, type: 2}
+  levelNumber: 1
+  wave: 3
 --- !u!1001 &453057049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3180,6 +3181,7 @@ MonoBehaviour:
   tiles: []
   myPrefab: {fileID: 1499550276}
   soulObjectsInGrid: []
+  levelNumber: 1
 --- !u!1 &1780669861
 GameObject:
   m_ObjectHideFlags: 0

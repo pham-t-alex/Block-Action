@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteNames:
   - Hog
-  - Hog Hunter
+  - Hog_Hunter
   sprites:
-  - {fileID: -1063346425, guid: 8ab089c59d91497478950d94b3204d2f, type: 3}
-  - {fileID: -895890443, guid: 8ab089c59d91497478950d94b3204d2f, type: 3}
+  - {fileID: 1019089891, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
+  - {fileID: 819675316, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}

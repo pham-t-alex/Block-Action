@@ -25,9 +25,12 @@ public class Grid : MonoBehaviour
     ~: regular tile
 
     */
+
+    LevelData levelData;
+    public int levelNumber;
     void Start()
     {
-        using (FileStream fs = File.OpenRead(path)) {
+        /*using (FileStream fs = File.OpenRead(path)) {
             // VERSION 2
             // count number of lines & length
 
@@ -49,6 +52,28 @@ public class Grid : MonoBehaviour
                 }
                 b -= scale; // move down a line
             }
+        }*/
+        b = -2.5f;
+
+        levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+
+        string grid = levelData.gridAsString;
+        StringReader s = new StringReader(grid);
+        string line = s.ReadLine();
+        while (line != null)
+        {
+            for (a = 0; a < line.Length; a++) // a is each column
+            {
+                if (line[a] == '~') // if it is a proper tile
+                {
+                    // place tile
+                    GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((lnLength * scale) / 2), b, 0), Quaternion.identity);
+                    tile.transform.localScale = new Vector3(scale, scale, 0); // set scale
+                    tiles.Add(tile); // add it to arraylist
+                }
+            }
+            b -= scale; // move down a line
+            line = s.ReadLine();
         }
     }
 

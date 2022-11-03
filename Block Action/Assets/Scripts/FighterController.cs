@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class FighterController : MonoBehaviour
 {
@@ -8,7 +9,11 @@ public class FighterController : MonoBehaviour
     public float spaceBetweenEnemies;
     public float bottomOffset;
     public float minRightOffset;
-    public EnemySprites enemySprites;
+    EnemySprites enemySprites;
+
+    LevelData levelData;
+    public int levelNumber;
+    public int wave;
 
     private static FighterController _fighterController;
     public static FighterController fighterController
@@ -26,6 +31,8 @@ public class FighterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        enemySprites = Resources.Load<EnemySprites>("EnemySprites");
+        levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
     }
 
     // Update is called once per frame
@@ -88,20 +95,18 @@ public class FighterController : MonoBehaviour
 
     static void GenerateEnemies()
     {
-        for (int i = 0; i < 3; i++)
+        string waveData = fighterController.levelData.enemyWaves[fighterController.wave - 1];
+        StringReader s = new StringReader(waveData);
+        string line = s.ReadLine();
+        while (line != null)
         {
+            string[] enemyInfo = line.Split(' ');
             GameObject enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            if (i < 2)
-            {
-                enemy.GetComponent<SpriteRenderer>().sprite = fighterController.enemySprites.GetSprite("Hog");
-            }
-            else
-            {
-                enemy.GetComponent<SpriteRenderer>().sprite = fighterController.enemySprites.GetSprite("Hog Hunter");
-            }
+            enemy.GetComponent<SpriteRenderer>().sprite = fighterController.enemySprites.GetSprite(enemyInfo[0]);
             enemy.AddComponent<BoxCollider2D>();
             Battle.b.enemies.Add(enemy.GetComponent<Enemy>());
             Battle.b.fighters.Add(enemy.GetComponent<Enemy>());
+            line = s.ReadLine();
         }
     }
 }
