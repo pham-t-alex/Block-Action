@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class ActionController : MonoBehaviour
 {
+    //references player
+    static PlayerAnimator playerAnimator;
+    public GameObject player;
+
     private static ActionController _actionController;
     
     public static ActionController actionController
@@ -17,6 +21,13 @@ public class ActionController : MonoBehaviour
             }
             return _actionController;
         }
+    }
+
+    // Awake is called before Start
+    void Awake()
+    {
+        //References player
+        playerAnimator = player.GetComponent<PlayerAnimator>();
     }
     // Start is called before the first frame update
     void Start()
@@ -37,6 +48,7 @@ public class ActionController : MonoBehaviour
         {
             //attack animation
             PlayerSequence(soulObject);
+            playerAnimator.SetTrigger("Attack");
         }
         Battle.b.bs = BattleState.EnemyAction;
         Debug.Log("Enemy Turn");
@@ -100,5 +112,6 @@ public class ActionController : MonoBehaviour
         {
             Player.player.gameObject.SetActive(false);
         }
+        playerAnimator.SetTrigger("Hurt");
     }
 }
