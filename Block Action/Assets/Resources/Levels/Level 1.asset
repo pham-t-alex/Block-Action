@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  gridAsString: '~~000
+  gridAsString: '~~~~
 
-    ~~~00
+    ~~~~
 
-    0~~~0
-
-    00~~~'
-  gridWidth: 5
-  gridHeight: 4
+    ~~~~'
+  gridWidth: 4
+  gridHeight: 3
   background: Dark Forest
   enemyWaves:
   - 'Hog 1 1 1 0 0
@@ -29,6 +27,8 @@ MonoBehaviour:
 
     Hog 1 1 1 0 0'
   - 'Hog 1 1 1 0 0
+
+    Hog 1 1 1 0 0
 
     Hog_Hunter 1 1 1 0 0'
   - Hog_Hunter 2.5 2.5 1 0 1

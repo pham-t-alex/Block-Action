@@ -31,7 +31,7 @@ public class Battle : MonoBehaviour
         //for player
         bs = BattleState.PlayerGrid;
         Effect e1 = new Damage(50);
-        Effect e2 = new Heal(20);
+        Effect e2 = new Heal(10);
         Effect e3 = new Damage(5);
         Effect e4 = new Buff(2);
         e1.self = false;
@@ -42,7 +42,21 @@ public class Battle : MonoBehaviour
         soulObjects[0].effects.Add(e1); 
         soulObjects[1].effects.Add(e2);
         soulObjects[1].effects.Add(e4);
-        soulObjects[2].effects.Add(e3);
+        soulObjects[5].effects.Add(e3);
+
+        Effect e5 = new Damage(40);
+        e5.self = false;
+        Effect e6 = new Heal(20);
+        e6.self = true;
+        Effect e7 = new Buff(1.2);
+        e7.self = true;
+        Effect e8 = new Damage(10);
+        e8.self = false;
+
+        soulObjects[2].effects.Add(e5);
+        soulObjects[3].effects.Add(e6);
+        soulObjects[3].effects.Add(e7);
+        soulObjects[4].effects.Add(e8);
 
 
         //grid initialization

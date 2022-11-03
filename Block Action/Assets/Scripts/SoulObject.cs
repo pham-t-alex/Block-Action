@@ -31,7 +31,18 @@ public class SoulObject : MonoBehaviour
     public int currentCooldown;
 
     // Variable used for changing soul color when on cooldown
-    public SpriteRenderer soulCooldownColor;
+    private SpriteRenderer _spriteRenderer;
+    public SpriteRenderer soulCooldownColor
+    {
+        get
+        {
+            if (_spriteRenderer == null)
+            {
+                _spriteRenderer = GetComponent<SpriteRenderer>();
+            }
+            return _spriteRenderer;
+        }
+    }
 
     public List<Effect> effects = new List<Effect>();
     public List<Fighter> targets;
@@ -41,7 +52,6 @@ public class SoulObject : MonoBehaviour
     {
         soulCollider = GetComponent<Collider2D>();
         soulRenderer = GetComponent<SpriteRenderer>();
-        soulCooldownColor = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
