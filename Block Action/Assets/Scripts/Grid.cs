@@ -60,6 +60,7 @@ public class Grid : MonoBehaviour
         string grid = levelData.gridAsString;
         StringReader s = new StringReader(grid);
         string line = s.ReadLine();
+
         while (line != null)
         {
             for (a = 0; a < line.Length; a++) // a is each column
@@ -67,7 +68,7 @@ public class Grid : MonoBehaviour
                 if (line[a] == '~') // if it is a proper tile
                 {
                     // place tile
-                    GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((lnLength * scale) / 2), b, 0), Quaternion.identity);
+                    GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((levelData.gridWidth * scale) / 2), b, 0), Quaternion.identity);
                     tile.transform.localScale = new Vector3(scale, scale, 0); // set scale
                     tiles.Add(tile); // add it to arraylist
                 }
@@ -84,6 +85,8 @@ public class Grid : MonoBehaviour
 
     public static void SetScale() {
         // open file
+
+        /*
         using (FileStream fs = File.OpenRead(path)) {
             lnLength = 0; // grid length
             foreach (string l in System.IO.File.ReadLines(path)) { // go through each line in text file
@@ -93,5 +96,12 @@ public class Grid : MonoBehaviour
             scale = (lnCount <= lnLength) ? (5 / lnLength) : (5 / lnCount); // find which is longer
         }
         GridFitter.gridFitter.scale = scale; // assign scale for blocks
+        */
+
+        
+        LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}");
+        scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (5f / gridScLvl.gridWidth) : (5f / gridScLvl.gridHeight);
+        GridFitter.gridFitter.scale = scale; // assign scale for blocks
+        
     }
 }
