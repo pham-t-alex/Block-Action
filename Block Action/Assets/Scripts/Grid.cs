@@ -99,8 +99,8 @@ public class Grid : MonoBehaviour
         */
 
         
-        LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}");
-        scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (5f / gridScLvl.gridWidth) : (5f / gridScLvl.gridHeight);
+        LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}"); // grab level data because static method
+        scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (5f / gridScLvl.gridWidth) : (5f / gridScLvl.gridHeight); // assign scale for grid
         GridFitter.gridFitter.scale = scale; // assign scale for blocks
         
     }

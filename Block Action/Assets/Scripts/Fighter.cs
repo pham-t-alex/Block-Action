@@ -8,7 +8,7 @@ public abstract class Fighter : MonoBehaviour
     public double buff;
     public List<BuffCounter> buffLeft;
     public int maxHealth;
-    Healthbar healthBar;
+    public Healthbar healthBar;
     GameObject healthPrefab;
 
     void Start()

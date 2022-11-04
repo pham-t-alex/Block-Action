@@ -12,19 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  gridAsString: '~~~~
+  gridAsString: '~~~~~
 
-    ~~~~
+    ~~~~~
 
-    ~~~~
+    ~~~~~
 
-    0000
+    ~~~~~
 
-    0000
-
-    0000'
-  gridWidth: 4
-  gridHeight: 6
+    ~~~~~'
+  gridWidth: 5
+  gridHeight: 5
   background: Dark Forest
   enemyWaves:
   - 'Hog 1 1 1 0 0

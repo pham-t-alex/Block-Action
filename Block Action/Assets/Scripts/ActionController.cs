@@ -88,6 +88,7 @@ public class ActionController : MonoBehaviour
             {
                 Battle.b.enemies.Remove(e);
                 Battle.b.fighters.Remove(e);
+                e.healthBar.gameObject.SetActive(false);
                 e.gameObject.SetActive(false);
             }
         }
@@ -110,6 +111,7 @@ public class ActionController : MonoBehaviour
         // Debug.Log("Enemy deals " + e.attack[i] + " damage to the player | HP: " + (Player.player.health + e.attack[i]) + " -> " + Player.player.health);
         if (Player.player.health <= 0)
         {
+            Player.player.healthBar.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
         playerAnimator.SetTrigger("Hurt");
