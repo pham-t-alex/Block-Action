@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Damage : Effect
 {
 
     public double dmg;
+    public GameObject text = GameObject.Find("Output");
 
     public Damage(int dmg) {
         this.dmg = dmg;
@@ -29,10 +31,10 @@ public class Damage : Effect
             f.health -= (int) (dmg * fighter.buff);
             if (f.Equals(Player.player))
             {
-                Debug.Log("Player takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health);
+                text.GetComponent<TMP_Text>().text += "Player takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health + "\n";
             }
             else {
-                Debug.Log("Enemy takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health);
+                text.GetComponent<TMP_Text>().text +="Enemy takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health + "\n";
             }
         }
     }
