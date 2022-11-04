@@ -6,7 +6,6 @@ using TMPro;
 public class Buff : Effect
 {
     public double buff;
-    public GameObject text = GameObject.Find("Output");
 
     public Buff(double buff) {
         this.buff = buff;
@@ -33,11 +32,11 @@ public class Buff : Effect
             f.buff *= buff;
             if (f.Equals(Player.player))
             {
-                text.GetComponent<TMP_Text>().text += "Player buff set to " + f.buff + "x\n";
+                Debug.Log("Player buff set to " + f.buff + "x");
             }
             else
             {
-                text.GetComponent<TMP_Text>().text += "Enemy buff set to " + f.buff + "x\n";
+                Debug.Log("Enemy buff set to " + f.buff + "x");
             }
         }
     }
