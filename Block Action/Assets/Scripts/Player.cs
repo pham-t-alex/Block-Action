@@ -20,6 +20,7 @@ public class Player : Fighter
     // Start is called before the first frame update
     void Start()
     {
+        makeHealthBar();
         health = 100; //might not be valid
         buff = 1.0;
         maxHealth = 100;
@@ -31,6 +32,6 @@ public class Player : Fighter
     // Update is called once per frame
     void Update()
     {
-        
+        updateHealthBar();
     }
 }

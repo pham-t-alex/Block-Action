@@ -11,6 +11,7 @@ public class Enemy : Fighter
     // Start is called before the first frame update
     void Start()
     {
+        makeHealthBar();
         health = 100;
         maxHealth = 100;
         buff = 1.0;
@@ -48,7 +49,7 @@ public class Enemy : Fighter
     // Update is called once per frame
     void Update()
     {
-    
+        updateHealthBar();
     }
 
     void OnMouseEnter()
