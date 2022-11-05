@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class EndTurnButton : MonoBehaviour
 { 
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class Button : MonoBehaviour
 
     }
 
-    void OnMouseDown() {
+    public void OnMouseDown() {
         if (Battle.b.bs.Equals(BattleState.PlayerGrid))
         {
             Debug.Log("Beginning Battle Sequence\nPlayer Turn");
