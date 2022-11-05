@@ -20,9 +20,11 @@ MonoBehaviour:
 
     ~~~~~
 
-    ~~~~~'
+    ~~~~~
+
+    00000'
   gridWidth: 5
-  gridHeight: 5
+  gridHeight: 6
   background: Dark Forest
   enemyWaves:
   - 'Hog 1 1 1 0 0

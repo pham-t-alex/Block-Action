@@ -19,10 +19,9 @@ public abstract class Fighter : MonoBehaviour
     {
         healthPrefab = Resources.Load<GameObject>("Healthbar");
         Vector3 healthBarPosition = new Vector3(transform.position.x, transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.5f, 0);
-        Debug.Log(healthBarPosition);
-        Vector3 healthBarPos2 = WorldToScreenSpace(healthBarPosition, Camera.main, FindObjectOfType<Canvas>().GetComponent<RectTransform>());
+        Vector3 healthBarPos2 = WorldToScreenSpace(healthBarPosition, Camera.main, Healthbar.healthCanvas.GetComponent<RectTransform>());
         GameObject g = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity);
-        g.transform.SetParent(FindObjectOfType<Canvas>().transform);
+        g.transform.SetParent(Healthbar.healthCanvas.transform);
         g.GetComponent<RectTransform>().anchoredPosition = healthBarPos2;
         g.transform.localScale = new Vector3(0.4f, 0.4f, 1);
         healthBar = g.GetComponent<Healthbar>();

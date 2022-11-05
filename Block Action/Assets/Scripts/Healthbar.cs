@@ -19,6 +19,18 @@ public class Healthbar : MonoBehaviour
     }
     public Image Health;
 
+    static GameObject _healthCanvas;
+    public static GameObject healthCanvas {
+        get
+        {
+            if (_healthCanvas == null)
+            {
+                _healthCanvas = GameObject.FindWithTag("HealthbarsAndEffects");
+            }
+            return _healthCanvas;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
