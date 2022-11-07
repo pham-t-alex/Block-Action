@@ -27,13 +27,18 @@ public class Damage : Effect
     public override void ActivateEffect(Fighter fighter)
     {
         foreach (Fighter f in targets) {
-            f.health -= (int) (dmg * fighter.buff);
-            if (f.Equals(Player.player))
+            if (!f.dead)
             {
-                Debug.Log("Player takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health);
-            }
-            else {
-                Debug.Log("Enemy takes " + (dmg * fighter.buff) + " damage | HP: " + (f.health + (dmg * fighter.buff)) + " -> " + f.health);
+                int prevHealth = f.health;
+                f.health -= (int)(dmg * fighter.buff);
+                if (f.Equals(Player.player))
+                {
+                    Debug.Log("Player takes " + (dmg * fighter.buff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                }
+                else
+                {
+                    Debug.Log("Enemy takes " + (dmg * fighter.buff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                }
             }
         }
     }

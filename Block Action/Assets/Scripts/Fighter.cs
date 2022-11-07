@@ -10,6 +10,7 @@ public abstract class Fighter : MonoBehaviour
     public int maxHealth;
     public Healthbar healthBar;
     GameObject healthPrefab;
+    public bool dead = false;
 
     void Start()
     {

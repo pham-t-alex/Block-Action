@@ -28,26 +28,35 @@ public class Heal : Effect
     {
         foreach (Fighter f in targets)
         {
-            if (f.health < f.maxHealth)
+            if (!f.dead)
             {
-                f.health += (int)heal;
-                if (f.Equals(Player.player))
+                if (f.health < f.maxHealth)
                 {
-                    Debug.Log("Player heals " + heal + " health | HP: " + (f.health - heal) + " -> " + f.health);
+                    int prevHealth = f.health;
+                    f.health += (int)heal;
+                    if (f.health > f.maxHealth)
+                    {
+                        f.health = f.maxHealth;
+                    }
+                    if (f.Equals(Player.player))
+                    {
+                        Debug.Log("Player heals " + heal + " health | HP: " + prevHealth + " -> " + f.health);
+                    }
+                    else
+                    {
+                        Debug.Log("Enemy heals " + heal + " health | HP: " + prevHealth + " -> " + f.health);
+                    }
                 }
                 else
                 {
-                    Debug.Log("Enemy heals " + heal + " health | HP: " + (f.health - heal) + " -> " + f.health);
-                }
-            }
-            else {
-                if (f.Equals(Player.player))
-                {
-                    Debug.Log("Player is at max health! | HP: " + f.health);
-                }
-                else
-                {
-                    Debug.Log("Enemy is at max health! | HP: " + f.health);
+                    if (f.Equals(Player.player))
+                    {
+                        Debug.Log("Player is at max health! | HP: " + f.health);
+                    }
+                    else
+                    {
+                        Debug.Log("Enemy is at max health! | HP: " + f.health);
+                    }
                 }
             }
         }

@@ -27,16 +27,19 @@ public class Buff : Effect
     {
         foreach (Fighter f in targets)
         {
-            BuffCounter bc = new BuffCounter(numTurns, buff);
-            f.buffLeft.Add(bc);
-            f.buff *= buff;
-            if (f.Equals(Player.player))
+            if (!f.dead)
             {
-                Debug.Log("Player buff set to " + f.buff + "x");
-            }
-            else
-            {
-                Debug.Log("Enemy buff set to " + f.buff + "x");
+                BuffCounter bc = new BuffCounter(numTurns, buff);
+                f.buffLeft.Add(bc);
+                f.buff *= buff;
+                if (f.Equals(Player.player))
+                {
+                    Debug.Log("Player buff set to " + f.buff + "x");
+                }
+                else
+                {
+                    Debug.Log("Enemy buff set to " + f.buff + "x");
+                }
             }
         }
     }

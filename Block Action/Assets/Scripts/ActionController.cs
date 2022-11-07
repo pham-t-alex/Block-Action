@@ -59,7 +59,10 @@ public class ActionController : MonoBehaviour
         foreach (Enemy e in Battle.b.enemies)
         {
             //attack animation
-            EnemySequence(e);
+            if (!e.dead)
+            {
+                EnemySequence(e);
+            }
         }
         Battle.b.bs = BattleState.PlayerGrid;
         //count down the number of turns for buffs
@@ -86,9 +89,10 @@ public class ActionController : MonoBehaviour
         {
             if (e.health <= 0)
             {
-                Battle.b.enemies.Remove(e);
-                Battle.b.fighters.Remove(e);
-                Destroy(e.healthBar.gameObject);
+                e.dead = true;
+                e.buff = 1;
+                e.buffLeft.Clear();
+                e.healthBar.gameObject.SetActive(false);
                 e.gameObject.SetActive(false);
             }
         }
@@ -111,7 +115,8 @@ public class ActionController : MonoBehaviour
         // Debug.Log("Enemy deals " + e.attack[i] + " damage to the player | HP: " + (Player.player.health + e.attack[i]) + " -> " + Player.player.health);
         if (Player.player.health <= 0)
         {
-            Player.player.healthBar.gameObject.SetActive(false);
+            Player.player.dead = true;
+            Player.player.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
         playerAnimator.SetTrigger("Hurt");
