@@ -7,21 +7,17 @@ public class Enemy : Fighter
     public List<Effect> effects; // change to effect
     public int numAtk;
     public bool mouseTouching;
+    public string type;
 
     // Start is called before the first frame update
     void Start()
     {
         makeHealthBar();
-    }
-
-    public void initialize()
-    {
-        health = 100;
+        /*health = 100;
         maxHealth = 100;
         buff = 1.0;
         buffLeft = new List<BuffCounter>();
 
-        effects = new List<Effect>();
         //later on, for different types of enemies, make a class that extends enemy, then initialize their effects in their own class
         //e.g. boar would have effects such as Damage, while a preist (just an example) would have effects Heal and Buff. They would all extend enemy
         Effect enemyeff1 = new Damage(10);
@@ -47,6 +43,7 @@ public class Enemy : Fighter
         effects.Add(enemyeff3);
         effects.Add(enemyeff4);
         numAtk = effects.Count;
+        */
     }
 
     // Update is called once per frame

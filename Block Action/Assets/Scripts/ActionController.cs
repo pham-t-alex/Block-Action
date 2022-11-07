@@ -70,8 +70,16 @@ public class ActionController : MonoBehaviour
             foreach (BuffCounter bc in f.buffLeft) {
                 bc.numTurns--;
                 if (bc.numTurns == 0) {
+                    double prevBuff = f.buff;
                     f.buff /= bc.buff;
-                    Debug.Log("Buff ended");
+                    if (f is Player)
+                    {
+                        Debug.Log($"Buff ended | Player buff {prevBuff}x -> {f.buff}");
+                    }
+                    else
+                    {
+                        Debug.Log($"Buff ended | Enemy buff {prevBuff}x -> {f.buff}");
+                    }
                 }
             }
         }
@@ -116,7 +124,9 @@ public class ActionController : MonoBehaviour
         if (Player.player.health <= 0)
         {
             Player.player.dead = true;
-            Player.player.gameObject.SetActive(false);
+            Player.player.buff = 1;
+            Player.player.buffLeft.Clear();
+            Player.player.healthBar.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
         playerAnimator.SetTrigger("Hurt");

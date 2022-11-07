@@ -34,5 +34,11 @@ MonoBehaviour:
 
     Hog 1 1 1 0 0
 
-    Hog_Hunter 1 1 1 0 0'
-  - Hog_Hunter 2.5 2.5 1 0 1
+    Hog_Hunter 1 1 1 0 1'
+  - Hog_Hunter 2.5 2.5 1 0 3
+  - 'Hog 2 2 1.1 0 1
+
+    Hog 2 2 1.1 0 1
+
+    Hog_Hunter 2 2 1.1 0 3'
+  - Hog_Hunter 4 4 1 0 3

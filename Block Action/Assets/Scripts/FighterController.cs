@@ -9,7 +9,6 @@ public class FighterController : MonoBehaviour
     public float spaceBetweenEnemies;
     public float bottomOffset;
     public float minRightOffset;
-    EnemySprites enemySprites;
 
     LevelData levelData;
     public int levelNumber;
@@ -31,7 +30,6 @@ public class FighterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemySprites = Resources.Load<EnemySprites>("EnemySprites");
         levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
     }
 
@@ -100,22 +98,39 @@ public class FighterController : MonoBehaviour
         {
             string[] enemyInfo = line.Split(' ');
             GameObject enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            enemy.GetComponent<SpriteRenderer>().sprite = fighterController.enemySprites.GetSprite(enemyInfo[0]);
-            enemy.AddComponent<BoxCollider2D>();
-            double hpScale = System.Convert.ToDouble(enemyInfo[1]);
-            double atkScale = System.Convert.ToDouble(enemyInfo[2]);
-            double buffScale = System.Convert.ToDouble(enemyInfo[3]);
-            enemy.GetComponent<Enemy>().initialize();
-            ScaleEnemy(enemy.GetComponent<Enemy>(), hpScale, atkScale, buffScale);
             Battle.b.enemies.Add(enemy.GetComponent<Enemy>());
             Battle.b.fighters.Add(enemy.GetComponent<Enemy>());
             line = s.ReadLine();
+        }
+        s = new StringReader(waveData);
+        line = s.ReadLine();
+        int i = 0;
+        while (line != null)
+        {
+            string[] enemyInfo = line.Split(' ');
+            Enemy enemy = Battle.b.enemies[i];
+            enemy.effects = new List<Effect>();
+            enemy.buff = 1.0;
+            enemy.buffLeft = new List<BuffCounter>();
+            int lower = System.Convert.ToInt32(enemyInfo[4]);
+            int upper = System.Convert.ToInt32(enemyInfo[5]);
+            enemy.type = enemyInfo[0];
+            setEnemyData(enemy, enemyInfo[0], lower, upper);
+            enemy.numAtk = enemy.effects.Count;
+            enemy.gameObject.AddComponent<BoxCollider2D>();
+            double hpScale = System.Convert.ToDouble(enemyInfo[1]);
+            double atkScale = System.Convert.ToDouble(enemyInfo[2]);
+            double buffScale = System.Convert.ToDouble(enemyInfo[3]);
+            ScaleEnemy(enemy, hpScale, atkScale, buffScale);
+            line = s.ReadLine();
+            i++;
         }
     }
 
     static void ScaleEnemy(Enemy enemy, double hpScale, double atkScale, double buffScale)
     {
         enemy.health = (int) (enemy.health * hpScale);
+        enemy.maxHealth = (int) (enemy.maxHealth * hpScale);
         foreach (Effect effect in enemy.effects)
         {
             if (effect is Damage)
@@ -134,5 +149,52 @@ public class FighterController : MonoBehaviour
                 buffEffect.buff *= buffScale;
             }
         }
+    }
+
+    static void setEnemyData(Enemy enemy, string enemyName, int lower, int upper)
+    {
+        EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{enemyName}");
+        enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
+        enemy.maxHealth = enemyData.defaultMaxHealth;
+        enemy.health = enemyData.defaultStartingHealth;
+        for (int i = 0; i <= upper; i++)
+        {
+            addEffect(enemy, enemyData.actions[i]);
+        }
+    }
+
+    static void addEffect(Enemy enemy, string effectAsString)
+    {
+        string[] effectData = effectAsString.Split(" ");
+        Effect effect = null;
+        if (effectData[0].Equals("dmg"))
+        {
+            effect = new Damage(System.Convert.ToInt32(effectData[2]));
+        }
+        else if (effectData[0].Equals("heal"))
+        {
+            effect = new Heal(System.Convert.ToDouble(effectData[2]));
+        }
+        else if (effectData[0].Equals("buff"))
+        {
+            effect = new Buff(System.Convert.ToDouble(effectData[2]));
+            effect.numTurns = System.Convert.ToInt32(effectData[3]);
+        }
+        if (effectData[1].Equals("player"))
+        {
+            effect.targets.Add(Player.player);
+        }
+        else if (effectData[1].Equals("self"))
+        {
+            effect.self = true;
+        }
+        else if (effectData[1].Equals("enemies"))
+        {
+            foreach (Enemy e in Battle.b.enemies)
+            {
+                effect.targets.Add(e);
+            }
+        }
+        enemy.effects.Add(effect);
     }
 }

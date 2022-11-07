@@ -31,14 +31,15 @@ public class Buff : Effect
             {
                 BuffCounter bc = new BuffCounter(numTurns, buff);
                 f.buffLeft.Add(bc);
+                double prevBuff = f.buff;
                 f.buff *= buff;
                 if (f.Equals(Player.player))
                 {
-                    Debug.Log("Player buff set to " + f.buff + "x");
+                    Debug.Log("Player buff set from " + prevBuff + "x to " + f.buff + "x");
                 }
                 else
                 {
-                    Debug.Log("Enemy buff set to " + f.buff + "x");
+                    Debug.Log("Enemy buff set to " + prevBuff + "x to " + f.buff + "x");
                 }
             }
         }

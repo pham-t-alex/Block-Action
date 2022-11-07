@@ -3383,6 +3383,7 @@ MonoBehaviour:
   buff: 0
   maxHealth: 0
   healthBar: {fileID: 0}
+  dead: 0
 --- !u!212 &1750836034
 SpriteRenderer:
   m_ObjectHideFlags: 0
