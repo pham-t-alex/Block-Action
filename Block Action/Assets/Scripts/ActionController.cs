@@ -88,7 +88,7 @@ public class ActionController : MonoBehaviour
             {
                 Battle.b.enemies.Remove(e);
                 Battle.b.fighters.Remove(e);
-                e.healthBar.gameObject.SetActive(false);
+                Destroy(e.healthBar.gameObject);
                 e.gameObject.SetActive(false);
             }
         }

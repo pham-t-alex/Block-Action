@@ -12,6 +12,10 @@ public class Enemy : Fighter
     void Start()
     {
         makeHealthBar();
+    }
+
+    public void initialize()
+    {
         health = 100;
         maxHealth = 100;
         buff = 1.0;
@@ -43,13 +47,15 @@ public class Enemy : Fighter
         effects.Add(enemyeff3);
         effects.Add(enemyeff4);
         numAtk = effects.Count;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        updateHealthBar();
+        if (health > 0)
+        {
+            updateHealthBar();
+        }
     }
 
     void OnMouseEnter()

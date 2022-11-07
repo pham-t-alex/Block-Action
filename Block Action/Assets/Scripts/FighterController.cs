@@ -102,9 +102,37 @@ public class FighterController : MonoBehaviour
             GameObject enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             enemy.GetComponent<SpriteRenderer>().sprite = fighterController.enemySprites.GetSprite(enemyInfo[0]);
             enemy.AddComponent<BoxCollider2D>();
+            double hpScale = System.Convert.ToDouble(enemyInfo[1]);
+            double atkScale = System.Convert.ToDouble(enemyInfo[2]);
+            double buffScale = System.Convert.ToDouble(enemyInfo[3]);
+            enemy.GetComponent<Enemy>().initialize();
+            ScaleEnemy(enemy.GetComponent<Enemy>(), hpScale, atkScale, buffScale);
             Battle.b.enemies.Add(enemy.GetComponent<Enemy>());
             Battle.b.fighters.Add(enemy.GetComponent<Enemy>());
             line = s.ReadLine();
+        }
+    }
+
+    static void ScaleEnemy(Enemy enemy, double hpScale, double atkScale, double buffScale)
+    {
+        enemy.health = (int) (enemy.health * hpScale);
+        foreach (Effect effect in enemy.effects)
+        {
+            if (effect is Damage)
+            {
+                Damage damageEffect = (Damage) effect;
+                damageEffect.dmg *= atkScale;
+            }
+            if (effect is Heal)
+            {
+                Heal healEffect = (Heal) effect;
+                healEffect.heal *= atkScale;
+            }
+            if (effect is Buff)
+            {
+                Buff buffEffect = (Buff) effect;
+                buffEffect.buff *= buffScale;
+            }
         }
     }
 }
