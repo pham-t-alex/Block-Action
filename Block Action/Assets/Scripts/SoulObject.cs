@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 //Base class representing a SoulObject placeable in the grid.
 public class SoulObject : MonoBehaviour
@@ -30,6 +31,11 @@ public class SoulObject : MonoBehaviour
     public int defaultCooldown;
     public int currentCooldown;
 
+    // Variable for initiating cooldown text
+    public GameObject cooldownIndicator = null;
+    public int layer;
+    public bool hasChildren;
+
     // Variable used for changing soul color when on cooldown
     private SpriteRenderer _spriteRenderer;
     public SpriteRenderer soulCooldownColor
@@ -52,6 +58,7 @@ public class SoulObject : MonoBehaviour
     {
         soulCollider = GetComponent<Collider2D>();
         soulRenderer = GetComponent<SpriteRenderer>();
+        
     }
 
     // Update is called once per frame
@@ -96,10 +103,28 @@ public class SoulObject : MonoBehaviour
         if (currentCooldown > 0)
         {
             soulCooldownColor.color = new Color(0.2f, 0.2f, 0.2f); // Darken soul block if it is on cooldown
+            if (hasChildren == false) // If there is no cooldown indicator then perform the following actions
+            {
+                cooldownIndicator = Instantiate(Resources.Load("Text") as GameObject, transform.position, Quaternion.identity, transform);
+
+                TextMeshPro textSettings = cooldownIndicator.GetComponent<TextMeshPro>();
+                textSettings.outlineColor = new Color(0, 0.679903f, 8301887f);
+                textSettings.outlineWidth = 0.3f;
+                textSettings.fontSize = 16;
+            }
+            hasChildren = true;
+
+            TextMeshPro cooldownText = cooldownIndicator.GetComponent<TextMeshPro>();
+            cooldownText.SetText(currentCooldown.ToString());
         }
         else
         {
             soulCooldownColor.color = new Color(1, 1, 1); // Revert soul block to original color if it is usable
+            if (currentCooldown == 0 && hasChildren == true) // Destroys cooldown indicator once there is no cooldown
+            { 
+                Destroy(cooldownIndicator);
+                hasChildren = false;
+            }
         }
     }
 
