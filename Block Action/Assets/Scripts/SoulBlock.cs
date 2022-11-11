@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SoulBlock : SoulObject
@@ -19,6 +20,6 @@ public class SoulBlock : SoulObject
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

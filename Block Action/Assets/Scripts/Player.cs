@@ -3,21 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Fighter
-{ 
-    public int MaxHealth;
-    public static Player player;
+{
+    private static Player _player;
+    public static Player player
+    {
+        get
+        {
+            if (_player == null)
+            {
+                _player = FindObjectOfType<Player>();
+            }
+            return _player;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        makeHealthBar();
         health = 100; //might not be valid
-        MaxHealth = 100;
-        player = this;
+        buff = 1.0;
+        maxHealth = 100;
+        buffLeft = new List<BuffCounter>();
+
+        Battle.b.fighters.Add(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        updateHealthBar();
     }
 }

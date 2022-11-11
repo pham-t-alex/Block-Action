@@ -9,11 +9,11 @@ public class Grid : MonoBehaviour
     public List<GameObject> tiles;
     public GameObject myPrefab;
     public List<SoulObject> soulObjectsInGrid;
-    int i, a, lnCount, lnLength;
-    float b;
+    static int i, a, lnCount, lnLength;
+    static float b, scale;
 
     // text file
-    public string path = "Assets/TextFiles/gridtest.txt";
+    public static string path = "Assets/TextFiles/gridtest.txt";
     /*
     Hi, dunno where to put this, so here's the current key.
 
@@ -25,45 +25,83 @@ public class Grid : MonoBehaviour
     ~: regular tile
 
     */
+
+    LevelData levelData;
+    public int levelNumber;
     void Start()
     {
-        using (FileStream fs = File.OpenRead(path)) {
-            // VERSION 1
-            /*
-            i = 0;
-            aMax = 5;
-            bMax = 5;
-            for (a = 0; a < aMax; a++) {
-                for (b = 0; b < bMax; b++) {
-                    tiles.Add(Instantiate(myPrefab, new Vector3(a * 2, b * 2 - 4, 0), Quaternion.identity));
-                    i++;
-                }
-            }
-            */
-
+        /*using (FileStream fs = File.OpenRead(path)) {
             // VERSION 2
             // count number of lines & length
-            foreach (string l in System.IO.File.ReadLines(path)) {
-                ++lnCount;
-            }
 
-            // variable for center
-            b = (float) lnCount / 2;
+            // variables
+            b = -2.5f;
 
             // grid alignment/placing
-            foreach (string line in System.IO.File.ReadLines(path)) {  
-                for (a = 0; a < line.Length; a++){
-                    if (line[a] == '~') {
-                        tiles.Add(Instantiate(myPrefab, new Vector3(-12 + a, b - (float) 0.5, 0), Quaternion.identity));
+            foreach (string line in System.IO.File.ReadLines(path))
+            {
+                for (a = 0; a < line.Length; a++) // a is each column
+                {
+                    if (line[a] == '~') // if it is a proper tile
+                    {
+                        // place tile
+                        GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((lnLength * scale) / 2), b, 0), Quaternion.identity);
+                        tile.transform.localScale = new Vector3(scale, scale, 0); // set scale
+                        tiles.Add(tile); // add it to arraylist
                     }
                 }
-                b--;
-            } 
+                b -= scale; // move down a line
+            }
+        }*/
+        b = -2.5f;
+
+        levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+
+        string grid = levelData.gridAsString;
+        StringReader s = new StringReader(grid);
+        string line = s.ReadLine();
+
+        while (line != null)
+        {
+            for (a = 0; a < line.Length; a++) // a is each column
+            {
+                if (line[a] == '~') // if it is a proper tile
+                {
+                    // place tile
+                    GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((levelData.gridWidth * scale) / 2), b, 0), Quaternion.identity);
+                    tile.transform.localScale = new Vector3(scale, scale, 0); // set scale
+                    tiles.Add(tile); // add it to arraylist
+                }
+            }
+            b -= scale; // move down a line
+            line = s.ReadLine();
         }
     }
 
     void Update()
     {
 
+    }
+
+    public static void SetScale() {
+        // open file
+
+        /*
+        using (FileStream fs = File.OpenRead(path)) {
+            lnLength = 0; // grid length
+            foreach (string l in System.IO.File.ReadLines(path)) { // go through each line in text file
+                ++lnCount;
+                if (lnLength < l.Length) lnLength = l.Length; // find max row size
+            }
+            scale = (lnCount <= lnLength) ? (5 / lnLength) : (5 / lnCount); // find which is longer
+        }
+        GridFitter.gridFitter.scale = scale; // assign scale for blocks
+        */
+
+        
+        LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}"); // grab level data because static method
+        scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (5f / gridScLvl.gridWidth) : (5f / gridScLvl.gridHeight); // assign scale for grid
+        GridFitter.gridFitter.scale = scale; // assign scale for blocks
+        
     }
 }
