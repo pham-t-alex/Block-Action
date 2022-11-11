@@ -7,5 +7,6 @@ public enum BattleState
     PlayerGrid,
     EnemySelect,
     PlayerAction,
-    EnemyAction
+    EnemyAction,
+    Gimmicks
 }

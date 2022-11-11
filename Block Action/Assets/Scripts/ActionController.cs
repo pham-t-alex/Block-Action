@@ -64,7 +64,7 @@ public class ActionController : MonoBehaviour
                 EnemySequence(e);
             }
         }
-        Battle.b.bs = BattleState.PlayerGrid;
+        
         //count down the number of turns for buffs
         foreach (Fighter f in Battle.b.fighters) {
             foreach (BuffCounter bc in f.buffLeft) {
@@ -86,7 +86,9 @@ public class ActionController : MonoBehaviour
 
         //reset soulblocks to original position
         GridFitter.ResetSoulObjects();
+        Battle.b.bs = BattleState.Gimmicks;
         Debug.Log("Grid Fitting");
+        Battle.b.turnNumber++;
     }
 
     static void PlayerSequence(SoulObject s)

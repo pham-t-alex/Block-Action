@@ -14,4 +14,7 @@ public class LevelData : ScriptableObject
 
     [TextArea(1, 3)]
     public List<string> enemyWaves;
+
+    [TextArea(1, 3)]
+    public List<string> midLevelEffects;
 }

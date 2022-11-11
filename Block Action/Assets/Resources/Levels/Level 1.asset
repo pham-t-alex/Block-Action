@@ -42,3 +42,5 @@ MonoBehaviour:
 
     Hog_Hunter 2 2 1.1 0 3'
   - Hog_Hunter 4 4 1 0 3
+  midLevelEffects:
+  - 2 Text level1.txt

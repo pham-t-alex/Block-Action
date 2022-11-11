@@ -9,6 +9,7 @@ public class Battle : MonoBehaviour
     public List<SoulObject> placedSoulObjects;
     public BattleState bs;
     private static Battle _b;
+    public int turnNumber;
     public static Battle b
     {
         get
@@ -26,10 +27,11 @@ public class Battle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        turnNumber = 1;
         //level initialization
 
         //for player
-        bs = BattleState.PlayerGrid;
+        bs = BattleState.Gimmicks;
         Effect e1 = new Damage(50);
         Effect e2 = new Heal(10);
         Effect e3 = new Damage(5);
@@ -78,6 +80,8 @@ public class Battle : MonoBehaviour
             ActionController.EnemyTurn();
         } else if (bs.Equals(BattleState.EnemySelect)) {
             GridFitter.EnemySelect();
+        } else if (bs.Equals(BattleState.Gimmicks)) {
+            GimmickController.MidLevelEffects();
         }
     }
 }
