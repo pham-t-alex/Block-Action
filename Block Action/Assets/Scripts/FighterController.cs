@@ -10,7 +10,7 @@ public class FighterController : MonoBehaviour
     public float bottomOffset;
     public float minRightOffset;
 
-    LevelData levelData;
+    public LevelData levelData;
     public int levelNumber;
     public int wave;
 

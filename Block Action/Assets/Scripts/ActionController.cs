@@ -56,12 +56,14 @@ public class ActionController : MonoBehaviour
 
     public static void EnemyTurn()
     {
+        bool allEnemiesDead = true;
         foreach (Enemy e in Battle.b.enemies)
         {
             //attack animation
             if (!e.dead)
             {
                 EnemySequence(e);
+                allEnemiesDead = false;
             }
         }
         
@@ -81,6 +83,21 @@ public class ActionController : MonoBehaviour
                         Debug.Log($"Buff ended | Enemy buff {prevBuff}x -> {f.buff}");
                     }
                 }
+            }
+        }
+
+        if (allEnemiesDead)
+        {
+            if (FighterController.fighterController.wave < FighterController.fighterController.levelData.enemyWaves.Count)
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    Destroy(e.healthBar);
+                    Destroy(e);
+                }
+                Battle.b.enemies.Clear();
+                FighterController.fighterController.wave++;
+                FighterController.PlaceFighters();
             }
         }
 

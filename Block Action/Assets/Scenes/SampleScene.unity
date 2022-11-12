@@ -467,8 +467,9 @@ MonoBehaviour:
   spaceBetweenEnemies: 0.5
   bottomOffset: 8
   minRightOffset: 0.5
+  levelData: {fileID: 0}
   levelNumber: 1
-  wave: 2
+  wave: 1
 --- !u!1001 &453057049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -895,6 +896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576210adf3ffc7d4d936ae0b0fc35711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  midLevelEffects: []
 --- !u!1 &573466047
 GameObject:
   m_ObjectHideFlags: 0
