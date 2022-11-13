@@ -37,4 +37,5 @@ MonoBehaviour:
     Hog_Hunter 1 1 1 0 1'
   - Hog_Hunter 2 2 1 0 3
   midLevelEffects:
-  - Turn 3 Text level1text
+  - wave 1 text level1text
+  - turn 1 damage player 50
