@@ -94,7 +94,7 @@ public class SoulObject : MonoBehaviour
         if (currentCooldown > 0)
         {
             SetColor(originalColor * 0.3f);
-            if (transform.childCount == squareCount) // If there is no cooldown indicator then perform the following actions
+            if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
             {
                 cooldownIndicator = Instantiate(Resources.Load("Text") as GameObject, transform.position, Quaternion.identity, transform);
 
@@ -110,9 +110,10 @@ public class SoulObject : MonoBehaviour
         else
         {
             SetColor(originalColor);
-            if (currentCooldown == 0 && transform.childCount > squareCount) // Destroys cooldown indicator once there is no cooldown
+            if (currentCooldown == 0 && cooldownIndicator != null) // Destroys cooldown indicator once there is no cooldown
             { 
                 Destroy(cooldownIndicator);
+                cooldownIndicator = null;
             }
         }
     }
