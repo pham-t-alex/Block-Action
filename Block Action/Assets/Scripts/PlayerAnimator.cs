@@ -24,4 +24,11 @@ public class PlayerAnimator : MonoBehaviour
         //Starts animation 
         animator.SetTrigger(trigger);
     }
+
+    //Animation event
+    public void SwitchTurn()
+    {
+        Battle.b.bs = BattleState.EnemyAction;
+        Debug.Log("Enemy Turn");
+    }
 }

@@ -74,8 +74,8 @@ public class Battle : MonoBehaviour
     {
         if (bs.Equals(BattleState.PlayerGrid)) {
             GridFitter.GridFitting();
-        } else if (bs.Equals(BattleState.PlayerAction)) {
-            ActionController.PlayerTurn();
+        //} else if (bs.Equals(BattleState.PlayerAction)) {
+        //    ActionController.PlayerTurn();
         } else if (bs.Equals(BattleState.EnemyAction)) {
             ActionController.EnemyTurn();
         } else if (bs.Equals(BattleState.EnemySelect)) {

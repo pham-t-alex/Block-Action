@@ -8,6 +8,7 @@ public class ActionController : MonoBehaviour
     //references player
     static PlayerAnimator playerAnimator;
     public GameObject player;
+    static int soulObjectCount;
 
     private static ActionController _actionController;
     
@@ -28,6 +29,7 @@ public class ActionController : MonoBehaviour
     {
         //References player
         playerAnimator = player.GetComponent<PlayerAnimator>();
+        soulObjectCount = 0;
     }
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,11 @@ public class ActionController : MonoBehaviour
         
     }
 
+   // public static void AttackEnd()
+    //{
+    //    attackEnd = true;
+    //}
+
     public static void PlayerTurn()
     {
         //take the list of soul blocks placed in the grid
@@ -48,10 +55,20 @@ public class ActionController : MonoBehaviour
         {
             //attack animation
             PlayerSequence(soulObject);
+            soulObjectCount++;
+        }
+        //if no blocks were placed in the grid, Attack animation does not play
+        if (soulObjectCount > 0)
+        {
             playerAnimator.SetTrigger("Attack");
         }
-        Battle.b.bs = BattleState.EnemyAction;
-        Debug.Log("Enemy Turn");
+        else
+        {
+            Battle.b.bs = BattleState.EnemyAction;
+            Debug.Log("Enemy Turn");
+        }
+        Debug.Log(Battle.b.bs + soulObjectCount);
+        soulObjectCount = 0;
     }
 
     public static void EnemyTurn()
