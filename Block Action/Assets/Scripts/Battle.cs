@@ -35,22 +35,26 @@ public class Battle : MonoBehaviour
         Effect e1 = new Damage(50);
         Effect e2 = new Heal(10);
         Effect e3 = new Damage(5);
-        Effect e4 = new Buff(2);
+        Effect e4 = new Buff(.25);
+        Effect e9 = new DefenseBuff(.2);
         e1.self = false;
         e2.self = true;
         e3.self = false;
         e4.self = true;
         e4.numTurns = 2;
+        e9.self = true;
+        e9.numTurns = 2;
         soulObjects[0].effects.Add(e1); 
         soulObjects[1].effects.Add(e2);
         soulObjects[1].effects.Add(e4);
+        soulObjects[1].effects.Add(e9);
         soulObjects[5].effects.Add(e3);
 
         Effect e5 = new Damage(40);
         e5.self = false;
         Effect e6 = new Heal(20);
         e6.self = true;
-        Effect e7 = new Buff(1.2);
+        Effect e7 = new Buff(.25);
         e7.self = true;
         e7.numTurns = 3;
         Effect e8 = new Damage(10);

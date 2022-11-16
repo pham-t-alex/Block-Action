@@ -6,7 +6,9 @@ public abstract class Fighter : MonoBehaviour
 {
     public int health;
     public double buff;
+    public double defenseBuff;
     public List<BuffCounter> buffLeft;
+    public List<DefenseBuffCounter> defenseBuffLeft;
     public int maxHealth;
     public Healthbar healthBar;
     GameObject healthPrefab;

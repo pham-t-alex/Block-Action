@@ -11,15 +11,4 @@ public class BuffCounter
         this.numTurns = numTurns;
         this.buff = buff;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
