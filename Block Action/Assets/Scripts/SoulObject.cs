@@ -94,6 +94,7 @@ public class SoulObject : MonoBehaviour
         if (currentCooldown > 0)
         {
             SetColor(originalColor * 0.3f);
+            SetActiveParticles(false);
             if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
             {
                 cooldownIndicator = Instantiate(Resources.Load("Text") as GameObject, transform.position, Quaternion.identity, transform);
@@ -110,6 +111,7 @@ public class SoulObject : MonoBehaviour
         else
         {
             SetColor(originalColor);
+            SetActiveParticles(true);
             if (currentCooldown == 0 && cooldownIndicator != null) // Destroys cooldown indicator once there is no cooldown
             { 
                 Destroy(cooldownIndicator);
@@ -138,6 +140,15 @@ public class SoulObject : MonoBehaviour
         {
             GameObject sq = transform.GetChild(i).gameObject;
             sq.GetComponent<SpriteRenderer>().color = color;
+        }
+    }
+
+    public void SetActiveParticles(bool active)
+    {
+        for (int i = 0; i < squareCount; i++)
+        {
+            GameObject particle = transform.GetChild(i).GetChild(0).gameObject;
+            particle.SetActive(active);
         }
     }
 }
