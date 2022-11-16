@@ -23,6 +23,7 @@ public class Player : Fighter
         makeHealthBar();
         health = 100; //might not be valid
         buff = 1.0;
+        defenseBuff = 1.0;
         maxHealth = 100;
         buffLeft = new List<BuffCounter>();
         defenseBuffLeft = new List<DefenseBuffCounter>();

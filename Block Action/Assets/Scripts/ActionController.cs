@@ -101,7 +101,6 @@ public class ActionController : MonoBehaviour
                     }
                 }
             }
-            /*
             foreach (DefenseBuffCounter bc in f.defenseBuffLeft)
             {
                 bc.numTurns--;
@@ -111,15 +110,14 @@ public class ActionController : MonoBehaviour
                     f.defenseBuff += bc.defenseBuff;
                     if (f is Player)
                     {
-                        Debug.Log($"Defense Buff ended | Player defense buff {prevBuff}x -> {f.defenseBuff}");
+                        Debug.Log($"Defense Buff ended | Player defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
                     }
                     else
                     {
-                        Debug.Log($"Defense Buff ended | Enemy defense buff {prevBuff}x -> {f.defenseBuff}");
+                        Debug.Log($"Defense Buff ended | Enemy defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
                     }
                 }
             }
-            */
         }
 
         if (allEnemiesDead)

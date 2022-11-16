@@ -134,8 +134,16 @@ public class BlockGenerator : MonoBehaviour
             }
             else if (effectData[0].Equals("buff"))
             {
-                effect = new Buff(System.Convert.ToDouble(effectData[2]));
-                effect.numTurns = System.Convert.ToInt32(effectData[3]);
+                if (effectData[2].Equals("atk"))
+                {
+                    effect = new Buff(System.Convert.ToDouble(effectData[3]));
+                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
+                }
+                else if (effectData[2].Equals("def"))
+                {
+                    effect = new DefenseBuff(System.Convert.ToDouble(effectData[3]));
+                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
+                }
             }
             if (effectData[1].Equals("self"))
             {

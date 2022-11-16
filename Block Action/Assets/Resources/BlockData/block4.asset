@@ -22,5 +22,5 @@ MonoBehaviour:
   isSoulBlock: 1
   effects:
   - heal self 20
-  - buff self 1.2 3
+  - buff self atk 0.2 3
   color: {r: 0, g: 1, b: 0.025494576, a: 1}
