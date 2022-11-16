@@ -30,14 +30,15 @@ public class Damage : Effect
             if (!f.dead)
             {
                 int prevHealth = f.health;
+                GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
                 f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
                 if (f.Equals(Player.player))
                 {
-                    Debug.Log("Player takes " + (dmg * fighter.buff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                    Debug.Log("Player takes " + (dmg * fighter.buff * f.defenseBuff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
                 else
                 {
-                    Debug.Log("Enemy takes " + (dmg * fighter.buff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                    Debug.Log("Enemy takes " + (dmg * fighter.buff * f.defenseBuff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
             }
         }

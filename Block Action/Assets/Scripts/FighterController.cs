@@ -111,7 +111,9 @@ public class FighterController : MonoBehaviour
             Enemy enemy = Battle.b.enemies[i];
             enemy.effects = new List<Effect>();
             enemy.buff = 1.0;
+            enemy.defenseBuff = 1.0;
             enemy.buffLeft = new List<BuffCounter>();
+            enemy.defenseBuffLeft = new List<DefenseBuffCounter>();
             int lower = System.Convert.ToInt32(enemyInfo[4]);
             int upper = System.Convert.ToInt32(enemyInfo[5]);
             enemy.type = enemyInfo[0];

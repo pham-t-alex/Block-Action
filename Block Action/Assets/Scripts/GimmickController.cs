@@ -146,15 +146,24 @@ public class GimmickController : MonoBehaviour
         }
         else if (gimmickInfo[i].Equals("buff"))
         {
-            double buffValue = System.Convert.ToDouble(gimmickInfo[i + 2]);
-            int length = System.Convert.ToInt32(gimmickInfo[i + 3]);
+            double buffValue = System.Convert.ToDouble(gimmickInfo[i + 3]);
+            int length = System.Convert.ToInt32(gimmickInfo[i + 4]);
             if (gimmickInfo[i + 1].Equals("player"))
             {
                 if (!Player.player.dead)
                 {
-                    BuffCounter bc = new BuffCounter(length, buffValue);
-                    Player.player.buffLeft.Add(bc);
-                    Player.player.buff *= buffValue;
+                    if (gimmickInfo[i + 2].Equals("atk"))
+                    {
+                        BuffCounter bc = new BuffCounter(length, buffValue);
+                        Player.player.buffLeft.Add(bc);
+                        Player.player.buff += buffValue;
+                    }
+                    else if (gimmickInfo[i + 2].Equals("def"))
+                    {
+                        DefenseBuffCounter bc = new DefenseBuffCounter(length, buffValue);
+                        Player.player.defenseBuffLeft.Add(bc);
+                        Player.player.defenseBuff *= buffValue;
+                    }
                 }
             }
             else if (gimmickInfo[i + 1].Equals("enemies"))
@@ -163,9 +172,18 @@ public class GimmickController : MonoBehaviour
                 {
                     if (!e.dead)
                     {
-                        BuffCounter bc = new BuffCounter(length, buffValue);
-                        e.buffLeft.Add(bc);
-                        e.buff *= buffValue;
+                        if (gimmickInfo[i + 2].Equals("atk"))
+                        {
+                            BuffCounter bc = new BuffCounter(length, buffValue);
+                            e.buffLeft.Add(bc);
+                            e.buff += buffValue;
+                        }
+                        else if (gimmickInfo[i + 2].Equals("def"))
+                        {
+                            DefenseBuffCounter bc = new DefenseBuffCounter(length, buffValue);
+                            e.defenseBuffLeft.Add(bc);
+                            e.defenseBuff -= buffValue;
+                        }
                     }
                 }
             }
