@@ -60,14 +60,13 @@ public class ActionController : MonoBehaviour
         //if no blocks were placed in the grid, Attack animation does not play
         if (soulObjectCount > 0)
         {
-            playerAnimator.SetTrigger("Attack");
+            PlayerAnimator.SetTrigger("Attack");
         }
         else
         {
             Battle.b.bs = BattleState.EnemyAction;
             Debug.Log("Enemy Turn");
         }
-        Debug.Log(Battle.b.bs + soulObjectCount);
         soulObjectCount = 0;
     }
 
@@ -181,6 +180,6 @@ public class ActionController : MonoBehaviour
             Player.player.healthBar.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
-        playerAnimator.SetTrigger("Hurt");
+        
     }
 }
