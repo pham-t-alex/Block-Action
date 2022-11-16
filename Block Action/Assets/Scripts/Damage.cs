@@ -30,7 +30,9 @@ public class Damage : Effect
             if (!f.dead)
             {
                 int prevHealth = f.health;
-                GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
+                GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
+                ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;
+                emission.rateOverTime = 400 * ((int)(dmg * fighter.buff * f.defenseBuff)) / f.maxHealth;
                 f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
                 if (f.Equals(Player.player))
                 {

@@ -34,6 +34,8 @@ public class Heal : Effect
                 healParticles.transform.position -= new Vector3(0, f.GetComponent<SpriteRenderer>().bounds.size.y / 2);
                 ParticleSystem.ShapeModule sm = healParticles.GetComponent<ParticleSystem>().shape;
                 sm.radius = (f.GetComponent<SpriteRenderer>().bounds.size.x / 2);
+                ParticleSystem.EmissionModule emission = healParticles.GetComponent<ParticleSystem>().emission;
+                emission.rateOverTime = 400 * (int)(heal) / f.maxHealth;
                 if (f.health < f.maxHealth)
                 {
                     int prevHealth = f.health;
