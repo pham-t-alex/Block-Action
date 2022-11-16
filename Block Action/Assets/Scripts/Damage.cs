@@ -34,6 +34,7 @@ public class Damage : Effect
                 f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
                 if (f.Equals(Player.player))
                 {
+                    PlayerAnimator.SetTrigger("Hurt");
                     Debug.Log("Player takes " + (dmg * fighter.buff * f.defenseBuff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
                 else
