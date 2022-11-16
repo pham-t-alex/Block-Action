@@ -19,7 +19,9 @@ public class SoulObject : MonoBehaviour
     //of one of the squares that makes up the SoulObject
     public float relX;
     public float relY;
-    public SpriteRenderer soulRenderer;
+
+    public int width;
+    public int height;
 
     public bool isAoe;
     public bool isSingleTarget;
@@ -34,30 +36,19 @@ public class SoulObject : MonoBehaviour
     // Variable for initiating cooldown text
     public GameObject cooldownIndicator = null;
     public int layer;
-    public bool hasChildren;
 
     // Variable used for changing soul color when on cooldown
     private SpriteRenderer _spriteRenderer;
-    public SpriteRenderer soulCooldownColor
-    {
-        get
-        {
-            if (_spriteRenderer == null)
-            {
-                _spriteRenderer = GetComponent<SpriteRenderer>();
-            }
-            return _spriteRenderer;
-        }
-    }
 
     public List<Effect> effects = new List<Effect>();
     public List<Fighter> targets;
+
+    public Color originalColor;
 
     // Start is called before the first frame update
     void Start()
     {
         soulCollider = GetComponent<Collider2D>();
-        soulRenderer = GetComponent<SpriteRenderer>();
         
     }
 
@@ -102,8 +93,8 @@ public class SoulObject : MonoBehaviour
     {
         if (currentCooldown > 0)
         {
-            soulCooldownColor.color = new Color(0.2f, 0.2f, 0.2f); // Darken soul block if it is on cooldown
-            if (hasChildren == false) // If there is no cooldown indicator then perform the following actions
+            SetColor(originalColor * 0.3f);
+            if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
             {
                 cooldownIndicator = Instantiate(Resources.Load("Text") as GameObject, transform.position, Quaternion.identity, transform);
 
@@ -112,18 +103,17 @@ public class SoulObject : MonoBehaviour
                 textSettings.outlineWidth = 0.3f;
                 textSettings.fontSize = 16;
             }
-            hasChildren = true;
 
             TextMeshPro cooldownText = cooldownIndicator.GetComponent<TextMeshPro>();
             cooldownText.SetText(currentCooldown.ToString());
         }
         else
         {
-            soulCooldownColor.color = new Color(1, 1, 1); // Revert soul block to original color if it is usable
-            if (currentCooldown == 0 && hasChildren == true) // Destroys cooldown indicator once there is no cooldown
+            SetColor(originalColor);
+            if (currentCooldown == 0 && cooldownIndicator != null) // Destroys cooldown indicator once there is no cooldown
             { 
                 Destroy(cooldownIndicator);
-                hasChildren = false;
+                cooldownIndicator = null;
             }
         }
     }
@@ -131,5 +121,23 @@ public class SoulObject : MonoBehaviour
     public void cooldownStart()
     {
         currentCooldown = defaultCooldown;
+    }
+
+    public void SetRenderOrder(int order)
+    {
+        for (int i = 0; i < squareCount; i++)
+        {
+            GameObject sq = transform.GetChild(i).gameObject;
+            sq.GetComponent<SpriteRenderer>().sortingOrder = order;
+        }
+    }
+
+    public void SetColor(Color color)
+    {
+        for (int i = 0; i < squareCount; i++)
+        {
+            GameObject sq = transform.GetChild(i).gameObject;
+            sq.GetComponent<SpriteRenderer>().color = color;
+        }
     }
 }

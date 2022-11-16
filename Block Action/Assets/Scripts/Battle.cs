@@ -32,6 +32,7 @@ public class Battle : MonoBehaviour
 
         //for player
         bs = BattleState.Gimmicks;
+        /*
         Effect e1 = new Damage(50);
         Effect e2 = new Heal(10);
         Effect e3 = new Damage(5);
@@ -63,7 +64,7 @@ public class Battle : MonoBehaviour
         soulObjects[2].effects.Add(e5);
         soulObjects[3].effects.Add(e6);
         soulObjects[3].effects.Add(e7);
-        soulObjects[4].effects.Add(e8);
+        soulObjects[4].effects.Add(e8);*/
 
 
         //grid initialization
