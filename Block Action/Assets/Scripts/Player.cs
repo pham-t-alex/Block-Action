@@ -25,6 +25,8 @@ public class Player : Fighter
         buff = 1.0;
         maxHealth = 100;
         buffLeft = new List<BuffCounter>();
+        defenseBuffLeft = new List<DefenseBuffCounter>();
+
 
         Battle.b.fighters.Add(this);
     }

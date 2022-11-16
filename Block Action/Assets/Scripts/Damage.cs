@@ -30,7 +30,7 @@ public class Damage : Effect
             if (!f.dead)
             {
                 int prevHealth = f.health;
-                f.health -= (int)(dmg * fighter.buff);
+                f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
                 if (f.Equals(Player.player))
                 {
                     Debug.Log("Player takes " + (dmg * fighter.buff) + " damage | HP: " + (prevHealth) + " -> " + f.health);

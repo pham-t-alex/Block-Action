@@ -32,7 +32,7 @@ public class Buff : Effect
                 BuffCounter bc = new BuffCounter(numTurns, buff);
                 f.buffLeft.Add(bc);
                 double prevBuff = f.buff;
-                f.buff *= buff;
+                f.buff += buff;
                 if (f.Equals(Player.player))
                 {
                     Debug.Log("Player buff set from " + prevBuff + "x to " + f.buff + "x");

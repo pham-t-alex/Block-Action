@@ -90,7 +90,7 @@ public class ActionController : MonoBehaviour
                 bc.numTurns--;
                 if (bc.numTurns == 0) {
                     double prevBuff = f.buff;
-                    f.buff /= bc.buff;
+                    f.buff -= bc.buff;
                     if (f is Player)
                     {
                         Debug.Log($"Buff ended | Player buff {prevBuff}x -> {f.buff}");
@@ -101,6 +101,25 @@ public class ActionController : MonoBehaviour
                     }
                 }
             }
+            /*
+            foreach (DefenseBuffCounter bc in f.defenseBuffLeft)
+            {
+                bc.numTurns--;
+                if (bc.numTurns == 0)
+                {
+                    double prevBuff = f.defenseBuff;
+                    f.defenseBuff += bc.defenseBuff;
+                    if (f is Player)
+                    {
+                        Debug.Log($"Defense Buff ended | Player defense buff {prevBuff}x -> {f.defenseBuff}");
+                    }
+                    else
+                    {
+                        Debug.Log($"Defense Buff ended | Enemy defense buff {prevBuff}x -> {f.defenseBuff}");
+                    }
+                }
+            }
+            */
         }
 
         if (allEnemiesDead)
@@ -136,13 +155,13 @@ public class ActionController : MonoBehaviour
                 e.dead = true;
                 e.buff = 1;
                 e.buffLeft.Clear();
+                e.defenseBuffLeft.Clear();
                 e.healthBar.gameObject.SetActive(false);
                 e.gameObject.SetActive(false);
             }
         }
     }
 
-    //revamp this
     static void EnemySequence(Enemy e)
     {
         //randomly runs one of many preset attacks
@@ -155,13 +174,12 @@ public class ActionController : MonoBehaviour
         else {
             e.effects[i].ActivateEffect(e);
         }
-        //Player.player.health -= e.attack[i];
-        // Debug.Log("Enemy deals " + e.attack[i] + " damage to the player | HP: " + (Player.player.health + e.attack[i]) + " -> " + Player.player.health);
         if (Player.player.health <= 0)
         {
             Player.player.dead = true;
             Player.player.buff = 1;
             Player.player.buffLeft.Clear();
+            Player.player.defenseBuffLeft.Clear();
             Player.player.healthBar.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
