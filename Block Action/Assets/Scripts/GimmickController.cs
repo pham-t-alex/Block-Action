@@ -45,7 +45,7 @@ public class GimmickController : MonoBehaviour
                     int turn = System.Convert.ToInt32(gimmickInfo[1]);
                     if (turn == Battle.b.turnNumber)
                     {
-                        ActivateMidLevelEffect(gimmickInfo);
+                        ActivateMidLevelEffect(gimmickInfo, 2);
                         gimmickController.midLevelEffects.RemoveAt(i);
                         i--;
                     }
@@ -55,10 +55,14 @@ public class GimmickController : MonoBehaviour
                     int wave = System.Convert.ToInt32(gimmickInfo[1]);
                     if (wave == FighterController.fighterController.wave)
                     {
-                        ActivateMidLevelEffect(gimmickInfo);
+                        ActivateMidLevelEffect(gimmickInfo, 2);
                         gimmickController.midLevelEffects.RemoveAt(i);
                         i--;
                     }
+                }
+                else if (gimmickInfo[0].Equals("repeating"))
+                {
+                    ActivateMidLevelEffect(gimmickInfo, 1);
                 }
             }
             Battle.b.bs = BattleState.PlayerGrid;
@@ -66,18 +70,18 @@ public class GimmickController : MonoBehaviour
         }
     }
 
-    public static void ActivateMidLevelEffect(string[] gimmickInfo)
+    public static void ActivateMidLevelEffect(string[] gimmickInfo, int i)
     {
-        if (gimmickInfo[2].Equals("text"))
+        if (gimmickInfo[i].Equals("text"))
         {
-            TextAsset t = (TextAsset)Resources.Load($"Levels/{gimmickInfo[3]}");
+            TextAsset t = (TextAsset)Resources.Load($"Levels/{gimmickInfo[i + 1]}");
             gimmickController.text = t.text;
             Debug.Log(gimmickController.text);
         }
-        else if (gimmickInfo[2].Equals("damage"))
+        else if (gimmickInfo[i].Equals("damage"))
         {
-            int damage = System.Convert.ToInt32(gimmickInfo[4]);
-            if (gimmickInfo[3].Equals("player"))
+            int damage = System.Convert.ToInt32(gimmickInfo[i + 2]);
+            if (gimmickInfo[i + 1].Equals("player"))
             {
                 if (!Player.player.dead)
                 {
@@ -92,7 +96,7 @@ public class GimmickController : MonoBehaviour
                     }
                 }
             }
-            else if (gimmickInfo[3].Equals("enemies"))
+            else if (gimmickInfo[i + 1].Equals("enemies"))
             {
                 foreach (Enemy e in Battle.b.enemies)
                 {
@@ -108,6 +112,76 @@ public class GimmickController : MonoBehaviour
                             e.gameObject.SetActive(false);
                         }
                     }
+                }
+            }
+        }
+        else if (gimmickInfo[i].Equals("heal"))
+        {
+            int heal = System.Convert.ToInt32(gimmickInfo[i + 2]);
+            if (gimmickInfo[i + 1].Equals("player"))
+            {
+                if (!Player.player.dead)
+                {
+                    Player.player.health += heal;
+                    if (Player.player.health > Player.player.maxHealth)
+                    {
+                        Player.player.health = Player.player.maxHealth;
+                    }
+                }
+            }
+            else if (gimmickInfo[i + 1].Equals("enemies"))
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    if (!e.dead)
+                    {
+                        e.health += heal;
+                        if (e.health > e.maxHealth)
+                        {
+                            e.health = e.maxHealth;
+                        }
+                    }
+                }
+            }
+        }
+        else if (gimmickInfo[i].Equals("buff"))
+        {
+            double buffValue = System.Convert.ToDouble(gimmickInfo[i + 2]);
+            int length = System.Convert.ToInt32(gimmickInfo[i + 3]);
+            if (gimmickInfo[i + 1].Equals("player"))
+            {
+                if (!Player.player.dead)
+                {
+                    BuffCounter bc = new BuffCounter(length, buffValue);
+                    Player.player.buffLeft.Add(bc);
+                    Player.player.buff *= buffValue;
+                }
+            }
+            else if (gimmickInfo[i + 1].Equals("enemies"))
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    if (!e.dead)
+                    {
+                        BuffCounter bc = new BuffCounter(length, buffValue);
+                        e.buffLeft.Add(bc);
+                        e.buff *= buffValue;
+                    }
+                }
+            }
+        }
+        else if (gimmickInfo[i].Equals("cooldown"))
+        {
+            foreach (SoulObject s in Battle.b.soulObjects)
+            {
+                if (!s.placed)
+                {
+                    s.currentCooldown += System.Convert.ToInt32(gimmickInfo[i + 1]);
+                    if (s.currentCooldown < 0)
+                    {
+                        s.currentCooldown = 0;
+                    }
+                    s.changeCooldownColor();
                 }
             }
         }

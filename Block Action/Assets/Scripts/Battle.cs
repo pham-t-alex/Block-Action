@@ -31,7 +31,8 @@ public class Battle : MonoBehaviour
         //level initialization
 
         //for player
-        /*bs = BattleState.Gimmicks;
+        bs = BattleState.Gimmicks;
+        /*
         Effect e1 = new Damage(50);
         Effect e2 = new Heal(10);
         Effect e3 = new Damage(5);
