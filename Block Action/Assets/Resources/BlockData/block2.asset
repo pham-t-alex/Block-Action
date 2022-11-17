@@ -23,7 +23,6 @@ MonoBehaviour:
   cooldown: 4
   isSoulBlock: 1
   effects:
-  - heal self 10
   - buff self atk 0.25 2
   - buff self def 0.2 2
   color: {r: 0, g: 0.31250715, b: 1, a: 1}

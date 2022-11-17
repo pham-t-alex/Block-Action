@@ -17,7 +17,7 @@ public class EffectParticles : MonoBehaviour
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 }

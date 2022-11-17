@@ -20,4 +20,5 @@ MonoBehaviour:
   isSoulBlock: 0
   effects:
   - dmg enemy 10
+  - buff enemy atk -0.5 1
   color: {r: 0, g: 1, b: 0.8903768, a: 1}

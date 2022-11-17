@@ -23,5 +23,6 @@ MonoBehaviour:
   cooldown: 4
   isSoulBlock: 1
   effects:
-  - dmg enemies 40
+  - buff enemies def -0.2 2
+  - dmg enemies 30
   color: {r: 1, g: 0.47788578, b: 0, a: 1}

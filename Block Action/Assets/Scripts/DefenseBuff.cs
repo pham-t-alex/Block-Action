@@ -30,6 +30,18 @@ public class DefenseBuff : Effect
         {
             if (!f.dead)
             {
+                if (defenseBuff < 0)
+                {
+                    GameObject healParticles = GameObject.Instantiate(Resources.Load<GameObject>("DebuffParticles"), f.transform.position, Quaternion.identity);
+                    ParticleSystem.ShapeModule sm = healParticles.GetComponent<ParticleSystem>().shape;
+                    sm.scale = new Vector3(f.GetComponent<SpriteRenderer>().bounds.size.x, f.GetComponent<SpriteRenderer>().bounds.size.y);
+                }
+                if (defenseBuff > 0)
+                {
+                    GameObject healParticles = GameObject.Instantiate(Resources.Load<GameObject>("BuffParticles"), f.transform.position, Quaternion.identity);
+                    ParticleSystem.ShapeModule sm = healParticles.GetComponent<ParticleSystem>().shape;
+                    sm.scale = new Vector3(f.GetComponent<SpriteRenderer>().bounds.size.x, f.GetComponent<SpriteRenderer>().bounds.size.y);
+                }
                 DefenseBuffCounter bc = new DefenseBuffCounter(numTurns, defenseBuff);
                 f.defenseBuffLeft.Add(bc);
                 double prevBuff = f.defenseBuff;
