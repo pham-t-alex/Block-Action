@@ -77,23 +77,42 @@ public class GridFitter : MonoBehaviour
             {
                 foreach (SoulObject soulObject in Battle.b.soulObjects) //Look at all existing soul objects
                 {
-                    if (!soulObject.placed) //If not placed (if it's placed, it should be immovable)
+                    if (soulObject.mouseTouching)
                     {
-                        if (soulObject.mouseTouching)
+                        if (soulObject.placed)
                         {
-                            prevObjectPosition = soulObject.transform.position; //Sets previous object position, so that it can be teleported back
-                            selectedSoulObject = soulObject; //selects the soul object
-                            if (soulObject is SoulBlock)
+                            foreach (GameObject t in soulObject.tilesTouching)
                             {
-                                soulObject.SetRenderOrder(10);
-                                soulObject.transform.localScale = defaultSize;
+                                if (soulObject is SoulBlock)
+                                {
+                                    t.GetComponent<Tile>().filled = false;
+                                    Battle.b.placedSoulObjects.Remove(soulObject);
+                                }
+                                if (soulObject is SoulFrame)
+                                {
+                                    t.GetComponent<Tile>().framed = false;
+                                    if (Battle.b.placedSoulObjects.Contains(soulObject))
+                                    {
+                                        Battle.b.placedSoulObjects.Remove(soulObject);
+                                    }
+                                }
+                                soulObject.targets.Clear();
+                                updateFrames();
                             }
-                            else
-                            {
-                                soulObject.SetRenderOrder(4);
-                            } //sets display order in layer for display
-                            selectedTime = 0.05f; //sets selected time to 0.05 seconds (after 0.05 seconds of not being touched by mouse down, it will deselect)
+                            soulObject.tilesTouching = null;
+                            soulObject.placed = false;
                         }
+                        selectedSoulObject = soulObject; //selects the soul object
+                        if (soulObject is SoulBlock)
+                        {
+                            soulObject.SetRenderOrder(10);
+                            soulObject.transform.localScale = defaultSize;
+                        }
+                        else
+                        {
+                            soulObject.SetRenderOrder(4);
+                        } //sets display order in layer for display
+                        selectedTime = 0.05f; //sets selected time to 0.05 seconds (after 0.05 seconds of not being touched by mouse down, it will deselect)
                     }
                 }
             }
@@ -131,6 +150,7 @@ public class GridFitter : MonoBehaviour
 
         if (touchingTiles.Count >= soulObject.squareCount) //if the soul object's collider touches a sufficient quantity of tiles; if the placement is legal
         {
+            soulObject.tilesTouching = touchingTiles;
             if (soulObject is SoulBlock) //if it's a soul block
             {
                 foreach (GameObject tile in touchingTiles)
@@ -160,7 +180,6 @@ public class GridFitter : MonoBehaviour
             if (soulObject is SoulBlock)
             {
                 soulObject.SetRenderOrder(5);
-                soulObject.cooldownStart();
                 Battle.b.placedSoulObjects.Add(soulObject); //added to placed soul objects
                 updateFrames(); //if it is a block, it has to check to see if it filled any frames
             }
@@ -191,7 +210,7 @@ public class GridFitter : MonoBehaviour
         }
         else //failed placement
         {
-            selectedSoulObject.transform.position = prevObjectPosition; //return the object to previous position
+            selectedSoulObject.transform.position = selectedSoulObject.startPosition; //return the object to previous position
             // COMEBACK
             soulObject.transform.localScale = defaultSize;
             selectedSoulObject = null; //unselect
@@ -238,10 +257,6 @@ public class GridFitter : MonoBehaviour
             if (soulObject is SoulFrame) //for every soul frame
             {
                 SoulFrame soulFrame = (SoulFrame)soulObject;
-                if (soulFrame.filled)
-                {
-                    continue; //if soul frame is already filled, skip
-                }
                 int count = 0;
                 foreach (GameObject t in gridFitter.grid.tiles) //check if tiles that the soul frame is touching are filled
                 {
@@ -254,8 +269,12 @@ public class GridFitter : MonoBehaviour
                 {
                     soulFrame.filled = true;
                     soulObject.SetRenderOrder(20);
-                    soulFrame.cooldownStart();
                     Battle.b.placedSoulObjects.Add(soulObject);
+                }
+                else
+                {
+                    soulFrame.filled = false;
+                    soulObject.SetRenderOrder(2);
                 }
             }
         }
@@ -328,6 +347,7 @@ public class GridFitter : MonoBehaviour
                 soulObject.SetRenderOrder(6);
             }
             soulObject.targets.Clear(); //gets rid of targets
+            soulObject.tilesTouching = null;
         }
         Battle.b.placedSoulObjects.Clear(); //clears activated soul objects
         PlaceBlocks(); //places blocks at their starting position
@@ -360,6 +380,7 @@ public class GridFitter : MonoBehaviour
                 x += (defaultScale * soulObject.width / 2); //increments position by half of the object's size (because the object's position is at its center)
                 y += (defaultScale * soulObject.height / 2); //increments position by half of the object's size
                 soulObject.transform.position = new Vector3(x, y, 0); //sets position to x, y
+                soulObject.startPosition = soulObject.transform.position;
                 x += (defaultScale * soulObject.width / 2) + gridFitter.inBetweenSpace; //increments x by half of object's size (to reach the right edge of the object) and inbetween space
             }
             if (soulObject.currentCooldown > 0)

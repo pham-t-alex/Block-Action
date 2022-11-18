@@ -6,6 +6,7 @@ using TMPro;
 //Base class representing a SoulObject placeable in the grid.
 public class SoulObject : MonoBehaviour
 {
+    public List<GameObject> tilesTouching;
     //Whether the SoulObject is placed in the grid or not
     public bool placed;
     //Whether the mouse is touching the SoulObject
@@ -44,6 +45,8 @@ public class SoulObject : MonoBehaviour
     public List<Fighter> targets;
 
     public Color originalColor;
+
+    public Vector3 startPosition;
 
     // Start is called before the first frame update
     void Start()

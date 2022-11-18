@@ -72,6 +72,7 @@ public class ActionController : MonoBehaviour
             {
                 PlayerAnimator.SetTrigger("Attack");
                 PlayerSequence(Battle.b.placedSoulObjects[obj]);
+                Battle.b.placedSoulObjects[obj].cooldownStart();
                 while(PlayerAnimator.attackDone == false)
                 {
                     await Task.Delay(1);
