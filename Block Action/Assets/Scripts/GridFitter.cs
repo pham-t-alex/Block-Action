@@ -81,6 +81,7 @@ public class GridFitter : MonoBehaviour
                     {
                         if (soulObject.placed)
                         {
+                            gridFitter.grid.soulObjectsInGrid.Remove(soulObject);
                             foreach (GameObject t in soulObject.tilesTouching)
                             {
                                 if (soulObject is SoulBlock)
@@ -356,6 +357,7 @@ public class GridFitter : MonoBehaviour
             soulObject.tilesTouching = null;
         }
         Battle.b.placedSoulObjects.Clear(); //clears activated soul objects
+        GridFitter.gridFitter.grid.soulObjectsInGrid.Clear();
         PlaceBlocks(); //places blocks at their starting position
     }
 
