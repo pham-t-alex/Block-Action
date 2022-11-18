@@ -5,6 +5,10 @@ using UnityEngine;
 public class GridFitter : MonoBehaviour
 {
     private static GridFitter _gridFitter;
+    // COMEBACK
+    public static float defaultScale = 0.5f;
+    public static Vector3 defaultSize = new Vector3(defaultScale, defaultScale, 1);
+
     public static GridFitter gridFitter {
         get
         {
@@ -32,6 +36,7 @@ public class GridFitter : MonoBehaviour
     public float bottomOffset; //space between the blocks and the bottom, in units
     public float scale; //default 1 (1x), can be modified to make blocks and grid bigger or smaller
 
+
     void Start()
     {
         target.GetComponent<SpriteRenderer>().sortingOrder = 100; //sets target in front
@@ -57,6 +62,8 @@ public class GridFitter : MonoBehaviour
                 selectedSoulObject.transform.position += mousePosition - prevMousePosition; //Changes the soul object's position by the change in mouse position
                 //This is better than simply setting the soul object's position to the mouse position, since that would snap the soul object's center to the
                 //mouse position. With this, you can drag the soul object from its edge, it feels more natural.
+                // COMEBACK
+                selectedSoulObject.transform.localScale = new Vector3(gridFitter.scale, gridFitter.scale, 1);
             }
             else if (selectedTime > float.MinValue) //When the object stops being selected (<0)
             {
@@ -79,6 +86,7 @@ public class GridFitter : MonoBehaviour
                             if (soulObject is SoulBlock)
                             {
                                 soulObject.SetRenderOrder(10);
+                                soulObject.transform.localScale = defaultSize;
                             }
                             else
                             {
@@ -184,6 +192,8 @@ public class GridFitter : MonoBehaviour
         else //failed placement
         {
             selectedSoulObject.transform.position = prevObjectPosition; //return the object to previous position
+            // COMEBACK
+            soulObject.transform.localScale = defaultSize;
             selectedSoulObject = null; //unselect
             if (soulObject is SoulBlock)
             {
@@ -289,7 +299,7 @@ public class GridFitter : MonoBehaviour
     //reset soul objects, happens after enemy phase
     public static void ResetSoulObjects()
     {
-        foreach (SoulObject soulObject in Battle.b.placedSoulObjects)
+        foreach (SoulObject soulObject in Battle.b.soulObjects)
         {
             foreach (GameObject t in gridFitter.grid.tiles)
             {
@@ -311,6 +321,7 @@ public class GridFitter : MonoBehaviour
                 soulObject.SetRenderOrder(3);
                 SoulFrame s = (SoulFrame)soulObject;
                 s.filled = false; //unfills soul frame
+                
             }
             else if (soulObject is SoulBlock)
             {
@@ -341,13 +352,15 @@ public class GridFitter : MonoBehaviour
         float x = minX + gridFitter.leftOffset; //sets x to left edge + left offset
         foreach (SoulObject soulObject in Battle.b.soulObjects)
         {
+            // COMEBACK
+            soulObject.transform.localScale = defaultSize;
             if (!soulObject.placed) //if the soul object is not placed (this is important to not teleport frames back, they stay between turns)
             {
                 float y = minY + gridFitter.bottomOffset; //sets y to bottom edge + bottom offset
-                x += (gridFitter.scale * soulObject.width / 2); //increments position by half of the object's size (because the object's position is at its center)
-                y += (gridFitter.scale * soulObject.height / 2); //increments position by half of the object's size
+                x += (defaultScale * soulObject.width / 2); //increments position by half of the object's size (because the object's position is at its center)
+                y += (defaultScale * soulObject.height / 2); //increments position by half of the object's size
                 soulObject.transform.position = new Vector3(x, y, 0); //sets position to x, y
-                x += (gridFitter.scale * soulObject.width / 2) + gridFitter.inBetweenSpace; //increments x by half of object's size (to reach the right edge of the object) and inbetween space
+                x += (defaultScale * soulObject.width / 2) + gridFitter.inBetweenSpace; //increments x by half of object's size (to reach the right edge of the object) and inbetween space
             }
             if (soulObject.currentCooldown > 0)
             {
