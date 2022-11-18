@@ -2,6 +2,7 @@ using Random = System.Random;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class ActionController : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class ActionController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -43,31 +44,44 @@ public class ActionController : MonoBehaviour
         
     }
 
-   // public static void AttackEnd()
-    //{
-    //    attackEnd = true;
-    //}
-
     public static void PlayerTurn()
     {
         //take the list of soul blocks placed in the grid
         foreach (SoulObject soulObject in Battle.b.placedSoulObjects)
         {
             //attack animation
-            PlayerSequence(soulObject);
             soulObjectCount++;
         }
         //if no blocks were placed in the grid, Attack animation does not play
         if (soulObjectCount > 0)
         {
-            PlayerAnimator.SetTrigger("Attack");
+            SoulObjectAnimation();
         }
         else
         {
             Battle.b.bs = BattleState.EnemyAction;
             Debug.Log("Enemy Turn");
         }
-        soulObjectCount = 0;
+    }
+
+    public async static void SoulObjectAnimation()
+    {
+        if (soulObjectCount > 0)
+        {
+            for (int obj = 0; obj < soulObjectCount; obj++)
+            {
+                PlayerAnimator.SetTrigger("Attack");
+                PlayerSequence(Battle.b.placedSoulObjects[obj]);
+                while(PlayerAnimator.attackDone == false)
+                {
+                    await Task.Delay(1);
+                }
+                PlayerAnimator.attackDone = false;
+            }
+            soulObjectCount = 0;
+            Battle.b.bs = BattleState.EnemyAction;
+            Debug.Log("Enemy Turn");
+        }
     }
 
     public static void EnemyTurn()

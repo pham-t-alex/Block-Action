@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     public static Animator animator;
+    public static bool attackDone;
     // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
+        attackDone = false;
     }
 
     // Update is called once per frame
@@ -25,10 +27,16 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetTrigger(trigger);
     }
 
-    //Attack Animation event 
+    /*Attack Animation event 
     public void SwitchTurn()
     {
         Battle.b.bs = BattleState.EnemyAction;
         Debug.Log("Enemy Turn");
+    }
+    */
+
+    public void AttackDone()
+    {
+        attackDone = true;
     }
 }

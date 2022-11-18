@@ -33,6 +33,7 @@ public class Damage : Effect
                 f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
                 if (f.Equals(Player.player))
                 {
+                    // Hurt animation only plays when Player takes damage
                     PlayerAnimator.SetTrigger("Hurt");
                     Debug.Log("Player takes " + (dmg * fighter.buff * f.defenseBuff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
