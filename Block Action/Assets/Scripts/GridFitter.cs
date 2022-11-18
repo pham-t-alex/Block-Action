@@ -95,6 +95,8 @@ public class GridFitter : MonoBehaviour
                                     {
                                         Battle.b.placedSoulObjects.Remove(soulObject);
                                     }
+                                    SoulFrame s = (SoulFrame) soulObject;
+                                    s.filled = false;
                                 }
                                 soulObject.targets.Clear();
                                 updateFrames();
@@ -275,6 +277,10 @@ public class GridFitter : MonoBehaviour
                 {
                     soulFrame.filled = false;
                     soulObject.SetRenderOrder(2);
+                    if (Battle.b.placedSoulObjects.Contains(soulObject))
+                    {
+                        Battle.b.placedSoulObjects.Remove(soulObject);
+                    }
                 }
             }
         }
