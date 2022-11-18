@@ -55,6 +55,7 @@ public class ActionController : MonoBehaviour
         {
             //attack animation
             PlayerSequence(soulObject);
+            soulObject.cooldownStart();
             soulObjectCount++;
         }
         //if no blocks were placed in the grid, Attack animation does not play
