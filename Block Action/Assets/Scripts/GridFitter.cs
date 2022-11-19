@@ -270,9 +270,12 @@ public class GridFitter : MonoBehaviour
                 }
                 if (count >= soulFrame.squareCount) //if enough tiles are filled, then add the soul frame to activated objects
                 {
-                    soulFrame.filled = true;
-                    soulObject.SetRenderOrder(20);
-                    Battle.b.placedSoulObjects.Add(soulObject);
+                    if (!soulFrame.filled)
+                    {
+                        soulFrame.filled = true;
+                        soulObject.SetRenderOrder(20);
+                        Battle.b.placedSoulObjects.Add(soulObject);
+                    }
                 }
                 else
                 {

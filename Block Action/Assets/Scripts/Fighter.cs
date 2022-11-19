@@ -26,7 +26,7 @@ public abstract class Fighter : MonoBehaviour
         GameObject g = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity);
         g.transform.SetParent(Healthbar.healthCanvas.transform);
         g.GetComponent<RectTransform>().anchoredPosition = healthBarPos2;
-        g.transform.localScale = new Vector3(0.4f, 0.4f, 1);
+        g.transform.localScale = new Vector3(0.7f, 0.6f, 1);
         healthBar = g.GetComponent<Healthbar>();
     }
 
