@@ -152,4 +152,13 @@ public class SoulObject : MonoBehaviour
             particle.SetActive(active);
         }
     }
+
+    public void showEffect()
+    {
+        GameObject p = Instantiate(Resources.Load<GameObject>("BlockUsageParticle"), transform.position, Quaternion.identity);
+        ParticleSystem.MainModule m = p.GetComponent<ParticleSystem>().main;
+        m.startColor = originalColor;
+        ParticleSystem.ShapeModule s = p.GetComponent<ParticleSystem>().shape;
+        s.radius = (width + height) / 4f;
+    }
 }
