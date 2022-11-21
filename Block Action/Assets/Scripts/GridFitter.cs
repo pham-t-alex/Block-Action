@@ -34,6 +34,7 @@ public class GridFitter : MonoBehaviour
     public float leftOffset; //offset between the left block and the left edge, in units
     public float inBetweenSpace; //space between the blocks in units
     public float bottomOffset; //space between the blocks and the bottom, in units
+    public float rightOffset; //space between blocks and the grid in units
     public float scale; //default 1 (1x), can be modified to make blocks and grid bigger or smaller
 
 
@@ -380,19 +381,29 @@ public class GridFitter : MonoBehaviour
     {
         float minX = -1 * Camera.main.orthographicSize * Screen.width / Screen.height; //get left edge x coordinate
         float minY = -1 * Camera.main.orthographicSize; //get bottom edge y coordinate
+        float maxX = 0 - (Grid.scale * FighterController.fighterController.levelData.gridWidth / 2);
         float x = minX + gridFitter.leftOffset; //sets x to left edge + left offset
+        float maxHeight = 0;
         foreach (SoulObject soulObject in Battle.b.soulObjects)
         {
             // COMEBACK
             soulObject.transform.localScale = defaultSize;
             if (!soulObject.placed) //if the soul object is not placed (this is important to not teleport frames back, they stay between turns)
             {
+                float blockRightEdge = x + (defaultScale * soulObject.width);
+                if (maxX - blockRightEdge <= gridFitter.rightOffset)
+                {
+                    x = minX + gridFitter.leftOffset; //sets x to left edge + left offset
+                    minY += gridFitter.inBetweenSpace + maxHeight;
+                    maxHeight = 0;
+                }
                 float y = minY + gridFitter.bottomOffset; //sets y to bottom edge + bottom offset
                 x += (defaultScale * soulObject.width / 2); //increments position by half of the object's size (because the object's position is at its center)
                 y += (defaultScale * soulObject.height / 2); //increments position by half of the object's size
                 soulObject.transform.position = new Vector3(x, y, 0); //sets position to x, y
                 soulObject.startPosition = soulObject.transform.position;
                 x += (defaultScale * soulObject.width / 2) + gridFitter.inBetweenSpace; //increments x by half of object's size (to reach the right edge of the object) and inbetween space
+                maxHeight = System.Math.Max(maxHeight, defaultScale * soulObject.height);
             }
             if (soulObject.currentCooldown > 0)
             {

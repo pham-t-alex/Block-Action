@@ -1173,6 +1173,7 @@ MonoBehaviour:
   leftOffset: 1
   inBetweenSpace: 0.5
   bottomOffset: 1
+  rightOffset: 0.5
   scale: 1
 --- !u!1 &378521974
 GameObject:

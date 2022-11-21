@@ -10,7 +10,8 @@ public class Grid : MonoBehaviour
     public GameObject myPrefab;
     public List<SoulObject> soulObjectsInGrid;
     static int i, a, lnCount, lnLength;
-    static float b, scale;
+    static float b;
+    public static float scale;
 
     // text file
     public static string path = "Assets/TextFiles/gridtest.txt";
