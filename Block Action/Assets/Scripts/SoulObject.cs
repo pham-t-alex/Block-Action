@@ -143,4 +143,13 @@ public class SoulObject : MonoBehaviour
             sq.GetComponent<SpriteRenderer>().color = color;
         }
     }
+
+    public void SetActiveParticles(bool active)
+    {
+        for (int i = 0; i < squareCount; i++)
+        {
+            GameObject particle = transform.GetChild(i).GetChild(0).gameObject;
+            particle.SetActive(active);
+        }
+    }
 }

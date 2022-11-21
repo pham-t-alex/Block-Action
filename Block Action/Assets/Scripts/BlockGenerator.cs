@@ -9,6 +9,7 @@ public class BlockGenerator : MonoBehaviour
     public GameObject frame;
     public GameObject blockSquare;
     public GameObject frameSquare;
+    public GameObject blockParticles;
 
     private static BlockGenerator _blockGenerator;
     public static BlockGenerator blockGenerator
@@ -101,6 +102,13 @@ public class BlockGenerator : MonoBehaviour
                     points[2] = new Vector2(relX + 0.45f, relY - 0.45f);
                     points[3] = new Vector2(relX - 0.45f, relY - 0.45f);
                     soulCollider.SetPath(soulCollider.pathCount - 1, points);
+
+                    GameObject particles = Instantiate(blockGenerator.blockParticles);
+                    ParticleSystem particleSystem = particles.GetComponent<ParticleSystem>();
+                    particles.transform.parent = sq.transform;
+                    particles.transform.localPosition = new Vector3(0, 0.5f);
+                    ParticleSystem.MainModule m = particleSystem.main;
+                    m.startColor = soulObjectData.color;
                 }
             }
             y++;

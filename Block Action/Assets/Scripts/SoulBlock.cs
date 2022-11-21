@@ -17,6 +17,13 @@ public class SoulBlock : SoulObject
     // Update is called once per frame
     void Update()
     {
-
+        if (placed)
+        {
+            SetActiveParticles(true);
+        }
+        else
+        {
+            SetActiveParticles(false);
+        }
     }
 }

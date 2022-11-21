@@ -936,6 +936,7 @@ MonoBehaviour:
   frame: {fileID: 7658031948903153647, guid: 0c1a3f49c3ef70f4cbdc2ed6ccbdd3b3, type: 3}
   blockSquare: {fileID: 4938188419285993082, guid: bfa1c6c96b535434192a075e595dca17, type: 3}
   frameSquare: {fileID: 2439568403035774425, guid: adad414cfd837964c95df85771a10e68, type: 3}
+  blockParticles: {fileID: 3403059520573065844, guid: a26fa1f60fd009d4eb945add0da6c6e8, type: 3}
 --- !u!1 &198842671
 GameObject:
   m_ObjectHideFlags: 0
