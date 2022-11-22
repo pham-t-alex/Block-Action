@@ -21,6 +21,8 @@ public class EndTurnButton : MonoBehaviour
         if (Battle.b.bs.Equals(BattleState.PlayerGrid))
         {
             Debug.Log("Beginning Battle Sequence\nPlayer Turn");
+            Battle.b.bs = BattleState.PlayerAction;
+            BottomDarkener.DarkenBottom();
             ActionController.PlayerTurn();
         }
     }

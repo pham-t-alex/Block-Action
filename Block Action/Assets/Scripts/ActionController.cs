@@ -152,6 +152,7 @@ public class ActionController : MonoBehaviour
         //reset soulblocks to original position
         GridFitter.ResetSoulObjects();
         Battle.b.bs = BattleState.Gimmicks;
+        BottomDarkener.UndarkenBottom();
         Debug.Log("Grid Fitting");
         Battle.b.turnNumber++;
     }
