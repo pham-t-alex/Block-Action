@@ -167,6 +167,8 @@ public class BlockGenerator : MonoBehaviour
             }
             soulObject.effects.Add(effect);
         }
+        soulObject.soulName = soulObjectData.soulName;
+
         return soulObject;
     }
 }

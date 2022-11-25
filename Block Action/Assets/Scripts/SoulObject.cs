@@ -29,6 +29,7 @@ public class SoulObject : MonoBehaviour
     public bool isHeal;
     public int damage;
     public int heal;
+    public string soulName;
 
     // Variables required for cooldown calculations
     public int defaultCooldown;

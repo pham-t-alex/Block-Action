@@ -203,5 +203,36 @@ public class GimmickController : MonoBehaviour
                 }
             }
         }
+        else if (gimmickInfo[i].Equals("add_block"))
+        {
+            SoulObject s = BlockGenerator.generateSoulObject(Resources.Load<SoulObjectData>("BlockData/" + gimmickInfo[i + 1]));
+            Battle.b.soulObjects.Add(s);
+            s.transform.localScale = new Vector3(GridFitter.gridFitter.scale, GridFitter.gridFitter.scale, 1);
+            s.relX *= GridFitter.gridFitter.scale;
+            s.relY *= GridFitter.gridFitter.scale;
+            s.currentCooldown = System.Convert.ToInt32(gimmickInfo[i + 2]);
+            if (s.currentCooldown < 0)
+            {
+                s.currentCooldown = 0;
+            }
+            s.changeCooldownColor();
+            GridFitter.PlaceBlocks();
+        }
+        else if (gimmickInfo[i].Equals("remove_block"))
+        {
+            string name = gimmickInfo[i + 1];
+            SoulObject s = null;
+            for (int j = 0; j < Battle.b.soulObjects.Count; j++)
+            {
+                if (Battle.b.soulObjects[j].soulName == name)
+                {
+                    s = Battle.b.soulObjects[j];
+                    Battle.b.soulObjects.RemoveAt(j);
+                    break;
+                }
+            }
+            Destroy(s.gameObject);
+            GridFitter.PlaceBlocks();
+        }
     }
 }

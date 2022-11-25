@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cf92abb5e2971429f53ccd1317873b, type: 3}
   m_Name: block3
   m_EditorClassIdentifier: 
+  soulName: block3
   shapeAsString: '~~~
 
     ~0~

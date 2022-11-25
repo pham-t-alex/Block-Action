@@ -359,6 +359,11 @@ public class GridFitter : MonoBehaviour
             }
             soulObject.targets.Clear(); //gets rid of targets
             soulObject.tilesTouching = null;
+            if (soulObject.currentCooldown > 0)
+            {
+                soulObject.currentCooldown--;
+            }
+            soulObject.changeCooldownColor();
         }
         Battle.b.placedSoulObjects.Clear(); //clears activated soul objects
         GridFitter.gridFitter.grid.soulObjectsInGrid.Clear();
@@ -405,11 +410,6 @@ public class GridFitter : MonoBehaviour
                 x += (defaultScale * soulObject.width / 2) + gridFitter.inBetweenSpace; //increments x by half of object's size (to reach the right edge of the object) and inbetween space
                 maxHeight = System.Math.Max(maxHeight, defaultScale * soulObject.height);
             }
-            if (soulObject.currentCooldown > 0)
-            {
-                soulObject.currentCooldown--;
-            }
-            soulObject.changeCooldownColor();
         }
     }
 }
