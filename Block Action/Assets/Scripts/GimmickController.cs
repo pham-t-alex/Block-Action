@@ -72,11 +72,21 @@ public class GimmickController : MonoBehaviour
 
     public static void ActivateMidLevelEffect(string[] gimmickInfo, int i)
     {
-        if (gimmickInfo[i].Equals("text"))
+        if (gimmickInfo[i].Equals("dialogue"))
         {
             TextAsset t = (TextAsset)Resources.Load($"Levels/{gimmickInfo[i + 1]}");
             gimmickController.text = t.text;
             Debug.Log(gimmickController.text);
+        }
+        else if (gimmickInfo[i].Equals("text"))
+        {
+            string text = "";
+            for (int j = i + 1; j < gimmickInfo.Length - 1; j++)
+            {
+                text += gimmickInfo[j] + " ";
+            }
+            text += gimmickInfo[gimmickInfo.Length - 1];
+            GameText.setText(text);
         }
         else if (gimmickInfo[i].Equals("damage"))
         {

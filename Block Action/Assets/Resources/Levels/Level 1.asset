@@ -33,7 +33,8 @@ MonoBehaviour:
     Hog 1 1 1 0 0
 
     Hog_Hunter 1 1 1 0 1'
-  - Hog_Hunter 2 2 1 0 3
+  - Hog_Hunter 2.2 2.2 1 0 3
   midLevelEffects:
-  - wave 1 text level1text
+  - wave 1 text Use your soul blocks to pacify the corrupted creatures!
   - turn 1 damage player 50
+  - wave 3 text Caution! This enemy is much stronger than the others.
