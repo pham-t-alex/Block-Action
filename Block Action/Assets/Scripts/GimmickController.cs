@@ -19,12 +19,11 @@ public class GimmickController : MonoBehaviour
     }
 
     public List<string> midLevelEffects;
-    bool effectHappening;
-    string text;
+    public bool effectPause = false;
+    public int index = 0;
     void Start()
     {
         midLevelEffects = new List<string>(Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}").midLevelEffects);
-        effectHappening = false;
     }
 
     // Update is called once per frame
@@ -35,38 +34,40 @@ public class GimmickController : MonoBehaviour
 
     public static void MidLevelEffects()
     {
-        if (!gimmickController.effectHappening)
+        if (!gimmickController.effectPause)
         {
-            for (int i = 0; i < gimmickController.midLevelEffects.Count; i++)
+            if (gimmickController.index >= gimmickController.midLevelEffects.Count)
             {
-                string[] gimmickInfo = gimmickController.midLevelEffects[i].Split(" ");
-                if (gimmickInfo[0].Equals("turn"))
+                Battle.b.bs = BattleState.PlayerGrid;
+                Debug.Log("Grid Fitting");
+                return;
+            }
+            string[] gimmickInfo = gimmickController.midLevelEffects[gimmickController.index].Split(" ");
+            if (gimmickInfo[0].Equals("turn"))
+            {
+                int turn = System.Convert.ToInt32(gimmickInfo[1]);
+                if (turn == Battle.b.turnNumber)
                 {
-                    int turn = System.Convert.ToInt32(gimmickInfo[1]);
-                    if (turn == Battle.b.turnNumber)
-                    {
-                        ActivateMidLevelEffect(gimmickInfo, 2);
-                        gimmickController.midLevelEffects.RemoveAt(i);
-                        i--;
-                    }
-                }
-                else if (gimmickInfo[0].Equals("wave"))
-                {
-                    int wave = System.Convert.ToInt32(gimmickInfo[1]);
-                    if (wave == FighterController.fighterController.wave)
-                    {
-                        ActivateMidLevelEffect(gimmickInfo, 2);
-                        gimmickController.midLevelEffects.RemoveAt(i);
-                        i--;
-                    }
-                }
-                else if (gimmickInfo[0].Equals("repeating"))
-                {
-                    ActivateMidLevelEffect(gimmickInfo, 1);
+                    ActivateMidLevelEffect(gimmickInfo, 2);
+                    gimmickController.midLevelEffects.RemoveAt(gimmickController.index);
+                    gimmickController.index--;
                 }
             }
-            Battle.b.bs = BattleState.PlayerGrid;
-            return;
+            else if (gimmickInfo[0].Equals("wave"))
+            {
+                int wave = System.Convert.ToInt32(gimmickInfo[1]);
+                if (wave == FighterController.fighterController.wave)
+                {
+                    ActivateMidLevelEffect(gimmickInfo, 2);
+                    gimmickController.midLevelEffects.RemoveAt(gimmickController.index);
+                    gimmickController.index--;
+                }
+            }
+            else if (gimmickInfo[0].Equals("repeating"))
+            {
+                ActivateMidLevelEffect(gimmickInfo, 1);
+            }
+            gimmickController.index++;
         }
     }
 
@@ -74,9 +75,11 @@ public class GimmickController : MonoBehaviour
     {
         if (gimmickInfo[i].Equals("dialogue"))
         {
-            TextAsset t = (TextAsset)Resources.Load($"Levels/{gimmickInfo[i + 1]}");
-            gimmickController.text = t.text;
-            Debug.Log(gimmickController.text);
+            gimmickController.effectPause = true;
+            ScreenDarkener.DarkenScreen();
+            string textFileName = gimmickInfo[i + 1];
+            //Use textFileName to run the cutscene
+            //When the cutscene is over, call GimmickController.UnpauseEffects()
         }
         else if (gimmickInfo[i].Equals("text"))
         {
@@ -244,5 +247,11 @@ public class GimmickController : MonoBehaviour
             Destroy(s.gameObject);
             GridFitter.PlaceBlocks();
         }
+    }
+
+    public static void UnpauseEffects()
+    {
+        gimmickController.effectPause = false;
+        ScreenDarkener.UndarkenScreen();
     }
 }

@@ -19,6 +19,9 @@ public class ScreenDarkener : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.SetActive(true);
+        transform.localScale = new Vector3(36, 20, 1);
+        _screenDarkener = this;
         gameObject.SetActive(false);
     }
 
