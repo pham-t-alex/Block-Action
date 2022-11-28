@@ -113,6 +113,10 @@ public class MidlevelDialogueHandler : MonoBehaviour
         dialoguePanel.SetActive(false);
         dialogueSpeaker.SetActive(false);
         dialogueText.text = "";
+        foreach (DialogueCharacter character in characterArray)
+        {
+            character.spriteRenderer.color = new Color(1, 1, 1, 0);
+        }
     }
 
     public void ContinueStory()

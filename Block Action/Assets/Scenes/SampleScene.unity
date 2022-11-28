@@ -3822,7 +3822,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789944906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.14377221, z: 0.029714666}
+  m_LocalPosition: {x: -50, y: 0.14377221, z: 0.029714666}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3859,6 +3859,7 @@ MonoBehaviour:
   dialogueText: {fileID: 389702632}
   displayNameText: {fileID: 1146794653}
   _inkJSON: {fileID: 0}
+  dialogueSystem: {fileID: 789944906}
 --- !u!1 &807650906
 GameObject:
   m_ObjectHideFlags: 0
@@ -12728,7 +12729,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893857090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
