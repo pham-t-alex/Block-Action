@@ -39,3 +39,8 @@ MonoBehaviour:
   - wave 1 dialogue Level01
   - wave 1 text Use your soul blocks to pacify the corrupted creatures!
   - 'wave 3 text Caution! This enemy is much stronger than the others. '
+  - wave 1 add_block guidanceSoul1 0
+  - turn 3 dialogue Level01-2
+  - turn 3 remove_block Guidance_Soul
+  - turn 3 add_block guidanceSoul2 0
+  - turn 3 text Guidance Soul will now attack.
