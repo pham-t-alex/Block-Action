@@ -21,6 +21,7 @@ public class GimmickController : MonoBehaviour
     public List<string> midLevelEffects;
     public bool effectPause = false;
     public int index = 0;
+  
     void Start()
     {
         midLevelEffects = new List<string>(Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}").midLevelEffects);
@@ -70,7 +71,7 @@ public class GimmickController : MonoBehaviour
             gimmickController.index++;
         }
     }
-
+    
     public static void ActivateMidLevelEffect(string[] gimmickInfo, int i)
     {
         if (gimmickInfo[i].Equals("dialogue"))
@@ -78,8 +79,19 @@ public class GimmickController : MonoBehaviour
             gimmickController.effectPause = true;
             ScreenDarkener.DarkenScreen();
             string textFileName = gimmickInfo[i + 1];
-            //Use textFileName to run the cutscene
-            //When the cutscene is over, call GimmickController.UnpauseEffects()
+            TextAsset textFile = Resources.Load<TextAsset>("Dialogue/" + textFileName);
+            if (textFile != null)
+            {
+                // Use textFileName to run the cutscene
+                MidlevelDialogueHandler.GetInstance().EnterDialogueMode(textFile);
+            }
+            else 
+            {
+                Debug.Log("<color=#FF0000>Text file not found</color>");
+                GimmickController.UnpauseEffects();
+            }
+            // When the cutscene is over, call GimmickController.UnpauseEffects()
+            // GimmickController.UnpauseEffects() is called in MidLevelDialogueHandler once the dialogue is finished
         }
         else if (gimmickInfo[i].Equals("text"))
         {

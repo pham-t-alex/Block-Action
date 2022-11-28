@@ -10,14 +10,15 @@ using TextAsset = UnityEngine.TextAsset;
 using Ink.Parsed;
 using Story = Ink.Runtime.Story;
 
-public class DialogueHandler : MonoBehaviour
+public class MidlevelDialogueHandler : MonoBehaviour
 {
     // Dialogue necessities
     [SerializeField] public GameObject dialoguePanel;
     [SerializeField] public GameObject dialogueSpeaker;
     [SerializeField] public TextMeshProUGUI dialogueText;
     [SerializeField] public TextMeshProUGUI displayNameText;
-    [SerializeField] public TextAsset inkJSON;
+    [SerializeField] public TextAsset _inkJSON;
+    [SerializeField] public GameObject dialogueSystem;
 
     // Variables for time-based actions
     private float typingSpeed = 0.04f;
@@ -25,7 +26,7 @@ public class DialogueHandler : MonoBehaviour
     private float movementSpeed = 0.04f;
 
     // Variables for most of the dialogue handling
-    private static DialogueHandler instance;
+    private static MidlevelDialogueHandler instance;
     private Story currentStory;
     private Coroutine displayLineCoroutine;
     private bool dialogueIsPlaying;
@@ -62,7 +63,8 @@ public class DialogueHandler : MonoBehaviour
             character.spriteRenderer.color = new Color(1, 1, 1, 0);
         }
 
-        EnterDialogueMode(inkJSON); // Initiate Dialogue Sequence
+        //EnterDialogueMode(inkJSON); // Initiate Dialogue Sequence
+        dialogueSystem.transform.position = new Vector3(0, dialogueSystem.transform.position.y, dialogueSystem.transform.position.z);
     }
 
     // Update is called once per frame
@@ -90,6 +92,11 @@ public class DialogueHandler : MonoBehaviour
 
     }
 
+    public static MidlevelDialogueHandler GetInstance()
+    {
+        return instance;
+    }
+
     public void EnterDialogueMode(TextAsset inkJSON) // Enters dialogue mode and brings up the dialogue panel
     {
         currentStory = new Story(inkJSON.text); // Initializes the current story text
@@ -108,7 +115,7 @@ public class DialogueHandler : MonoBehaviour
         dialogueText.text = "";
     }
 
-    private void ContinueStory()
+    public void ContinueStory()
     {
         if (currentStory.canContinue) // If there are additional lines of dialogue, then continue
         {
@@ -123,7 +130,16 @@ public class DialogueHandler : MonoBehaviour
         else // Stop and exit dialogue mode if no more lines of dialogue are present
         {
             ExitDialogueMode();
+            if (GimmickController.gimmickController.effectPause)
+            {
+                GimmickController.UnpauseEffects();
+            }
         }
+    }
+
+    public void ChangeTextAsset(string textAssetName)
+    { 
+        _inkJSON = Resources.Load<TextAsset>("Dialogue/" + textAssetName);
     }
 
     public IEnumerator DisplayLine(string line)
