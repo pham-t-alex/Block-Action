@@ -226,14 +226,22 @@ public class SoulObject : MonoBehaviour
     public string InfoText()
     {
         string info = "<i>" + description + "</i>\n\n";
-        info += "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n\n";
+        if (this is SoulBlock)
+        {
+            info += "Type: Soul Block\n";
+        }
+        else if (this is SoulFrame)
+        {
+            info += "Type: Soul Frame\n";
+        }
+        info += "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n";
         info += "Effects:";
         foreach (Effect e in effects)
         {
             string s = EffectAsString(e);
             if (s != null)
             {
-                info += "\n" + s;
+                info += "\n- " + s;
             }
         }
         return info;
@@ -241,7 +249,7 @@ public class SoulObject : MonoBehaviour
 
     public string EffectAsString(Effect e)
     {
-        string effectString = "- ";
+        string effectString;
         if (e is Damage)
         {
             effectString = "Deal " + ((Damage)e).dmg + " damage to ";
@@ -263,7 +271,7 @@ public class SoulObject : MonoBehaviour
             effectString = "Heal ";
             if (e.self)
             {
-                effectString += "player";
+                effectString += "the player";
             }
             else if (isAoe)
             {
@@ -280,7 +288,7 @@ public class SoulObject : MonoBehaviour
             effectString = "Buff ";
             if (e.self)
             {
-                effectString += "player's";
+                effectString += "the player's";
             }
             else if (isAoe)
             {
@@ -297,7 +305,7 @@ public class SoulObject : MonoBehaviour
             effectString = "Buff ";
             if (e.self)
             {
-                effectString += "player's";
+                effectString += "the player's";
             }
             else if (isAoe)
             {

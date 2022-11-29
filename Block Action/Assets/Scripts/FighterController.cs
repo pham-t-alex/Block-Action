@@ -6,6 +6,7 @@ using System.IO;
 public class FighterController : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject fighterInfoMenu;
     public float spaceBetweenEnemies;
     public float bottomOffset;
     public float minRightOffset;
@@ -151,6 +152,8 @@ public class FighterController : MonoBehaviour
                 buffEffect.buff *= buffScale;
             }
         }
+        enemy.atkScale = atkScale;
+        enemy.buffScale = buffScale;
     }
 
     static void setEnemyData(Enemy enemy, string enemyName, int lower, int upper)
@@ -159,10 +162,12 @@ public class FighterController : MonoBehaviour
         enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;
-        for (int i = 0; i <= upper; i++)
+        for (int i = lower; i <= upper; i++)
         {
             addEffect(enemy, enemyData.actions[i]);
         }
+        enemy.minAction = lower;
+        enemy.maxAction = upper;
     }
 
     static void addEffect(Enemy enemy, string effectAsString)

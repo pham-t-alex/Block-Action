@@ -37,4 +37,51 @@ public class Player : Fighter
     {
         updateHealthBar();
     }
+
+    public override string GetName()
+    {
+        return "Protagonist";
+    }
+
+    public override string GetInfo()
+    {
+        string info = "<i>Wielder of souls.</i>\n\n";
+        info += "Health: " + health + "/" + maxHealth + "\n";
+        info += "Status Effects:";
+        foreach (BuffCounter bc in buffLeft)
+        {
+            if (bc.numTurns > 0)
+            {
+                if (bc.buff > 0)
+                {
+                    info += "\nAtk +" + (bc.buff * 100) + " % (" + bc.numTurns + " turns)";
+                }
+                else
+                {
+                    info += "\nAtk " + (bc.buff * 100) + " % (" + bc.numTurns + " turns)";
+                }
+            }
+        }
+        foreach (DefenseBuffCounter bc in defenseBuffLeft)
+        {
+            if (bc.numTurns > 0)
+            {
+                if (bc.defenseBuff > 0)
+                {
+                    info += "\nDef +" + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
+                }
+                else
+                {
+                    info += "\nDef " + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
+                }
+            }
+        }
+        return info;
+    }
+
+    public void OnMouseExit()
+    {
+        DestroyInfoMenu();
+        timeHovered = 0;
+    }
 }
