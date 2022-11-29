@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: block4
   m_EditorClassIdentifier: 
   soulName: block4
+  description: Heal and Buff Test Block
   shapeAsString: '~00
 
     ~0~'

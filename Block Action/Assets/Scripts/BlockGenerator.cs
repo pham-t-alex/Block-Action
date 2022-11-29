@@ -10,6 +10,7 @@ public class BlockGenerator : MonoBehaviour
     public GameObject blockSquare;
     public GameObject frameSquare;
     public GameObject blockParticles;
+    public GameObject blockInfoMenu;
 
     private static BlockGenerator _blockGenerator;
     public static BlockGenerator blockGenerator
@@ -168,6 +169,7 @@ public class BlockGenerator : MonoBehaviour
             soulObject.effects.Add(effect);
         }
         soulObject.soulName = soulObjectData.soulName;
+        soulObject.description = soulObjectData.description;
 
         return soulObject;
     }

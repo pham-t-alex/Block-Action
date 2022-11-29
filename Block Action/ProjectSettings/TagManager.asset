@@ -8,6 +8,7 @@ TagManager:
   - GameText
   - Location
   - Character
+  - InfoMenus
   layers:
   - Default
   - TransparentFX

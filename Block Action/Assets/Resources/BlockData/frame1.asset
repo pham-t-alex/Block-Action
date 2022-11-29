@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: frame1
   m_EditorClassIdentifier: 
   soulName: frame1
+  description: ST Damage Test Frame
   shapeAsString: ~~~~
   width: 4
   height: 1

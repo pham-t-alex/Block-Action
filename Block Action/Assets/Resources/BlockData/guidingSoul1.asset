@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7cf92abb5e2971429f53ccd1317873b, type: 3}
-  m_Name: guidanceSoul2
+  m_Name: guidingSoul1
   m_EditorClassIdentifier: 
-  soulName: Guidance_Soul
+  soulName: Guiding_Soul
+  description: A supportive soul. Not very good at combat, but useful as a guide.
   shapeAsString: ~
   width: 1
   height: 1
   element: 
-  cooldown: 100
+  cooldown: 0
   isSoulBlock: 1
   effects:
-  - dmg enemy 100
-  color: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+  - heal self 20
+  color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}

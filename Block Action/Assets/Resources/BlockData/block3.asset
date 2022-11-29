@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: block3
   m_EditorClassIdentifier: 
   soulName: block3
+  description: AOE Damage Test Block
   shapeAsString: '~~~
 
     ~0~

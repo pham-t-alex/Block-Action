@@ -6,6 +6,8 @@ using UnityEngine;
 public class SoulObjectData : ScriptableObject
 {
     public string soulName;
+    [TextArea(1, 10)]
+    public string description;
     [TextArea(4, 10)]
     public string shapeAsString;
     public int width;

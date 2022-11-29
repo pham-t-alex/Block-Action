@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: frame2
   m_EditorClassIdentifier: 
   soulName: frame2
+  description: AOE Damage Test Frame
   shapeAsString: '~0
 
     0~
