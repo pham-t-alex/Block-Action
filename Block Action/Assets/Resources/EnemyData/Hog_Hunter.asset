@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
   m_Name: Hog_Hunter
   m_EditorClassIdentifier: 
-  defaultMaxHealth: 150
-  defaultStartingHealth: 150
+  defaultMaxHealth: 120
+  defaultStartingHealth: 120
   description: A corrupted hog hunter. Excels in ruthlessly hunting down whatever
     creature it intends to kill.
   actions:

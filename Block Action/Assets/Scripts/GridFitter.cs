@@ -65,6 +65,7 @@ public class GridFitter : MonoBehaviour
                 //mouse position. With this, you can drag the soul object from its edge, it feels more natural.
                 // COMEBACK
                 selectedSoulObject.transform.localScale = new Vector3(gridFitter.scale, gridFitter.scale, 1);
+                selectedSoulObject.timeHovered = 0;
             }
             else if (selectedTime > float.MinValue) //When the object stops being selected (<0)
             {
@@ -117,6 +118,8 @@ public class GridFitter : MonoBehaviour
                             soulObject.SetRenderOrder(4);
                         } //sets display order in layer for display
                         selectedTime = 0.05f; //sets selected time to 0.05 seconds (after 0.05 seconds of not being touched by mouse down, it will deselect)
+                        selectedSoulObject.DestroyInfoMenu();
+                        selectedSoulObject.timeHovered = 0;
                     }
                 }
             }

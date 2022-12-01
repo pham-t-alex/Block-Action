@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7cf92abb5e2971429f53ccd1317873b, type: 3}
-  m_Name: guidingSoul2
+  m_Name: hogHunter
   m_EditorClassIdentifier: 
-  soulName: Guiding_Soul
-  description: A supportive soul. Normally wouldn't participate in combat, but now
-    has no choice but to attack.
-  shapeAsString: ~
-  width: 1
-  height: 1
+  soulName: Hog_Hunter
+  description: The soul of a hog hunter. Once released, heavily strikes a single
+    prey.
+  shapeAsString: '~0
+
+    ~~'
+  width: 2
+  height: 2
   element: 
-  cooldown: 100
+  cooldown: 0
   isSoulBlock: 1
   effects:
-  - dmg enemy 100
-  color: {r: 0.8666667, g: 0.8, b: 0.5372549, a: 1}
+  - dmg enemy 30
+  color: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}

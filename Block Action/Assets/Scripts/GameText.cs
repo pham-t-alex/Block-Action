@@ -47,4 +47,10 @@ public class GameText : MonoBehaviour
         gameText.GetComponent<TMP_Text>().text = text;
         gameText.GetComponent<GameText>().textDisplayTime = 1 + (text.Length / 15);
     }
+
+    public static void setTextPermanent(string text)
+    {
+        gameText.GetComponent<TMP_Text>().color = new Color(1, 1, 1, 1);
+        gameText.GetComponent<TMP_Text>().text = text;
+    }
 }

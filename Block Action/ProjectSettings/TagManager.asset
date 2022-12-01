@@ -9,6 +9,8 @@ TagManager:
   - Location
   - Character
   - InfoMenus
+  - GameEndText
+  - PauseButton
   layers:
   - Default
   - TransparentFX

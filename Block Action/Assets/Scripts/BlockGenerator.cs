@@ -27,12 +27,12 @@ public class BlockGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/block1")));
+        /*Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/block1")));
         Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/block2")));
         Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/block3")));
         Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/block4")));
         Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/frame1")));
-        Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/frame2")));
+        Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>("BlockData/frame2")));*/
     }
 
     // Update is called once per frame

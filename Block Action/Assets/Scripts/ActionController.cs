@@ -135,6 +135,12 @@ public class ActionController : MonoBehaviour
             }
         }
 
+        if (Player.player.dead)
+        {
+            BattleEndController.TriggerDefeat();
+            return;
+        }
+
         if (allEnemiesDead)
         {
             if (FighterController.fighterController.wave < FighterController.fighterController.levelData.enemyWaves.Count)
@@ -147,6 +153,16 @@ public class ActionController : MonoBehaviour
                 Battle.b.enemies.Clear();
                 FighterController.fighterController.wave++;
                 FighterController.PlaceFighters();
+            }
+            else
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    Destroy(e.healthBar);
+                    Destroy(e);
+                }
+                Battle.b.enemies.Clear();
+                BattleEndController.TriggerVictory();
             }
         }
 

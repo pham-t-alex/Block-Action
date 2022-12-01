@@ -18,13 +18,13 @@ public class EndTurnButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Battle.b.bs == BattleState.PlayerAction || Battle.b.bs == BattleState.EnemyAction)
+        if (Battle.b.bs == BattleState.PlayerGrid || Battle.b.bs == BattleState.EnemySelect)
         {
-            img.sprite = darkLantern;
+            img.sprite = lantern;
         }
         else
         {
-            img.sprite = lantern;
+            img.sprite = darkLantern;
         }
     }
 

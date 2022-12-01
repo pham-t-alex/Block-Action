@@ -8,5 +8,6 @@ public enum BattleState
     EnemySelect,
     PlayerAction,
     EnemyAction,
-    Gimmicks
+    Gimmicks,
+    End
 }
