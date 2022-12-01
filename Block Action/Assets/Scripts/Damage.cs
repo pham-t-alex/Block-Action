@@ -31,6 +31,12 @@ public class Damage : Effect
             {
                 int prevHealth = f.health;
                 f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
+                GameObject indicator = Resources.Load<GameObject>("Indicator");
+                GameObject g = GameObject.Instantiate(indicator, f.transform);
+                TMP_Text text = g.GetComponent<TMP_Text>();
+                text.color = new Color(1, 0, 0);
+                text.text = (int)(dmg * fighter.buff * f.defenseBuff) + "";
+
                 if (f.Equals(Player.player))
                 {
                     // Hurt animation only plays when Player takes damage
