@@ -18,6 +18,7 @@ MonoBehaviour:
   gridWidth: 2
   gridHeight: 2
   bgm: {fileID: 8300000, guid: 29c5a7f526071714c9df9e98e445c542, type: 3}
+  bgmRepeat: {fileID: 0}
   background: Dark Forest
   enemyWaves:
   - Hog 1 1 1 0 0
@@ -38,6 +39,6 @@ MonoBehaviour:
   - turn 4 remove_block Guiding_Soul
   - turn 4 add_block guidingSoul2 0
   - turn 4 text Guiding Soul will now attack.
-  - wave 2 text Guiding Soul is now resting.
+  - wave 2 text Hog soul obtained!
   - wave 2 add_block hog 0
   - wave 3 add_block hogHunter 0
