@@ -32,6 +32,7 @@ public class FighterController : MonoBehaviour
     void Start()
     {
         levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+        AudioController.audioController.PlayBGM(levelData.bgm, levelData.bgmRepeat);
     }
 
     // Update is called once per frame

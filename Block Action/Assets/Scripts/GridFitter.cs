@@ -81,6 +81,7 @@ public class GridFitter : MonoBehaviour
                 {
                     if (soulObject.mouseTouching)
                     {
+                        AudioController.audioController.GetComponent<AudioSource>().PlayOneShot(AudioController.blockClick);
                         if (soulObject.placed)
                         {
                             gridFitter.grid.soulObjectsInGrid.Remove(soulObject);
@@ -157,6 +158,7 @@ public class GridFitter : MonoBehaviour
 
         if (touchingTiles.Count >= soulObject.squareCount) //if the soul object's collider touches a sufficient quantity of tiles; if the placement is legal
         {
+            AudioController.audioController.GetComponent<AudioSource>().PlayOneShot(AudioController.blockPlace);
             soulObject.tilesTouching = touchingTiles;
             if (soulObject is SoulBlock) //if it's a soul block
             {
@@ -217,6 +219,7 @@ public class GridFitter : MonoBehaviour
         }
         else //failed placement
         {
+            AudioController.audioController.GetComponent<AudioSource>().PlayOneShot(AudioController.blockPlaceFail);
             selectedSoulObject.transform.position = selectedSoulObject.startPosition; //return the object to previous position
             // COMEBACK
             soulObject.transform.localScale = defaultSize;
