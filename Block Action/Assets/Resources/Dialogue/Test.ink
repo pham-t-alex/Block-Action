@@ -50,4 +50,4 @@ Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
 */
 
-ow that hurt #speaker=Protagonist #move=3Enemy
+ow that hurt #speaker=Protagonist
