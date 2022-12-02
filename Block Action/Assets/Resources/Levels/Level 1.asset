@@ -33,12 +33,13 @@ MonoBehaviour:
   midLevelEffects:
   - turn 1 damage player 50
   - wave 1 dialogue Level01
-  - wave 1 text Use your soul blocks to pacify the corrupted creatures!
+  - wave 1 text Drag the soul blocks in the grid!
   - wave 1 add_block guidingSoul1 0
   - turn 4 dialogue Level01-2
   - turn 4 remove_block Guiding_Soul
   - turn 4 add_block guidingSoul2 0
   - turn 4 text Guiding Soul will now attack.
-  - wave 2 text Hog soul obtained!
+  - wave 2 text New soul obtained!
   - wave 2 add_block hog 0
+  - wave 3 text New soul obtained!
   - wave 3 add_block hogHunter 0
