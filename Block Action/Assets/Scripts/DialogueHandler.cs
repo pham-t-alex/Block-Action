@@ -123,6 +123,7 @@ public class DialogueHandler : MonoBehaviour
         else // Stop and exit dialogue mode if no more lines of dialogue are present
         {
             ExitDialogueMode();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
         }
     }
 

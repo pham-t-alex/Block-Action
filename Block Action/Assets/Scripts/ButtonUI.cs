@@ -19,7 +19,7 @@ public class ButtonUI : MonoBehaviour
 
     public void DarkForest()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Story");
         Debug.Log("Dark Forest Level");
     }
 

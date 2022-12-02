@@ -59,14 +59,14 @@ public class BattleEndController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (victorious)
+                /*if (victorious)
                 {
                     SceneManager.LoadScene("Story");
                 }
                 else
-                {
+                {*/
                     SceneManager.LoadScene("LevelSelection");
-                }
+                //}
             }
         }
     }
