@@ -30,14 +30,22 @@ public class Damage : Effect
             if (!f.dead)
             {
                 int prevHealth = f.health;
-                f.health -= (int)(dmg * fighter.buff);
+                f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
+                GameObject indicator = Resources.Load<GameObject>("Indicator");
+                GameObject g = GameObject.Instantiate(indicator, f.transform);
+                TMP_Text text = g.GetComponent<TMP_Text>();
+                text.color = new Color(1, 0, 0);
+                text.text = (int)(dmg * fighter.buff * f.defenseBuff) + "";
+
                 if (f.Equals(Player.player))
                 {
-                    Debug.Log("Player takes " + (dmg * fighter.buff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                    // Hurt animation only plays when Player takes damage
+                    PlayerAnimator.SetTrigger("Hurt");
+                    Debug.Log("Player takes " + (dmg * fighter.buff * f.defenseBuff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
                 else
                 {
-                    Debug.Log("Enemy takes " + (dmg * fighter.buff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                    Debug.Log("Enemy takes " + (dmg * fighter.buff * f.defenseBuff) + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
             }
         }

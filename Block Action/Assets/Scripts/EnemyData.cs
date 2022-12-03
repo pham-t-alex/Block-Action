@@ -8,6 +8,8 @@ public class EnemyData : ScriptableObject
     public int defaultMaxHealth;
     public int defaultStartingHealth;
 
+    [TextArea(1, 10)]
+    public string description;
     public List<string> actions;
 
     public Sprite idle;

@@ -6,6 +6,7 @@ using TMPro;
 //Base class representing a SoulObject placeable in the grid.
 public class SoulObject : MonoBehaviour
 {
+    public List<GameObject> tilesTouching;
     //Whether the SoulObject is placed in the grid or not
     public bool placed;
     //Whether the mouse is touching the SoulObject
@@ -19,13 +20,18 @@ public class SoulObject : MonoBehaviour
     //of one of the squares that makes up the SoulObject
     public float relX;
     public float relY;
-    public SpriteRenderer soulRenderer;
+
+    public int width;
+    public int height;
 
     public bool isAoe;
     public bool isSingleTarget;
     public bool isHeal;
     public int damage;
     public int heal;
+    public string soulName;
+    public string description;
+    public BlockInfoMenu infoMenu;
 
     // Variables required for cooldown calculations
     public int defaultCooldown;
@@ -34,37 +40,41 @@ public class SoulObject : MonoBehaviour
     // Variable for initiating cooldown text
     public GameObject cooldownIndicator = null;
     public int layer;
-    public bool hasChildren;
 
     // Variable used for changing soul color when on cooldown
     private SpriteRenderer _spriteRenderer;
-    public SpriteRenderer soulCooldownColor
-    {
-        get
-        {
-            if (_spriteRenderer == null)
-            {
-                _spriteRenderer = GetComponent<SpriteRenderer>();
-            }
-            return _spriteRenderer;
-        }
-    }
 
     public List<Effect> effects = new List<Effect>();
     public List<Fighter> targets;
+
+    public Color originalColor;
+
+    public Vector3 startPosition;
+
+    public float timeHovered;
 
     // Start is called before the first frame update
     void Start()
     {
         soulCollider = GetComponent<Collider2D>();
-        soulRenderer = GetComponent<SpriteRenderer>();
-        
+        timeHovered = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    void OnMouseOver()
+    {
+        if (timeHovered >= 1)
+        {
+            CreateInfoMenu();
+        }
+        else
+        {
+            timeHovered += Time.deltaTime;
+        }
     }
 
     void OnMouseEnter()
@@ -78,6 +88,8 @@ public class SoulObject : MonoBehaviour
     void OnMouseExit()
     {
         mouseTouching = false;
+        timeHovered = 0;
+        DestroyInfoMenu();
     }
 
     public void ActivateEffect() {
@@ -102,8 +114,8 @@ public class SoulObject : MonoBehaviour
     {
         if (currentCooldown > 0)
         {
-            soulCooldownColor.color = new Color(0.2f, 0.2f, 0.2f); // Darken soul block if it is on cooldown
-            if (hasChildren == false) // If there is no cooldown indicator then perform the following actions
+            SetColor(originalColor * 0.3f);
+            if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
             {
                 cooldownIndicator = Instantiate(Resources.Load("Text") as GameObject, transform.position, Quaternion.identity, transform);
 
@@ -112,18 +124,17 @@ public class SoulObject : MonoBehaviour
                 textSettings.outlineWidth = 0.3f;
                 textSettings.fontSize = 16;
             }
-            hasChildren = true;
 
             TextMeshPro cooldownText = cooldownIndicator.GetComponent<TextMeshPro>();
             cooldownText.SetText(currentCooldown.ToString());
         }
         else
         {
-            soulCooldownColor.color = new Color(1, 1, 1); // Revert soul block to original color if it is usable
-            if (currentCooldown == 0 && hasChildren == true) // Destroys cooldown indicator once there is no cooldown
+            SetColor(originalColor);
+            if (currentCooldown == 0 && cooldownIndicator != null) // Destroys cooldown indicator once there is no cooldown
             { 
                 Destroy(cooldownIndicator);
-                hasChildren = false;
+                cooldownIndicator = null;
             }
         }
     }
@@ -131,5 +142,185 @@ public class SoulObject : MonoBehaviour
     public void cooldownStart()
     {
         currentCooldown = defaultCooldown;
+    }
+
+    public void SetRenderOrder(int order)
+    {
+        for (int i = 0; i < squareCount; i++)
+        {
+            GameObject sq = transform.GetChild(i).gameObject;
+            sq.GetComponent<SpriteRenderer>().sortingOrder = order;
+        }
+    }
+
+    public void SetColor(Color color)
+    {
+        for (int i = 0; i < squareCount; i++)
+        {
+            GameObject sq = transform.GetChild(i).gameObject;
+            sq.GetComponent<SpriteRenderer>().color = color;
+        }
+    }
+
+    public void SetActiveParticles(bool active)
+    {
+        for (int i = 0; i < squareCount; i++)
+        {
+            GameObject particle = transform.GetChild(i).GetChild(0).gameObject;
+            particle.SetActive(active);
+        }
+    }
+
+    public void showEffect()
+    {
+        GameObject p = Instantiate(Resources.Load<GameObject>("BlockUsageParticle"), transform.position, Quaternion.identity);
+        ParticleSystem.MainModule m = p.GetComponent<ParticleSystem>().main;
+        m.startColor = originalColor;
+        ParticleSystem.ShapeModule s = p.GetComponent<ParticleSystem>().shape;
+        s.radius = (width + height) / 4f;
+    }
+
+    public void CreateInfoMenu()
+    {
+        if (infoMenu == null)
+        {
+
+            Vector3 infoPosition = transform.position;
+            GameObject infoCanvas = GameObject.FindGameObjectWithTag("InfoMenus");
+            float minX = (-1 * Camera.main.orthographicSize * Screen.width / Screen.height) + 3.5f;
+            infoPosition.y += 4;
+            infoPosition.x = Mathf.Max(infoPosition.x, minX);
+            Vector3 infoPosition2 = Fighter.WorldToScreenSpace(infoPosition, Camera.main, infoCanvas.GetComponent<RectTransform>());
+            GameObject g = Instantiate(BlockGenerator.blockGenerator.blockInfoMenu, Vector3.zero, Quaternion.identity);
+            g.transform.SetParent(infoCanvas.transform);
+            g.GetComponent<RectTransform>().anchoredPosition = infoPosition2;
+            g.transform.localScale = new Vector3(1, 1, 1);
+            infoMenu = g.GetComponent<BlockInfoMenu>();
+
+            infoMenu.SetTitle(SoulNameWithoutUnderscores());
+            infoMenu.SetInfo(InfoText());
+        }
+    }
+
+    public void DestroyInfoMenu()
+    {
+        if (infoMenu != null)
+        {
+            Destroy(infoMenu.gameObject);
+            infoMenu = null;
+        }
+    }
+
+    public string SoulNameWithoutUnderscores()
+    {
+        string[] soulNameParts = soulName.Split("_");
+        string fixedName = "";
+        for (int i = 0; i < soulNameParts.Length - 1; i++)
+        {
+            fixedName += soulNameParts[i] + " ";
+        }
+        fixedName += soulNameParts[soulNameParts.Length - 1];
+        return fixedName;
+    }
+
+    public string InfoText()
+    {
+        string info = "<i>" + description + "</i>\n\n";
+        if (this is SoulBlock)
+        {
+            info += "Type: Soul Block\n";
+        }
+        else if (this is SoulFrame)
+        {
+            info += "Type: Soul Frame\n";
+        }
+        info += "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n";
+        info += "Effects:";
+        foreach (Effect e in effects)
+        {
+            string s = EffectAsString(e);
+            if (s != null)
+            {
+                info += "\n- " + s;
+            }
+        }
+        return info;
+    }
+
+    public string EffectAsString(Effect e)
+    {
+        string effectString;
+        if (e is Damage)
+        {
+            effectString = "Deal " + ((Damage)e).dmg + " damage to ";
+            if (e.self)
+            {
+                effectString += "the player.";
+            }
+            else if (isAoe)
+            {
+                effectString += "all enemies.";
+            }
+            else if (isSingleTarget)
+            {
+                effectString += "an enemy.";
+            }
+        }
+        else if (e is Heal)
+        {
+            effectString = "Heal ";
+            if (e.self)
+            {
+                effectString += "the player";
+            }
+            else if (isAoe)
+            {
+                effectString += "all enemies";
+            }
+            else if (isSingleTarget)
+            {
+                effectString += "an enemy";
+            }
+            effectString += " by " + ((Heal)e).heal + " HP.";
+        }
+        else if (e is Buff)
+        {
+            effectString = "Buff ";
+            if (e.self)
+            {
+                effectString += "the player's";
+            }
+            else if (isAoe)
+            {
+                effectString += "all enemies'";
+            }
+            else if (isSingleTarget)
+            {
+                effectString += "an enemy's";
+            }
+            effectString += " attack by " + (((Buff)e).buff * 100) + "% for " + ((Buff)e).numTurns + " turns.";
+        }
+        else if (e is DefenseBuff)
+        {
+            effectString = "Buff ";
+            if (e.self)
+            {
+                effectString += "the player's";
+            }
+            else if (isAoe)
+            {
+                effectString += "all enemies'";
+            }
+            else if (isSingleTarget)
+            {
+                effectString += "an enemy's";
+            }
+            effectString += " defense by " + (((DefenseBuff)e).defenseBuff * 100) + "% for " + ((DefenseBuff)e).numTurns + " turns.";
+        }
+        else
+        {
+            return null;
+        }
+        return effectString;
     }
 }

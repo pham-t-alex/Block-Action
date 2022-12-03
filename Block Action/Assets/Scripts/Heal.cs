@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Heal : Effect
@@ -34,6 +35,12 @@ public class Heal : Effect
                 {
                     int prevHealth = f.health;
                     f.health += (int)heal;
+                    GameObject indicator = Resources.Load<GameObject>("Indicator");
+                    GameObject g = GameObject.Instantiate(indicator, f.transform);
+                    TMP_Text text = g.GetComponent<TMP_Text>();
+                    text.color = new Color(0, 1, 0);
+                    text.text = "" + (int)heal;
+
                     if (f.health > f.maxHealth)
                     {
                         f.health = f.maxHealth;

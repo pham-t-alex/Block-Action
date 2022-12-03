@@ -6,11 +6,12 @@ using System.IO;
 public class FighterController : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject fighterInfoMenu;
     public float spaceBetweenEnemies;
     public float bottomOffset;
     public float minRightOffset;
 
-    LevelData levelData;
+    public LevelData levelData;
     public int levelNumber;
     public int wave;
 
@@ -31,6 +32,7 @@ public class FighterController : MonoBehaviour
     void Start()
     {
         levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+        AudioController.audioController.PlayBGM(levelData.bgm, levelData.bgmRepeat);
     }
 
     // Update is called once per frame
@@ -111,7 +113,9 @@ public class FighterController : MonoBehaviour
             Enemy enemy = Battle.b.enemies[i];
             enemy.effects = new List<Effect>();
             enemy.buff = 1.0;
+            enemy.defenseBuff = 1.0;
             enemy.buffLeft = new List<BuffCounter>();
+            enemy.defenseBuffLeft = new List<DefenseBuffCounter>();
             int lower = System.Convert.ToInt32(enemyInfo[4]);
             int upper = System.Convert.ToInt32(enemyInfo[5]);
             enemy.type = enemyInfo[0];
@@ -149,6 +153,8 @@ public class FighterController : MonoBehaviour
                 buffEffect.buff *= buffScale;
             }
         }
+        enemy.atkScale = atkScale;
+        enemy.buffScale = buffScale;
     }
 
     static void setEnemyData(Enemy enemy, string enemyName, int lower, int upper)
@@ -157,10 +163,12 @@ public class FighterController : MonoBehaviour
         enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;
-        for (int i = 0; i <= upper; i++)
+        for (int i = lower; i <= upper; i++)
         {
             addEffect(enemy, enemyData.actions[i]);
         }
+        enemy.minAction = lower;
+        enemy.maxAction = upper;
     }
 
     static void addEffect(Enemy enemy, string effectAsString)
@@ -177,8 +185,16 @@ public class FighterController : MonoBehaviour
         }
         else if (effectData[0].Equals("buff"))
         {
-            effect = new Buff(System.Convert.ToDouble(effectData[2]));
-            effect.numTurns = System.Convert.ToInt32(effectData[3]);
+            if (effectData[2].Equals("atk"))
+            {
+                effect = new Buff(System.Convert.ToDouble(effectData[3]));
+                effect.numTurns = System.Convert.ToInt32(effectData[4]);
+            }
+            else if (effectData[2].Equals("def"))
+            {
+                effect = new DefenseBuff(System.Convert.ToDouble(effectData[3]));
+                effect.numTurns = System.Convert.ToInt32(effectData[4]);
+            }
         }
         if (effectData[1].Equals("player"))
         {

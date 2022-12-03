@@ -2,12 +2,14 @@ using Random = System.Random;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class ActionController : MonoBehaviour
 {
     //references player
     static PlayerAnimator playerAnimator;
     public GameObject player;
+    static int soulObjectCount;
 
     private static ActionController _actionController;
     
@@ -28,11 +30,12 @@ public class ActionController : MonoBehaviour
     {
         //References player
         playerAnimator = player.GetComponent<PlayerAnimator>();
+        soulObjectCount = 0;
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -47,31 +50,66 @@ public class ActionController : MonoBehaviour
         foreach (SoulObject soulObject in Battle.b.placedSoulObjects)
         {
             //attack animation
-            PlayerSequence(soulObject);
-            playerAnimator.SetTrigger("Attack");
+            soulObjectCount++;
         }
-        Battle.b.bs = BattleState.EnemyAction;
-        Debug.Log("Enemy Turn");
+        //if no blocks were placed in the grid, Attack animation does not play
+        if (soulObjectCount > 0)
+        {
+            SoulObjectAnimation();
+        }
+        else
+        {
+            Battle.b.bs = BattleState.EnemyAction;
+            Debug.Log("Enemy Turn");
+        }
+    }
+
+    public async static void SoulObjectAnimation()
+    {
+        if (soulObjectCount > 0)
+        {
+            for (int obj = 0; obj < soulObjectCount; obj++)
+            {
+                PlayerAnimator.SetTrigger("Attack");
+                PlayerSequence(Battle.b.placedSoulObjects[obj]);
+                Battle.b.placedSoulObjects[obj].cooldownStart();
+                Debug.Log(1);
+                Battle.b.placedSoulObjects[obj].showEffect();
+                Debug.Log(2);
+                while (PlayerAnimator.attackDone == false)
+                {
+                    await Task.Yield();
+                }
+                Debug.Log(3);
+                PlayerAnimator.attackDone = false;
+            }
+            soulObjectCount = 0;
+            Debug.Log(4);
+            Battle.b.bs = BattleState.EnemyAction;
+            Debug.Log("Enemy Turn");
+        }
     }
 
     public static void EnemyTurn()
     {
+        bool allEnemiesDead = true;
         foreach (Enemy e in Battle.b.enemies)
         {
             //attack animation
             if (!e.dead)
             {
                 EnemySequence(e);
+                allEnemiesDead = false;
             }
         }
-        Battle.b.bs = BattleState.PlayerGrid;
+        
         //count down the number of turns for buffs
         foreach (Fighter f in Battle.b.fighters) {
             foreach (BuffCounter bc in f.buffLeft) {
                 bc.numTurns--;
                 if (bc.numTurns == 0) {
                     double prevBuff = f.buff;
-                    f.buff /= bc.buff;
+                    f.buff -= bc.buff;
                     if (f is Player)
                     {
                         Debug.Log($"Buff ended | Player buff {prevBuff}x -> {f.buff}");
@@ -82,11 +120,63 @@ public class ActionController : MonoBehaviour
                     }
                 }
             }
+            foreach (DefenseBuffCounter bc in f.defenseBuffLeft)
+            {
+                bc.numTurns--;
+                if (bc.numTurns == 0)
+                {
+                    double prevBuff = f.defenseBuff;
+                    f.defenseBuff += bc.defenseBuff;
+                    if (f is Player)
+                    {
+                        Debug.Log($"Defense Buff ended | Player defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
+                    }
+                    else
+                    {
+                        Debug.Log($"Defense Buff ended | Enemy defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
+                    }
+                }
+            }
+        }
+
+        if (Player.player.dead)
+        {
+            BattleEndController.TriggerDefeat();
+            return;
+        }
+
+        if (allEnemiesDead)
+        {
+            if (FighterController.fighterController.wave < FighterController.fighterController.levelData.enemyWaves.Count)
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    Destroy(e.healthBar);
+                    Destroy(e);
+                }
+                Battle.b.enemies.Clear();
+                FighterController.fighterController.wave++;
+                FighterController.PlaceFighters();
+            }
+            else
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    Destroy(e.healthBar);
+                    Destroy(e);
+                }
+                Battle.b.enemies.Clear();
+                BattleEndController.TriggerVictory();
+            }
         }
 
         //reset soulblocks to original position
         GridFitter.ResetSoulObjects();
-        Debug.Log("Grid Fitting");
+        GimmickController.gimmickController.index = 0;
+        Battle.b.bs = BattleState.Gimmicks;
+        BottomDarkener.UndarkenBottom();
+        Debug.Log("Mid Level Effects");
+        Battle.b.turnNumber++;
     }
 
     static void PlayerSequence(SoulObject s)
@@ -100,13 +190,13 @@ public class ActionController : MonoBehaviour
                 e.dead = true;
                 e.buff = 1;
                 e.buffLeft.Clear();
+                e.defenseBuffLeft.Clear();
                 e.healthBar.gameObject.SetActive(false);
                 e.gameObject.SetActive(false);
             }
         }
     }
 
-    //revamp this
     static void EnemySequence(Enemy e)
     {
         //randomly runs one of many preset attacks
@@ -119,16 +209,15 @@ public class ActionController : MonoBehaviour
         else {
             e.effects[i].ActivateEffect(e);
         }
-        //Player.player.health -= e.attack[i];
-        // Debug.Log("Enemy deals " + e.attack[i] + " damage to the player | HP: " + (Player.player.health + e.attack[i]) + " -> " + Player.player.health);
         if (Player.player.health <= 0)
         {
             Player.player.dead = true;
             Player.player.buff = 1;
             Player.player.buffLeft.Clear();
+            Player.player.defenseBuffLeft.Clear();
             Player.player.healthBar.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
-        playerAnimator.SetTrigger("Hurt");
+        
     }
 }

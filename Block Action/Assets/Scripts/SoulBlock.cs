@@ -11,15 +11,19 @@ public class SoulBlock : SoulObject
     // Start is called before the first frame update
     void Start()
     {
-        soulCollider = GetComponent<Collider2D>();
-
-        soulRenderer = GetComponent<SpriteRenderer>();
-        soulRenderer.sortingOrder = 6;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (placed)
+        {
+            SetActiveParticles(true);
+        }
+        else
+        {
+            SetActiveParticles(false);
+        }
     }
 }

@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - HealthbarsAndEffects
+  - GameText
+  - Location
+  - Character
+  - InfoMenus
+  - GameEndText
+  - PauseButton
   layers:
   - Default
   - TransparentFX

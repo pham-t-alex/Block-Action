@@ -10,7 +10,8 @@ public class Grid : MonoBehaviour
     public GameObject myPrefab;
     public List<SoulObject> soulObjectsInGrid;
     static int i, a, lnCount, lnLength;
-    static float b, scale;
+    static float b;
+    public static float scale;
 
     // text file
     public static string path = "Assets/TextFiles/gridtest.txt";
@@ -53,7 +54,7 @@ public class Grid : MonoBehaviour
                 b -= scale; // move down a line
             }
         }*/
-        b = -2.5f;
+        b = -3f; // top of the grid start
 
         levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
 
@@ -97,10 +98,10 @@ public class Grid : MonoBehaviour
         }
         GridFitter.gridFitter.scale = scale; // assign scale for blocks
         */
-
+        float scaleMaxSize = 4.5f; // the max length that the grid can be
         
         LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}"); // grab level data because static method
-        scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (5f / gridScLvl.gridWidth) : (5f / gridScLvl.gridHeight); // assign scale for grid
+        scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (scaleMaxSize / gridScLvl.gridWidth) : (scaleMaxSize / gridScLvl.gridHeight); // assign scale for grid
         GridFitter.gridFitter.scale = scale; // assign scale for blocks
         
     }

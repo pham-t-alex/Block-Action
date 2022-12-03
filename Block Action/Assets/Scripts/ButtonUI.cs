@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ButtonUI : MonoBehaviour
 {
-    List<string> sceneHistory = new List<string>();
-
     public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu");
@@ -21,26 +19,14 @@ public class ButtonUI : MonoBehaviour
 
     public void DarkForest()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Story");
         Debug.Log("Dark Forest Level");
-    }
-
-    public void Settings()
-    {
-        SceneManager.LoadScene("Settings");
-        Debug.Log("Gone to Settings Scene.");
     }
 
     public void Exit()
     {
         Application.Quit();
         Debug.Log("Exit Game.");
-    }
-
-    //Stuck
-    public void Back(string name)
-    {
-        Debug.Log("Back to previous Scene");
     }
 
     // Might not need
