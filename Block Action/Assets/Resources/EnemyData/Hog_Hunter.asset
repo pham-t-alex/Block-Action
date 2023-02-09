@@ -18,7 +18,7 @@ MonoBehaviour:
     creature it intends to kill.
   actions:
   - dmg player 10
-  - heal enemies 20
+  - heal enemies 10
   - buff player atk -0.5 2
   - dmg player 15
   idle: {fileID: 819675316, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}

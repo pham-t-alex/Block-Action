@@ -20,4 +20,7 @@ public class LevelData : ScriptableObject
 
     [TextArea(1, 3)]
     public List<string> midLevelEffects;
+
+    [TextArea(1, 3)]
+    public List<string> firstClearRewards;
 }
