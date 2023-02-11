@@ -880,7 +880,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 13873296}
         m_TargetAssemblyTypeName: ButtonUI, Assembly-CSharp
-        m_MethodName: DarkForest
+        m_MethodName: StageSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

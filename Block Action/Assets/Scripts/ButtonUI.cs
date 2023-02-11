@@ -17,6 +17,12 @@ public class ButtonUI : MonoBehaviour
         Debug.Log("Go to Level Selection Scene.");
     }
 
+    public void StageSelect()
+    {
+        SceneManager.LoadScene("StageSelection");
+        Debug.Log("Go to Stage Selection scene");
+    }
+
     public void DarkForest()
     {
         SceneManager.LoadScene("Story");
