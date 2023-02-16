@@ -259,6 +259,15 @@ public class GimmickController : MonoBehaviour
             Destroy(s.gameObject);
             GridFitter.PlaceBlocks();
         }
+        else if (gimmickInfo[i].Equals("lock_tile"))
+        {
+            if (gimmickInfo[i + 1].Equals("random"))
+            {
+                Grid g = GridFitter.gridFitter.grid;
+                int index = Random.Range(0, g.tiles.Count - 1);
+                g.tiles[index].GetComponent<Tile>().lockTile(System.Convert.ToInt32(gimmickInfo[i + 2]));
+            }
+        }
     }
 
     public static void UnpauseEffects()

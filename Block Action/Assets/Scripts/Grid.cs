@@ -7,6 +7,7 @@ public class Grid : MonoBehaviour
 {
     // Start is called before the first frame update
     public List<GameObject> tiles;
+    public List<GameObject> lockedTiles;
     public GameObject myPrefab;
     public List<SoulObject> soulObjectsInGrid;
     static int i, a, lnCount, lnLength;
@@ -31,6 +32,7 @@ public class Grid : MonoBehaviour
     public int levelNumber;
     void Start()
     {
+        lockedTiles = new List<GameObject>();
         /*using (FileStream fs = File.OpenRead(path)) {
             // VERSION 2
             // count number of lines & length
