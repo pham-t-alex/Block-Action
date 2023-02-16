@@ -10,6 +10,27 @@ public class Battle : MonoBehaviour
     public BattleState bs;
     private static Battle _b;
     public int turnNumber;
+    public int levelNumber;
+    public int wave;
+    private LevelData _levelData;
+    public LevelData levelData
+    {
+        get
+        {
+            if (_levelData == null)
+            {
+                if (levelNumber <= 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+                }
+            }
+            return _levelData;
+        }
+    }
     public static Battle b
     {
         get
@@ -27,45 +48,13 @@ public class Battle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+        AudioController.audioController.PlayBGM(levelData.bgm, levelData.bgmRepeat);
         turnNumber = 1;
         //level initialization
 
         //for player
         bs = BattleState.Gimmicks;
-        /*
-        Effect e1 = new Damage(50);
-        Effect e2 = new Heal(10);
-        Effect e3 = new Damage(5);
-        Effect e4 = new Buff(.25);
-        Effect e9 = new DefenseBuff(.2);
-        e1.self = false;
-        e2.self = true;
-        e3.self = false;
-        e4.self = true;
-        e4.numTurns = 2;
-        e9.self = true;
-        e9.numTurns = 2;
-        soulObjects[0].effects.Add(e1); 
-        soulObjects[1].effects.Add(e2);
-        soulObjects[1].effects.Add(e4);
-        soulObjects[1].effects.Add(e9);
-        soulObjects[5].effects.Add(e3);
-
-        Effect e5 = new Damage(40);
-        e5.self = false;
-        Effect e6 = new Heal(20);
-        e6.self = true;
-        Effect e7 = new Buff(.25);
-        e7.self = true;
-        e7.numTurns = 3;
-        Effect e8 = new Damage(10);
-        e8.self = false;
-
-        soulObjects[2].effects.Add(e5);
-        soulObjects[3].effects.Add(e6);
-        soulObjects[3].effects.Add(e7);
-        soulObjects[4].effects.Add(e8);*/
-
 
         //grid initialization
         Grid.SetScale();

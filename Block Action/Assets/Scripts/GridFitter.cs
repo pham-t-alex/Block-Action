@@ -392,7 +392,7 @@ public class GridFitter : MonoBehaviour
     {
         float minX = -1 * Camera.main.orthographicSize * Screen.width / Screen.height; //get left edge x coordinate
         float minY = -1 * Camera.main.orthographicSize; //get bottom edge y coordinate
-        float maxX = 0 - (Grid.scale * FighterController.fighterController.levelData.gridWidth / 2);
+        float maxX = 0 - (Grid.scale * Battle.b.levelData.gridWidth / 2);
         float x = minX + gridFitter.leftOffset; //sets x to left edge + left offset
         float maxHeight = 0;
         foreach (SoulObject soulObject in Battle.b.soulObjects)

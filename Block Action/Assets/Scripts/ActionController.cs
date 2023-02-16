@@ -143,7 +143,7 @@ public class ActionController : MonoBehaviour
 
         if (allEnemiesDead)
         {
-            if (FighterController.fighterController.wave < FighterController.fighterController.levelData.enemyWaves.Count)
+            if (Battle.b.wave < Battle.b.levelData.enemyWaves.Count)
             {
                 foreach (Enemy e in Battle.b.enemies)
                 {
@@ -151,7 +151,7 @@ public class ActionController : MonoBehaviour
                     Destroy(e);
                 }
                 Battle.b.enemies.Clear();
-                FighterController.fighterController.wave++;
+                Battle.b.wave++;
                 FighterController.PlaceFighters();
             }
             else

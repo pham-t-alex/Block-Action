@@ -24,7 +24,7 @@ public class GimmickController : MonoBehaviour
   
     void Start()
     {
-        midLevelEffects = new List<string>(Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}").midLevelEffects);
+        midLevelEffects = new List<string>(Resources.Load<LevelData>($"Levels/Level {Battle.b.levelNumber}").midLevelEffects);
     }
 
     // Update is called once per frame
@@ -57,7 +57,7 @@ public class GimmickController : MonoBehaviour
             else if (gimmickInfo[0].Equals("wave"))
             {
                 int wave = System.Convert.ToInt32(gimmickInfo[1]);
-                if (wave == FighterController.fighterController.wave)
+                if (wave == Battle.b.wave)
                 {
                     ActivateMidLevelEffect(gimmickInfo, 2);
                     gimmickController.midLevelEffects.RemoveAt(gimmickController.index);

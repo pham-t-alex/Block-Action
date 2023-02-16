@@ -100,7 +100,7 @@ public class Grid : MonoBehaviour
         */
         float scaleMaxSize = 4.5f; // the max length that the grid can be
         
-        LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}"); // grab level data because static method
+        LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {Battle.b.levelNumber}"); // grab level data because static method
         scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (scaleMaxSize / gridScLvl.gridWidth) : (scaleMaxSize / gridScLvl.gridHeight); // assign scale for grid
         GridFitter.gridFitter.scale = scale; // assign scale for blocks
         
