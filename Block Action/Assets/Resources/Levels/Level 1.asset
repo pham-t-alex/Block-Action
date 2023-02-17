@@ -29,13 +29,13 @@ MonoBehaviour:
 
     Hog 0.5 0.5 1 0 0
 
-    Hog_Hunter 1 1 1 0 1'
+    Hog_Hunter 0.5 0.5 1 0 1'
   midLevelEffects:
   - turn 1 damage player 50
-  - wave 1 dialogue Level01
+  - wave 1 dialogue Level1Mid-1
   - wave 1 text Drag the soul blocks in the grid!
   - wave 1 add_block guidingSoul1 0
-  - turn 4 dialogue Level01-2
+  - turn 4 dialogue Level1Mid-2
   - turn 4 remove_block Guiding_Soul
   - turn 4 add_block guidingSoul2 0
   - turn 4 text Guiding Soul will now attack.
@@ -43,3 +43,7 @@ MonoBehaviour:
   - wave 2 add_block hog 0
   - wave 3 text New soul obtained!
   - wave 3 add_block hogHunter 0
+  firstClearRewards:
+  - guidingSoul3
+  - hog2
+  - hogHunter2

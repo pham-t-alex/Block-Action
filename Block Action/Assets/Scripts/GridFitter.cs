@@ -139,16 +139,17 @@ public class GridFitter : MonoBehaviour
         List<GameObject> touchingTiles = new List<GameObject>(); // creation of array list
         foreach (GameObject t in gridFitter.grid.tiles) // test if block is touching all tiles
         {
+            Tile tComp = t.GetComponent<Tile>(); //get tile component
             if (soulObject is SoulBlock) //if it's a block
             {
-                if (!t.GetComponent<Tile>().filled && t.GetComponent<Tile>().TouchingSoulObject(soulObject)) //makes sure the tiles is not filled already, and is touching the block's collider
+                if (!tComp.filled && !tComp.locked && tComp.TouchingSoulObject(soulObject)) //makes sure the tiles is not filled already, and is touching the block's collider
                 {
                     touchingTiles.Add(t); //adds it to the list of touching tiles
                 }
             }
             else //if it's a frame
             {
-                if (!t.GetComponent<Tile>().filled && !t.GetComponent<Tile>().framed && t.GetComponent<Tile>().TouchingSoulObject(soulObject)) //makes sure tiles are not filled and not framed
+                if (!tComp.filled && !tComp.framed && !tComp.locked && tComp.TouchingSoulObject(soulObject)) //makes sure tiles are not filled and not framed
                 {
                     touchingTiles.Add(t);
                 }
@@ -371,6 +372,16 @@ public class GridFitter : MonoBehaviour
             }
             soulObject.changeCooldownColor();
         }
+        List<GameObject> l = gridFitter.grid.lockedTiles;
+        for (int i = 0; i < l.Count; i++)
+        {
+            l[i].GetComponent<Tile>().decrementLock();
+            if (!l[i].GetComponent<Tile>().locked)
+            {
+                l.RemoveAt(i);
+                i--;
+            }
+        }
         Battle.b.placedSoulObjects.Clear(); //clears activated soul objects
         GridFitter.gridFitter.grid.soulObjectsInGrid.Clear();
         PlaceBlocks(); //places blocks at their starting position
@@ -392,7 +403,11 @@ public class GridFitter : MonoBehaviour
     {
         float minX = -1 * Camera.main.orthographicSize * Screen.width / Screen.height; //get left edge x coordinate
         float minY = -1 * Camera.main.orthographicSize; //get bottom edge y coordinate
-        float maxX = 0 - (Grid.scale * FighterController.fighterController.levelData.gridWidth / 2);
+        if (Battle.b.levelData == null)
+        {
+            return;
+        }
+        float maxX = 0 - (Grid.scale * Battle.b.levelData.gridWidth / 2);
         float x = minX + gridFitter.leftOffset; //sets x to left edge + left offset
         float maxHeight = 0;
         foreach (SoulObject soulObject in Battle.b.soulObjects)

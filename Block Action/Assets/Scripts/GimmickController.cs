@@ -24,7 +24,10 @@ public class GimmickController : MonoBehaviour
   
     void Start()
     {
-        midLevelEffects = new List<string>(Resources.Load<LevelData>($"Levels/Level {FighterController.fighterController.levelNumber}").midLevelEffects);
+        if (Battle.b.levelData != null)
+        {
+            midLevelEffects = new List<string>(Battle.b.levelData.midLevelEffects);
+        }
     }
 
     // Update is called once per frame
@@ -57,7 +60,7 @@ public class GimmickController : MonoBehaviour
             else if (gimmickInfo[0].Equals("wave"))
             {
                 int wave = System.Convert.ToInt32(gimmickInfo[1]);
-                if (wave == FighterController.fighterController.wave)
+                if (wave == Battle.b.wave)
                 {
                     ActivateMidLevelEffect(gimmickInfo, 2);
                     gimmickController.midLevelEffects.RemoveAt(gimmickController.index);
@@ -258,6 +261,15 @@ public class GimmickController : MonoBehaviour
             }
             Destroy(s.gameObject);
             GridFitter.PlaceBlocks();
+        }
+        else if (gimmickInfo[i].Equals("lock_tile"))
+        {
+            if (gimmickInfo[i + 1].Equals("random"))
+            {
+                Grid g = GridFitter.gridFitter.grid;
+                int index = Random.Range(0, g.tiles.Count - 1);
+                g.tiles[index].GetComponent<Tile>().lockTile(System.Convert.ToInt32(gimmickInfo[i + 2]));
+            }
         }
     }
 

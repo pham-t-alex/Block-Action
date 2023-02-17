@@ -73,18 +73,14 @@ public class ActionController : MonoBehaviour
                 PlayerAnimator.SetTrigger("Attack");
                 PlayerSequence(Battle.b.placedSoulObjects[obj]);
                 Battle.b.placedSoulObjects[obj].cooldownStart();
-                Debug.Log(1);
                 Battle.b.placedSoulObjects[obj].showEffect();
-                Debug.Log(2);
                 while (PlayerAnimator.attackDone == false)
                 {
                     await Task.Yield();
                 }
-                Debug.Log(3);
                 PlayerAnimator.attackDone = false;
             }
             soulObjectCount = 0;
-            Debug.Log(4);
             Battle.b.bs = BattleState.EnemyAction;
             Debug.Log("Enemy Turn");
         }
@@ -147,7 +143,7 @@ public class ActionController : MonoBehaviour
 
         if (allEnemiesDead)
         {
-            if (FighterController.fighterController.wave < FighterController.fighterController.levelData.enemyWaves.Count)
+            if (Battle.b.wave < Battle.b.levelData.enemyWaves.Count)
             {
                 foreach (Enemy e in Battle.b.enemies)
                 {
@@ -155,7 +151,7 @@ public class ActionController : MonoBehaviour
                     Destroy(e);
                 }
                 Battle.b.enemies.Clear();
-                FighterController.fighterController.wave++;
+                Battle.b.wave++;
                 FighterController.PlaceFighters();
             }
             else
@@ -167,6 +163,7 @@ public class ActionController : MonoBehaviour
                 }
                 Battle.b.enemies.Clear();
                 BattleEndController.TriggerVictory();
+                return;
             }
         }
 

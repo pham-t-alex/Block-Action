@@ -59,14 +59,14 @@ public class BattleEndController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                /*if (victorious)
+                if (victorious)
                 {
                     SceneManager.LoadScene("Story");
                 }
                 else
-                {*/
+                {
                     SceneManager.LoadScene("LevelSelection");
-                //}
+                }
             }
         }
     }
@@ -82,6 +82,15 @@ public class BattleEndController : MonoBehaviour
             gameEndText.GetComponent<TMP_Text>().color = new Color(0.8f, 1, 1);
             battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "VICTORY"));
             GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
+            if (Battle.b.levelNumber == PersistentDataManager.levelsCompleted + 1)
+            {
+                PersistentDataManager.levelsCompleted++;
+                foreach (string reward in Battle.b.levelData.firstClearRewards)
+                {
+                    PersistentDataManager.playerBlockInventory.Add(reward);
+                }
+            }
+            PersistentDataManager.storyState = 2;
         }
     }
 
@@ -96,6 +105,8 @@ public class BattleEndController : MonoBehaviour
             gameEndText.GetComponent<TMP_Text>().color = new Color(0.6f, 0, 0);
             battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "DEFEAT"));
             GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
+            PersistentDataManager.storyState = 0;
+            PersistentDataManager.levelNumber = 0;
         }
     }
 

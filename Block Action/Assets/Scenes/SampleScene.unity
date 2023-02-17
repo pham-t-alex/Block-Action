@@ -10047,6 +10047,9 @@ MonoBehaviour:
   placedSoulObjects: []
   bs: 0
   turnNumber: 0
+  levelNumber: 1
+  wave: 1
+  levelData: {fileID: 0}
   enemies: []
   fighters: []
 --- !u!1 &1146794651

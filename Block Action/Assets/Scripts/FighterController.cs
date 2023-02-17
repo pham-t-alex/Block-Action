@@ -11,10 +11,6 @@ public class FighterController : MonoBehaviour
     public float bottomOffset;
     public float minRightOffset;
 
-    public LevelData levelData;
-    public int levelNumber;
-    public int wave;
-
     private static FighterController _fighterController;
     public static FighterController fighterController
     {
@@ -31,8 +27,6 @@ public class FighterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
-        AudioController.audioController.PlayBGM(levelData.bgm, levelData.bgmRepeat);
     }
 
     // Update is called once per frame
@@ -93,7 +87,11 @@ public class FighterController : MonoBehaviour
 
     static void GenerateEnemies()
     {
-        string waveData = fighterController.levelData.enemyWaves[fighterController.wave - 1];
+        if (Battle.b.levelData == null)
+        {
+            return;
+        }
+        string waveData = Battle.b.levelData.enemyWaves[Battle.b.wave - 1];
         StringReader s = new StringReader(waveData);
         string line = s.ReadLine();
         while (line != null)
