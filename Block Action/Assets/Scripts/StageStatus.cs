@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
+using TMPro;
 
 public class StageStatus : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class StageStatus : MonoBehaviour
 
     public int stageNumber;
     public bool isStageUnlocked;
-    public List<GameObject> stageObjects = new List<GameObject>();
+    public static List<GameObject> stageObjects = new List<GameObject>();
 
     private Color unlockedColor;
     private Color lockedColor;
@@ -21,14 +22,17 @@ public class StageStatus : MonoBehaviour
 
     private void Awake()
     {
-        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("LevelNode")) { 
-            stageObjects.Add(gameObject);
-        }
+        stageObjects.Add(gameObject);
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        TMP_Text t = transform.GetChild(0).GetComponent<TMP_Text>();
+        if (t.text == "")
+        {
+            transform.GetChild(0).GetComponent<TMP_Text>().text = "Level " + stageNumber;
+        }
         isStageUnlocked = false;
         unlockedColor = gameObject.GetComponent<Image>().color;
         lockedColor = Color.gray;
@@ -78,10 +82,12 @@ public class StageStatus : MonoBehaviour
 
     // OnClick function that will set what level will be played
     public void SetCurrentLevel() {
-        // PersistentDataManager.storyState = 1;
-        // PersistentDataManager.levelNumber = 
-        // PersistentDataManager.storyOnly =
+        PersistentDataManager.storyState = 1;
+        PersistentDataManager.levelNumber = stageNumber;
+        PersistentDataManager.storyOnly = isStoryOnly;
 
+        SceneManager.LoadScene("Story");
+        Debug.Log("Dark Forest Level");
         Debug.Log("Stage Number: " + stageNumber);
         Debug.Log("Story Only: " + isStoryOnly);
     }

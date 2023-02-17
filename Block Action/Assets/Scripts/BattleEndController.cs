@@ -59,14 +59,14 @@ public class BattleEndController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                /*if (victorious)
+                if (victorious)
                 {
                     SceneManager.LoadScene("Story");
                 }
                 else
-                {*/
+                {
                     SceneManager.LoadScene("LevelSelection");
-                //}
+                }
             }
         }
     }
@@ -90,6 +90,7 @@ public class BattleEndController : MonoBehaviour
                     PersistentDataManager.playerBlockInventory.Add(reward);
                 }
             }
+            PersistentDataManager.storyState = 2;
         }
     }
 
@@ -104,6 +105,8 @@ public class BattleEndController : MonoBehaviour
             gameEndText.GetComponent<TMP_Text>().color = new Color(0.6f, 0, 0);
             battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "DEFEAT"));
             GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
+            PersistentDataManager.storyState = 0;
+            PersistentDataManager.levelNumber = 0;
         }
     }
 

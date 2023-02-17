@@ -24,7 +24,10 @@ public class GimmickController : MonoBehaviour
   
     void Start()
     {
-        midLevelEffects = new List<string>(Resources.Load<LevelData>($"Levels/Level {Battle.b.levelNumber}").midLevelEffects);
+        if (Battle.b.levelData != null)
+        {
+            midLevelEffects = new List<string>(Battle.b.levelData.midLevelEffects);
+        }
     }
 
     // Update is called once per frame
