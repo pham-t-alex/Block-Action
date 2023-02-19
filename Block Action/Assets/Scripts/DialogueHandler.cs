@@ -69,6 +69,10 @@ public class DialogueHandler : MonoBehaviour
         }
         if (PersistentDataManager.storyOnly)
         {
+            if (PersistentDataManager.levelNumber == PersistentDataManager.levelsCompleted + 1)
+            {
+                PersistentDataManager.levelsCompleted++;
+            }
             PersistentDataManager.storyState = 2;
             inkJSON = Resources.Load<TextAsset>($"Dialogue/Level{PersistentDataManager.levelNumber}");
             if (inkJSON == null)
@@ -78,6 +82,7 @@ public class DialogueHandler : MonoBehaviour
                 PersistentDataManager.storyOnly = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
             }
+
         }
         else
         {
