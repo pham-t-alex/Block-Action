@@ -29,6 +29,7 @@ public class BlockGenerator : MonoBehaviour
     {
         foreach (string soulObjectName in PersistentDataManager.playerBlockInventory)
         {
+            Debug.Log($"BlockData/(soulObjectName)");
             Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>($"BlockData/{soulObjectName}")));
         }
     }

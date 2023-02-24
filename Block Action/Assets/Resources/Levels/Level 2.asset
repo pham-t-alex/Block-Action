@@ -12,33 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 2
   m_EditorClassIdentifier: 
-  gridAsString: '~~~
+  gridAsString: '~~~~
 
-    ~~~'
-  gridWidth: 3
-  gridHeight: 2
-  bgm: {fileID: 8300000, guid: 29c5a7f526071714c9df9e98e445c542, type: 3}
-  bgmRepeat: {fileID: 0}
+    ~~~~
+
+    ~~~~
+
+    ~~~~'
+  gridWidth: 4
+  gridHeight: 4
   background: Dark Forest
   enemyWaves:
-  - 'Hog 1 1 1 0 1
+  - 'Hog 1 1 1 0 0
 
-    Hog 1 1 1 0 1'
-  - 'Hog 1 1 1 0 1
+    Hog 1 1 1 0 0
 
-    Hog 1 1 1 0 1
+    Hog 1 1 1 0 0'
+  - 'Hog 1 1 1 0 0
 
-    Hog 1 1 1 0 1
+    Hog 1 1 1 0 0
 
-    Hog 1 1 1 0 1'
-  - 'Hog 4 1 1 0 1
-
-    Hog_Hunter 2 2 1 0 1'
-  - 'Hog_Hunter 3 2 1 0 3
-
-    Hog_Hunter 5 1 1 0 1'
-  - Hog_Hunter 10 2 1 0 1
+    Hog_Hunter 1 1 1 0 1'
+  - Hog_Hunter 2.2 2.2 1 0 3
   midLevelEffects:
-  - wave 1 text Each turn your strength increases!
-  - repeating buff player atk 0.1 100
-  firstClearRewards: []
+  - wave 1 add_block block1 0
+  - wave 1 add_block block2 0
+  - wave 1 add_block block3 0
+  - wave 1 add_block block4 0
+  - wave 1 add_block frame1 0
+  - wave 1 add_block frame2 0

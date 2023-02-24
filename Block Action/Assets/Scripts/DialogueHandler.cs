@@ -61,64 +61,8 @@ public class DialogueHandler : MonoBehaviour
         {
             character.spriteRenderer.color = new Color(1, 1, 1, 0);
         }
-        if (PersistentDataManager.storyState == 0 || PersistentDataManager.levelNumber == 0)
-        {
-            PersistentDataManager.storyState = 0;
-            PersistentDataManager.levelNumber = 0;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-        }
-        if (PersistentDataManager.storyOnly)
-        {
-            if (PersistentDataManager.levelNumber == PersistentDataManager.levelsCompleted + 1)
-            {
-                PersistentDataManager.levelsCompleted++;
-            }
-            PersistentDataManager.storyState = 2;
-            inkJSON = Resources.Load<TextAsset>($"Dialogue/Level{PersistentDataManager.levelNumber}");
-            if (inkJSON == null)
-            {
-                PersistentDataManager.storyState = 0;
-                PersistentDataManager.levelNumber = 0;
-                PersistentDataManager.storyOnly = false;
-                UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-            }
 
-        }
-        else
-        {
-            if (PersistentDataManager.storyState == 1)
-            {
-                inkJSON = Resources.Load<TextAsset>($"Dialogue/Level{PersistentDataManager.levelNumber}-Pre");
-                if (inkJSON == null)
-                {
-                    PersistentDataManager.storyState = 0;
-                    if (Resources.Load<LevelData>($"Levels/Level {PersistentDataManager.levelNumber}") == null)
-                    {
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-                    }
-                    else
-                    {
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
-                    }
-                }
-            }
-            else
-            {
-                inkJSON = Resources.Load<TextAsset>($"Dialogue/Level{PersistentDataManager.levelNumber}-Post");
-                if (inkJSON == null)
-                {
-                    PersistentDataManager.storyState = 0;
-                    PersistentDataManager.levelNumber = 0;
-                    PersistentDataManager.storyOnly = false;
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-                }
-            }
-        }
-        
-        if (inkJSON != null)
-        {
-            EnterDialogueMode(inkJSON); // Initiate Dialogue Sequence
-        }
+        EnterDialogueMode(inkJSON); // Initiate Dialogue Sequence
     }
 
     // Update is called once per frame
@@ -179,25 +123,7 @@ public class DialogueHandler : MonoBehaviour
         else // Stop and exit dialogue mode if no more lines of dialogue are present
         {
             ExitDialogueMode();
-            if (PersistentDataManager.storyState == 1)
-            {
-                PersistentDataManager.storyState = 0;
-                if (Resources.Load<LevelData>($"Levels/Level {PersistentDataManager.levelNumber}") == null)
-                {
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-                }
-                else
-                {
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
-                }
-            }
-            else
-            {
-                PersistentDataManager.storyState = 0;
-                PersistentDataManager.levelNumber = 0;
-                PersistentDataManager.storyOnly = false;
-                UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-            }
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
         }
     }
 

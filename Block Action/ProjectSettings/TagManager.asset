@@ -11,7 +11,6 @@ TagManager:
   - InfoMenus
   - GameEndText
   - PauseButton
-  - LevelNode
   layers:
   - Default
   - TransparentFX

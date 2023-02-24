@@ -28,6 +28,8 @@ public class Grid : MonoBehaviour
 
     */
 
+    LevelData levelData;
+    public int levelNumber;
     void Start()
     {
         lockedTiles = new List<GameObject>();
@@ -56,29 +58,27 @@ public class Grid : MonoBehaviour
         }*/
         b = -3f; // top of the grid start
 
-        if (Battle.b.levelData != null)
-        {
-            string grid = Battle.b.levelData.gridAsString;
-            StringReader s = new StringReader(grid);
-            string line = s.ReadLine();
+        levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
 
-            while (line != null)
+        string grid = levelData.gridAsString;
+        StringReader s = new StringReader(grid);
+        string line = s.ReadLine();
+
+        while (line != null)
+        {
+            for (a = 0; a < line.Length; a++) // a is each column
             {
-                for (a = 0; a < line.Length; a++) // a is each column
+                if (line[a] == '~') // if it is a proper tile
                 {
-                    if (line[a] == '~') // if it is a proper tile
-                    {
-                        // place tile
-                        GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((Battle.b.levelData.gridWidth * scale) / 2), b, 0), Quaternion.identity);
-                        tile.transform.localScale = new Vector3(scale, scale, 0); // set scale
-                        tiles.Add(tile); // add it to arraylist
-                    }
+                    // place tile
+                    GameObject tile = Instantiate(myPrefab, new Vector3((a * scale) - ((levelData.gridWidth * scale) / 2), b, 0), Quaternion.identity);
+                    tile.transform.localScale = new Vector3(scale, scale, 0); // set scale
+                    tiles.Add(tile); // add it to arraylist
                 }
-                b -= scale; // move down a line
-                line = s.ReadLine();
             }
+            b -= scale; // move down a line
+            line = s.ReadLine();
         }
-        
     }
 
     void Update()
@@ -101,12 +101,8 @@ public class Grid : MonoBehaviour
         GridFitter.gridFitter.scale = scale; // assign scale for blocks
         */
         float scaleMaxSize = 4.5f; // the max length that the grid can be
-
-        LevelData gridScLvl = Battle.b.levelData;
-        if (gridScLvl == null)
-        {
-            return;
-        }
+        
+        LevelData gridScLvl = Resources.Load<LevelData>($"Levels/Level {Battle.b.levelNumber}"); // grab level data because static method
         scale = (gridScLvl.gridHeight <= gridScLvl.gridWidth) ? (scaleMaxSize / gridScLvl.gridWidth) : (scaleMaxSize / gridScLvl.gridHeight); // assign scale for grid
         GridFitter.gridFitter.scale = scale; // assign scale for blocks
         

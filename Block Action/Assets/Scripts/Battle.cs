@@ -10,22 +10,7 @@ public class Battle : MonoBehaviour
     public BattleState bs;
     private static Battle _b;
     public int turnNumber;
-    public int _levelNumber;
-    public int levelNumber
-    {
-        get
-        {
-            if (_levelNumber == 0)
-            {
-                _levelNumber = PersistentDataManager.levelNumber;
-            }
-            return _levelNumber;
-        }
-        set
-        {
-            _levelNumber = value;
-        }
-    }
+    public int levelNumber;
     public int wave;
     private LevelData _levelData;
     public LevelData levelData
@@ -41,10 +26,6 @@ public class Battle : MonoBehaviour
                 else
                 {
                     _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
-                    if (_levelData == null)
-                    {
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-                    }
                 }
             }
             return _levelData;
@@ -67,17 +48,8 @@ public class Battle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (levelNumber == 0)
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
-        }
-        levelNumber = PersistentDataManager.levelNumber;
         _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
-        if (levelData != null)
-        {
-            AudioController.audioController.PlayBGM(levelData.bgm, levelData.bgmRepeat);
-        }
-        
+        AudioController.audioController.PlayBGM(levelData.bgm, levelData.bgmRepeat);
         turnNumber = 1;
         //level initialization
 
