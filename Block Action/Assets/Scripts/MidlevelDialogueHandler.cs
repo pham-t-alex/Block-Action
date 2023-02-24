@@ -72,7 +72,7 @@ public class MidlevelDialogueHandler : MonoBehaviour
     {
         if (dialogueIsPlaying) // Checks if it is in dialogue mode
         {
-            if (Input.GetKeyDown(KeyCode.Space)) // Bug fix: pressing space no longer continues dialogue and skips typing effect at the same time
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) // Bug fix: pressing space no longer continues dialogue and skips typing effect at the same time
             {
                 spacePressedSameFrame = true;
             }
