@@ -56,6 +56,7 @@ public class AudioController : MonoBehaviour
         }
     }
 
+    public string currentBGM;
     public AudioClip bgm;
     public AudioClip bgmRepeat;
     public AudioSource audioSource
@@ -64,6 +65,14 @@ public class AudioController : MonoBehaviour
         {
             return audioController.GetComponent<AudioSource>();
         }
+    }
+    private void Awake()
+    {
+        if (audioController != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
     // Start is called before the first frame update
     void Start()
@@ -84,8 +93,19 @@ public class AudioController : MonoBehaviour
         }
     }
 
-    public void PlayBGM(AudioClip newBgm, AudioClip repeatVer)
+    public void PlayBGM(string bgmName)
     {
+        if (bgmName == null)
+        {
+            bgmRepeat = null;
+            bgm = null;
+        }
+        if (currentBGM == bgmName)
+        {
+            return;
+        }
+        AudioClip repeatVer = Resources.Load<AudioClip>($"Audio/{bgmName}R");
+        AudioClip newBgm = Resources.Load<AudioClip>($"Audio/{bgmName}");
         bgm = newBgm;
         if (repeatVer == null)
         {
@@ -96,6 +116,7 @@ public class AudioController : MonoBehaviour
             bgmRepeat = repeatVer;
         }
         audioSource.clip = bgm;
+        currentBGM = bgmName;
         audioSource.Play();
     }
 }

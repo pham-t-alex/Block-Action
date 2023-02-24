@@ -5,7 +5,7 @@ using UnityEngine;
 public class Element : MonoBehaviour
 {
     //Need to type element name in all caps btw
-    public enum Elements{"ELEMENTLESS", "FIRE", "WATER", "NATURE"};
+    public enum Elements{ELEMENTLESS, FIRE, WATER, NATURE};
     public Elements playerElement;
 
 
@@ -20,41 +20,41 @@ public class Element : MonoBehaviour
         //A perk of choosing elementless attacks could be that the attack will never be resisted
         int weaknessValue = 0;
         
-        if (playerElement == "FIRE")
+        if (playerElement == Elements.FIRE)
         {
             //Fire type enemies will take less damage from fire moves
-            if (enemyType == "FIRE") 
+            if (enemyType == Elements.FIRE) 
             {
                 weaknessValue = -1;
             } 
             //Nature is weak to fire
-            else if (enemyType == "NATURE") 
+            else if (enemyType == Elements.NATURE) 
             {
                 weaknessValue = 1;
             }
         }
-        else if (playerElement == "WATER")
+        else if (playerElement == Elements.WATER)
         {
             //Water resists water
-            if (enemyType == "WATER")
+            if (enemyType == Elements.WATER)
             {
                 weaknessValue = -1;
             }
             //Water beats fire
-            if (enemyType == "FIRE")
+            if (enemyType == Elements.FIRE)
             {
                 weaknessValue = 1;
             }
         }
-        else if (playerElement == "NATURE")
+        else if (playerElement == Elements.NATURE)
         {
             //Nature resists itself
-            if (enemyType == "NATURE")
+            if (enemyType == Elements.NATURE)
             {
                 weaknessValue = -1;
             }
             //Nature beats water? Probably not gonna be a set-in-stone thing but-
-            if (enemyType == "WATER")
+            if (enemyType == Elements.WATER)
             {
                 weaknessValue = 1;
             }
@@ -70,7 +70,7 @@ public class Element : MonoBehaviour
         
         //dmgModifier is the number that the attack damage will be multiplied by
         //depending on the element of the attack and enemmy
-        int dmgModifier = 0.0f;
+        float dmgModifier = 0.0f;
         if (weakness == -1)
         {
             dmgModifier = 0.5f;
