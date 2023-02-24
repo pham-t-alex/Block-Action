@@ -87,6 +87,10 @@ public class FighterController : MonoBehaviour
 
     static void GenerateEnemies()
     {
+        if (Battle.b.levelData == null)
+        {
+            return;
+        }
         string waveData = Battle.b.levelData.enemyWaves[Battle.b.wave - 1];
         StringReader s = new StringReader(waveData);
         string line = s.ReadLine();
