@@ -75,7 +75,8 @@ public class Battle : MonoBehaviour
         _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
         if (levelData != null)
         {
-            AudioController.audioController.PlayBGM(levelData.bgmName);
+            //AudioController.audioController.PlayBGM(levelData.bgmName);
+            Debug.Log(levelData.bgmName);
         }
         
         turnNumber = 1;

@@ -20,6 +20,8 @@ public class MidlevelDialogueHandler : MonoBehaviour
     [SerializeField] public TextAsset _inkJSON;
     [SerializeField] public GameObject dialogueSystem;
 
+    public Sprite[] sprites;
+
     // Variables for time-based actions
     private float typingSpeed = 0.04f;
     private float alphaSpeed = 0.01f;
@@ -41,6 +43,8 @@ public class MidlevelDialogueHandler : MonoBehaviour
     private const string CHARACTER_ENTER = "enter";
     private const string CHARACTER_EXIT = "exit";
     private const string CHARACTER_LOCATION = "move";
+    private const string SET_BGM = "bgm";
+    private const string CHANGE_SPRITE = "sprite";
 
     void Awake()
     {
@@ -250,6 +254,39 @@ public class MidlevelDialogueHandler : MonoBehaviour
                             break;
                         }
                     }
+                    break;
+                case SET_BGM:
+                    string audio = tagAction;
+                    print("<color=blue>Input audio: </color>" + audio);
+                    AudioController.audioController.PlayBGM(audio);
+                    break;
+                case CHANGE_SPRITE:
+                    string[] strings = tagAction.Split(",");
+                    string objectName = strings[0];
+                    string spriteName = strings[1];
+                    int index = -1;
+
+                    GameObject gObject = GameObject.Find(objectName);
+                    if (gObject == null)
+                    {
+                        Debug.Log("<color=red> CHANGE_SPRITE tag cannot find the object name: </color>" + objectName);
+                        break;
+                    }
+                    for (int i = 0; i < sprites.Length; i++)
+                    {
+                        if (sprites[i].name == spriteName)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index == -1)
+                    {
+                        Debug.Log("<color=red> CHANGE_SPRITE tag cannot find the sprite name: </color>" + spriteName);
+                        break;
+                    }
+
+                    gObject.GetComponent<SpriteRenderer>().sprite = sprites[index];
                     break;
                 default: // Default Error Catcher
                     print("Nothng to handle current tag");

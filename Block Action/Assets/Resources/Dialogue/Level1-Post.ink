@@ -1,4 +1,4 @@
-﻿/*
+/*
 METHODS:
 speaker
 - speaker format: #speaker=(text)
