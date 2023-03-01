@@ -24,11 +24,6 @@ public class SoulObject : MonoBehaviour
     public int width;
     public int height;
 
-    public bool isAoe;
-    public bool isSingleTarget;
-    public bool isHeal;
-    public int damage;
-    public int heal;
     public string soulName;
     public string description;
     public BlockInfoMenu infoMenu;
@@ -45,7 +40,6 @@ public class SoulObject : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     public List<Effect> effects = new List<Effect>();
-    public List<Fighter> targets;
 
     public Color originalColor;
 
@@ -95,16 +89,23 @@ public class SoulObject : MonoBehaviour
     public void ActivateEffect() {
         foreach (Effect effect in effects)
         {
-            if (effect.self)
+            if (effect.targetType == TargetType.Self)
             {
                 List<Fighter> l = new List<Fighter>();
                 l.Add(Player.player);
                 effect.targets = l;
                 effect.ActivateEffect(Player.player);
             }
+            else if (effect.targetType == TargetType.AllEnemies)
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    effect.targets.Add(e);
+                }
+                effect.ActivateEffect(Player.player);
+            }
             else
             {
-                effect.targets = targets;
                 effect.ActivateEffect(Player.player);
             }
         }
@@ -253,15 +254,15 @@ public class SoulObject : MonoBehaviour
         if (e is Damage)
         {
             effectString = "Deal " + ((Damage)e).dmg + " damage to ";
-            if (e.self)
+            if (e.targetType == TargetType.Self)
             {
                 effectString += "the player.";
             }
-            else if (isAoe)
+            else if (e.targetType == TargetType.AllEnemies)
             {
                 effectString += "all enemies.";
             }
-            else if (isSingleTarget)
+            else if (e.targetType == TargetType.SingleTarget)
             {
                 effectString += "an enemy.";
             }
@@ -269,15 +270,15 @@ public class SoulObject : MonoBehaviour
         else if (e is Heal)
         {
             effectString = "Heal ";
-            if (e.self)
+            if (e.targetType == TargetType.Self)
             {
                 effectString += "the player";
             }
-            else if (isAoe)
+            else if (e.targetType == TargetType.AllEnemies)
             {
                 effectString += "all enemies";
             }
-            else if (isSingleTarget)
+            else if (e.targetType == TargetType.SingleTarget)
             {
                 effectString += "an enemy";
             }
@@ -286,15 +287,15 @@ public class SoulObject : MonoBehaviour
         else if (e is Buff)
         {
             effectString = "Buff ";
-            if (e.self)
+            if (e.targetType == TargetType.Self)
             {
                 effectString += "the player's";
             }
-            else if (isAoe)
+            else if (e.targetType == TargetType.AllEnemies)
             {
                 effectString += "all enemies'";
             }
-            else if (isSingleTarget)
+            else if (e.targetType == TargetType.SingleTarget)
             {
                 effectString += "an enemy's";
             }
@@ -303,15 +304,15 @@ public class SoulObject : MonoBehaviour
         else if (e is DefenseBuff)
         {
             effectString = "Buff ";
-            if (e.self)
+            if (e.targetType == TargetType.Self)
             {
                 effectString += "the player's";
             }
-            else if (isAoe)
+            else if (e.targetType == TargetType.AllEnemies)
             {
                 effectString += "all enemies'";
             }
-            else if (isSingleTarget)
+            else if (e.targetType == TargetType.SingleTarget)
             {
                 effectString += "an enemy's";
             }

@@ -199,12 +199,28 @@ public class ActionController : MonoBehaviour
         //randomly runs one of many preset attacks
         Random rand = new Random();
         int i = rand.Next(0, e.numAtk);
-        if (e.effects[i].self) {
-            e.effects[i].targets.Add(e);
-            e.effects[i].ActivateEffect(e);
-        }
-        else {
-            e.effects[i].ActivateEffect(e);
+        Action action = e.actions[i];
+        foreach (Effect effect in action.effects)
+        {
+            if (effect.targetType == TargetType.Self)
+            {
+                effect.targets.Add(e);
+                effect.ActivateEffect(e);
+            }
+            else if (effect.targetType == TargetType.AllEnemies)
+            {
+                foreach (Enemy enemy in Battle.b.enemies)
+                {
+                    effect.targets.Add(enemy);
+                }
+                effect.ActivateEffect(e);
+            }
+            else if (effect.targetType == TargetType.SingleTarget)
+            {
+                effect.targets.Add(Player.player);
+                effect.ActivateEffect(e);
+            }
+            effect.targets.Clear();
         }
         if (Player.player.health <= 0)
         {

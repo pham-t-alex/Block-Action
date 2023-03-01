@@ -102,7 +102,10 @@ public class GridFitter : MonoBehaviour
                                     SoulFrame s = (SoulFrame) soulObject;
                                     s.filled = false;
                                 }
-                                soulObject.targets.Clear();
+                                foreach (Effect e in soulObject.effects)
+                                {
+                                    e.targets.Clear();
+                                }
                                 updateFrames();
                             }
                             soulObject.tilesTouching = null;
@@ -201,21 +204,17 @@ public class GridFitter : MonoBehaviour
             }
 
             gridFitter.grid.soulObjectsInGrid.Add(soulObject); //added to soul objects in grid
-            if (soulObject.isAoe) //if the soul object is AOE
+            foreach (Effect e in soulObject.effects)
             {
-                foreach (Enemy e in Battle.b.enemies)
+                if (e.targetType == TargetType.SingleTarget)
                 {
-                    soulObject.targets.Add(e); //add every target
+                    Battle.b.bs = BattleState.EnemySelect;
+                    break;
                 }
-                selectedSoulObject = null; //unselect the object
             }
-            else if (soulObject.isSingleTarget)
+            if (Battle.b.bs != BattleState.EnemySelect)
             {
-                Battle.b.bs = BattleState.EnemySelect; //if it is single target, go to enemy select phase
-            }
-            else
-            {
-                selectedSoulObject = null; //unselect the object
+                selectedSoulObject = null;
             }
         }
         else //failed placement
@@ -310,7 +309,13 @@ public class GridFitter : MonoBehaviour
                 touchingEnemy = true;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    selectedSoulObject.targets.Add(enemy);
+                    foreach (Effect e in selectedSoulObject.effects)
+                    {
+                        if (e.targetType == TargetType.SingleTarget)
+                        {
+                            e.targets.Add(enemy);
+                        }
+                    }
                     selectedSoulObject = null;
                     Battle.b.bs = BattleState.PlayerGrid;
                     //if mouse is touching an enemy and the player clicks, then add that enemy to the selected soul object's target list
@@ -364,7 +369,10 @@ public class GridFitter : MonoBehaviour
             {
                 soulObject.SetRenderOrder(6);
             }
-            soulObject.targets.Clear(); //gets rid of targets
+            foreach (Effect e in soulObject.effects)
+            {
+                e.targets.Clear();
+            } //gets rid of targets
             soulObject.tilesTouching = null;
             if (soulObject.currentCooldown > 0)
             {

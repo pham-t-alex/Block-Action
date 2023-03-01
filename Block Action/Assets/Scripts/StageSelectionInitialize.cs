@@ -9,7 +9,7 @@ public class StageSelectionInitialize : MonoBehaviour
     {
         if (true) //later change to if world == dark forest
         {
-            // AudioController.audioController.PlayBGM("darkforesttheme");
+            AudioController.audioController.PlayBGM("darkforesttheme");
         }
     }
 

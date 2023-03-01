@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : Fighter
 {
-    public List<Effect> effects; // change to effect
+    public List<Action> actions; // change to effect
     public int numAtk;
     public bool mouseTouching;
     public string type;

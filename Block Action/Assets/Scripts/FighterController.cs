@@ -109,7 +109,7 @@ public class FighterController : MonoBehaviour
         {
             string[] enemyInfo = line.Split(' ');
             Enemy enemy = Battle.b.enemies[i];
-            enemy.effects = new List<Effect>();
+            enemy.actions = new List<Action>();
             enemy.buff = 1.0;
             enemy.defenseBuff = 1.0;
             enemy.buffLeft = new List<BuffCounter>();
@@ -118,7 +118,7 @@ public class FighterController : MonoBehaviour
             int upper = System.Convert.ToInt32(enemyInfo[5]);
             enemy.type = enemyInfo[0];
             setEnemyData(enemy, enemyInfo[0], lower, upper);
-            enemy.numAtk = enemy.effects.Count;
+            enemy.numAtk = enemy.actions.Count;
             enemy.gameObject.AddComponent<BoxCollider2D>();
             double hpScale = System.Convert.ToDouble(enemyInfo[1]);
             double atkScale = System.Convert.ToDouble(enemyInfo[2]);
@@ -133,22 +133,25 @@ public class FighterController : MonoBehaviour
     {
         enemy.health = (int) (enemy.health * hpScale);
         enemy.maxHealth = (int) (enemy.maxHealth * hpScale);
-        foreach (Effect effect in enemy.effects)
+        foreach (Action action in enemy.actions)
         {
-            if (effect is Damage)
+            foreach (Effect effect in action.effects)
             {
-                Damage damageEffect = (Damage) effect;
-                damageEffect.dmg *= atkScale;
-            }
-            if (effect is Heal)
-            {
-                Heal healEffect = (Heal) effect;
-                healEffect.heal *= atkScale;
-            }
-            if (effect is Buff)
-            {
-                Buff buffEffect = (Buff) effect;
-                buffEffect.buff *= buffScale;
+                if (effect is Damage)
+                {
+                    Damage damageEffect = (Damage)effect;
+                    damageEffect.dmg *= atkScale;
+                }
+                if (effect is Heal)
+                {
+                    Heal healEffect = (Heal)effect;
+                    healEffect.heal *= atkScale;
+                }
+                if (effect is Buff)
+                {
+                    Buff buffEffect = (Buff)effect;
+                    buffEffect.buff *= buffScale;
+                }
             }
         }
         enemy.atkScale = atkScale;
@@ -163,52 +166,56 @@ public class FighterController : MonoBehaviour
         enemy.health = enemyData.defaultStartingHealth;
         for (int i = lower; i <= upper; i++)
         {
-            addEffect(enemy, enemyData.actions[i]);
+            addAction(enemy, enemyData.actions[i]);
         }
         enemy.minAction = lower;
         enemy.maxAction = upper;
     }
 
-    static void addEffect(Enemy enemy, string effectAsString)
+    static void addAction(Enemy enemy, string actionAsString)
     {
-        string[] effectData = effectAsString.Split(" ");
-        Effect effect = null;
-        if (effectData[0].Equals("dmg"))
+        Action a = new Action();
+        a.effects = new List<Effect>();
+        string[] actionData = actionAsString.Split("\n");
+        foreach (string effectAsString in actionData)
         {
-            effect = new Damage(System.Convert.ToInt32(effectData[2]));
-        }
-        else if (effectData[0].Equals("heal"))
-        {
-            effect = new Heal(System.Convert.ToDouble(effectData[2]));
-        }
-        else if (effectData[0].Equals("buff"))
-        {
-            if (effectData[2].Equals("atk"))
+            string[] effectData = effectAsString.Split(" ");
+            Effect effect = null;
+            if (effectData[0].Equals("dmg"))
             {
-                effect = new Buff(System.Convert.ToDouble(effectData[3]));
-                effect.numTurns = System.Convert.ToInt32(effectData[4]);
+                effect = new Damage(System.Convert.ToInt32(effectData[2]));
             }
-            else if (effectData[2].Equals("def"))
+            else if (effectData[0].Equals("heal"))
             {
-                effect = new DefenseBuff(System.Convert.ToDouble(effectData[3]));
-                effect.numTurns = System.Convert.ToInt32(effectData[4]);
+                effect = new Heal(System.Convert.ToDouble(effectData[2]));
             }
-        }
-        if (effectData[1].Equals("player"))
-        {
-            effect.targets.Add(Player.player);
-        }
-        else if (effectData[1].Equals("self"))
-        {
-            effect.self = true;
-        }
-        else if (effectData[1].Equals("enemies"))
-        {
-            foreach (Enemy e in Battle.b.enemies)
+            else if (effectData[0].Equals("buff"))
             {
-                effect.targets.Add(e);
+                if (effectData[2].Equals("atk"))
+                {
+                    effect = new Buff(System.Convert.ToDouble(effectData[3]));
+                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
+                }
+                else if (effectData[2].Equals("def"))
+                {
+                    effect = new DefenseBuff(System.Convert.ToDouble(effectData[3]));
+                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
+                }
             }
+            if (effectData[1].Equals("player"))
+            {
+                effect.targetType = TargetType.SingleTarget;
+            }
+            else if (effectData[1].Equals("self"))
+            {
+                effect.targetType = TargetType.Self;
+            }
+            else if (effectData[1].Equals("enemies"))
+            {
+                effect.targetType = TargetType.AllEnemies;
+            }
+            a.effects.Add(effect);
         }
-        enemy.effects.Add(effect);
+        enemy.actions.Add(a);
     }
 }

@@ -154,15 +154,15 @@ public class BlockGenerator : MonoBehaviour
             }
             if (effectData[1].Equals("self"))
             {
-                effect.self = true;
+                effect.targetType = TargetType.Self;
             }
             else if (effectData[1].Equals("enemies"))
             {
-                soulObject.isAoe = true;
+                effect.targetType = TargetType.AllEnemies;
             }
             else if (effectData[1].Equals("enemy"))
             {
-                soulObject.isSingleTarget = true;
+                effect.targetType = TargetType.SingleTarget;
             }
             soulObject.effects.Add(effect);
         }
