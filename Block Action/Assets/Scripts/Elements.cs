@@ -6,55 +6,48 @@ public class Element : MonoBehaviour
 {
     //Need to type element name in all caps btw
     public enum Elements{ELEMENTLESS, FIRE, WATER, NATURE};
-    public Elements playerElement;
-
-
-    public Element(Elements type)
-    {
-        playerElement = type;
-    }
 
     //Return -1 if the enemy resisted the attack, 0 if it's normal damage,
-    //and 1 if the enemy was weak to the attack
-    private int weaknessCheck(Elements enemyType) {
+    //and 1 if the one taking damage was weak to the attack
+    private static int weaknessCheck(Elements attackElement, Elements damagedElement) {
         //A perk of choosing elementless attacks could be that the attack will never be resisted
         int weaknessValue = 0;
         
-        if (playerElement == Elements.FIRE)
+        if (attackElement == Elements.FIRE)
         {
             //Fire type enemies will take less damage from fire moves
-            if (enemyType == Elements.FIRE) 
+            if (damagedElement == Elements.FIRE) 
             {
                 weaknessValue = -1;
             } 
             //Nature is weak to fire
-            else if (enemyType == Elements.NATURE) 
+            else if (damagedElement == Elements.NATURE) 
             {
                 weaknessValue = 1;
             }
         }
-        else if (playerElement == Elements.WATER)
+        else if (attackElement == Elements.WATER)
         {
             //Water resists water
-            if (enemyType == Elements.WATER)
+            if (damagedElement == Elements.WATER)
             {
                 weaknessValue = -1;
             }
             //Water beats fire
-            if (enemyType == Elements.FIRE)
+            if (damagedElement == Elements.FIRE)
             {
                 weaknessValue = 1;
             }
         }
-        else if (playerElement == Elements.NATURE)
+        else if (attackElement == Elements.NATURE)
         {
             //Nature resists itself
-            if (enemyType == Elements.NATURE)
+            if (damagedElement == Elements.NATURE)
             {
                 weaknessValue = -1;
             }
             //Nature beats water? Probably not gonna be a set-in-stone thing but-
-            if (enemyType == Elements.WATER)
+            if (damagedElement == Elements.WATER)
             {
                 weaknessValue = 1;
             }
@@ -64,9 +57,12 @@ public class Element : MonoBehaviour
         return weaknessValue;
     }
 
-    public float elementalDamageModifier(Elements enemyElement)
+
+    //I'm basically assuming that the player is not going to have an element so all attacks will do a set damage to them
+    //so the first parameter will be the element the player is attacking with and the second is the enemy's element
+    public static float elementalDamageModifier(Elements playerElement, Elements enemyElement)
     {
-        int weakness = this.weaknessCheck(enemyElement);
+        int weakness = Element.weaknessCheck(playerElement, enemyElement);
         
         //dmgModifier is the number that the attack damage will be multiplied by
         //depending on the element of the attack and enemmy
