@@ -30,7 +30,7 @@ public class Damage : Effect
             if (!f.dead)
             {
                 int prevHealth = f.health;
-                f.health -= (int)(dmg * fighter.buff * f.defenseBuff);
+                f.health -= (int)(dmg * makeNonNegative(fighter.buff) * makeNonNegative(f.defenseBuff));
                 GameObject indicator = Resources.Load<GameObject>("Indicator");
                 GameObject g = GameObject.Instantiate(indicator, f.transform);
                 TMP_Text text = g.GetComponent<TMP_Text>();
@@ -49,5 +49,14 @@ public class Damage : Effect
                 }
             }
         }
+    }
+
+    private double makeNonNegative(double multiplier)
+    {
+        if (multiplier < 0)
+        {
+            return 0;
+        }
+        return multiplier;
     }
 }

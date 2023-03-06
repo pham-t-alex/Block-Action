@@ -21,7 +21,7 @@ public class GridFitter : MonoBehaviour
     } //Singleton object version, accessible through GridFitter.gridFitter, and will never throw NullPointerException
 
     public GameObject target; //target sprite gameobject
-    static SoulObject selectedSoulObject; //currently selected soul object
+    public static SoulObject selectedSoulObject; //currently selected soul object
     static float selectedTime = float.MinValue; //used to allow object to follow mouse around for a short amount of time after being selected
     //This was added since it makes the dragging of the block more smooth. Without this feature, if the mouse exits the bounds of the block, it would
     //become unselected, so if you drag too fast, it would stop. This buffer would allow dragging to be more smooth, while still allowing the player
@@ -46,7 +46,7 @@ public class GridFitter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //Method ran in Battle class, ran so long as the battle state is grid fitting phase
@@ -65,7 +65,6 @@ public class GridFitter : MonoBehaviour
                 //mouse position. With this, you can drag the soul object from its edge, it feels more natural.
                 // COMEBACK
                 selectedSoulObject.transform.localScale = new Vector3(gridFitter.scale, gridFitter.scale, 1);
-                selectedSoulObject.timeHovered = 0;
             }
             else if (selectedTime > float.MinValue) //When the object stops being selected (<0)
             {
@@ -122,8 +121,6 @@ public class GridFitter : MonoBehaviour
                             soulObject.SetRenderOrder(4);
                         } //sets display order in layer for display
                         selectedTime = 0.05f; //sets selected time to 0.05 seconds (after 0.05 seconds of not being touched by mouse down, it will deselect)
-                        selectedSoulObject.DestroyInfoMenu();
-                        selectedSoulObject.timeHovered = 0;
                     }
                 }
             }

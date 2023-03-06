@@ -26,7 +26,6 @@ public class SoulObject : MonoBehaviour
 
     public string soulName;
     public string description;
-    public BlockInfoMenu infoMenu;
 
     // Variables required for cooldown calculations
     public int defaultCooldown;
@@ -45,30 +44,20 @@ public class SoulObject : MonoBehaviour
 
     public Vector3 startPosition;
 
-    public float timeHovered;
-
     // Start is called before the first frame update
     void Start()
     {
         soulCollider = GetComponent<Collider2D>();
-        timeHovered = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     void OnMouseOver()
     {
-        if (timeHovered >= 1)
-        {
-            CreateInfoMenu();
-        }
-        else
-        {
-            timeHovered += Time.deltaTime;
-        }
+        CreateInfoMenu();
     }
 
     void OnMouseEnter()
@@ -82,8 +71,10 @@ public class SoulObject : MonoBehaviour
     void OnMouseExit()
     {
         mouseTouching = false;
-        timeHovered = 0;
-        DestroyInfoMenu();
+        if (GridFitter.selectedSoulObject != this)
+        {
+            BlockInfoMenuHandler.InfoMenuHandler.Remove();
+        }
     }
 
     public void ActivateEffect() {
@@ -183,34 +174,9 @@ public class SoulObject : MonoBehaviour
 
     public void CreateInfoMenu()
     {
-        if (infoMenu == null)
-        {
-
-            Vector3 infoPosition = transform.position;
-            GameObject infoCanvas = GameObject.FindGameObjectWithTag("InfoMenus");
-            float minX = (-1 * Camera.main.orthographicSize * Screen.width / Screen.height) + 3.5f;
-            infoPosition.y += 4;
-            infoPosition.x = Mathf.Max(infoPosition.x, minX);
-            Vector3 infoPosition2 = Fighter.WorldToScreenSpace(infoPosition, Camera.main, infoCanvas.GetComponent<RectTransform>());
-            GameObject g = Instantiate(BlockGenerator.blockGenerator.blockInfoMenu, Vector3.zero, Quaternion.identity);
-            g.transform.SetParent(infoCanvas.transform);
-            g.GetComponent<RectTransform>().anchoredPosition = infoPosition2;
-            g.transform.localScale = new Vector3(1, 1, 1);
-            infoMenu = g.GetComponent<BlockInfoMenu>();
-
-            infoMenu.SetTitle(SoulNameWithoutUnderscores());
-            infoMenu.SetInfo(InfoText());
-        }
+        BlockInfoMenuHandler.InfoMenuHandler.Set(SoulNameWithoutUnderscores(), InfoText());
     }
 
-    public void DestroyInfoMenu()
-    {
-        if (infoMenu != null)
-        {
-            Destroy(infoMenu.gameObject);
-            infoMenu = null;
-        }
-    }
 
     public string SoulNameWithoutUnderscores()
     {
@@ -226,16 +192,8 @@ public class SoulObject : MonoBehaviour
 
     public string InfoText()
     {
-        string info = "<i>" + description + "</i>\n\n";
-        if (this is SoulBlock)
-        {
-            info += "Type: Soul Block\n";
-        }
-        else if (this is SoulFrame)
-        {
-            info += "Type: Soul Frame\n";
-        }
-        info += "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n";
+        string info = "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n";
+        info += "Element: ";
         info += "Effects:";
         foreach (Effect e in effects)
         {
