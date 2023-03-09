@@ -12,7 +12,7 @@ public class SoulObjectData : ScriptableObject
     public string shapeAsString;
     public int width;
     public int height;
-    public string element;
+    public Element.Elements element;
     public int cooldown;
     public bool isSoulBlock;
 
