@@ -45,8 +45,7 @@ public class Player : Fighter
 
     public override string GetInfo()
     {
-        string info = "<i>Wielder of souls.</i>\n\n";
-        info += "Health: " + health + "/" + maxHealth + "\n";
+        string info = "Health: " + health + "/" + maxHealth + "\n";
         info += "Status Effects:";
         foreach (BuffCounter bc in buffLeft)
         {

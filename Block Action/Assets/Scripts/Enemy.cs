@@ -87,8 +87,7 @@ public class Enemy : Fighter
     {
         EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{type}");
 
-        string info = "<i>" + enemyData.description + "</i>\n\n";
-        info += "Health: " + health + "/" + maxHealth + "\n";
+        string info = "Health: " + health + "/" + maxHealth + "\n";
         info += "Status Effects:";
         foreach (BuffCounter bc in buffLeft)
         {
@@ -132,66 +131,82 @@ public class Enemy : Fighter
 
     public string ActionAsString(string action)
     {
-        string[] effectData = action.Split(" ");
-        string effectAsString;
-        if (effectData[0].Equals("dmg"))
+        string[] actionData = action.Split("\n");
+        string actionAsString = "";
+        bool firstIterationDone = false;
+        foreach (string effect in actionData)
         {
-            effectAsString = "Deal " + (System.Convert.ToInt32(effectData[2]) * atkScale) + " damage to ";
-        }
-        else if (effectData[0].Equals("heal"))
-        {
-            effectAsString = "Heal ";
-        }
-        else if (effectData[0].Equals("buff"))
-        {
-            effectAsString = "Buff ";
-        }
-        else
-        {
-            return null;
-        }
-        if (effectData[1].Equals("player"))
-        {
-            effectAsString += "the player";
-        }
-        else if (effectData[1].Equals("self"))
-        {
-            effectAsString += "this enemy";
-        }
-        else if (effectData[1].Equals("enemies"))
-        {
-            effectAsString += "all enemies";
-        }
-        else
-        {
-            return null;
-        }
-        if (effectData[0].Equals("dmg")) {
-            effectAsString += ".";
-        } 
-        else if (effectData[0].Equals("heal"))
-        {
-            effectAsString += " by " + (System.Convert.ToDouble(effectData[2]) * buffScale) + " HP.";
-        }
-        else if (effectData[0].Equals("buff"))
-        {
-            if (effectData[1].Equals("enemies"))
+            if (firstIterationDone)
             {
-                effectAsString += "'";
+                actionAsString += "; ";
             }
             else
             {
-                effectAsString += "'s";
+                firstIterationDone = true;
             }
-            if (effectData[2].Equals("atk"))
+            string[] effectData = effect.Split(" ");
+            string effectAsString = "";
+            if (effectData[0].Equals("damage"))
             {
-                effectAsString += " attack by " + (System.Convert.ToDouble(effectData[3]) * buffScale * 100) + "% for " + System.Convert.ToInt32(effectData[4]) + " turns.";
+                effectAsString = "Deal " + (System.Convert.ToInt32(effectData[2]) * atkScale) + " damage to ";
             }
-            else if (effectData[2].Equals("def"))
+            else if (effectData[0].Equals("heal"))
             {
-                effectAsString += " defense by " + (System.Convert.ToDouble(effectData[3]) * buffScale * 100) + "% for " + System.Convert.ToInt32(effectData[4]) + " turns.";
+                effectAsString = "Heal ";
             }
+            else if (effectData[0].Equals("buff"))
+            {
+                effectAsString = "Buff ";
+            }
+            else
+            {
+                return null;
+            }
+            if (effectData[1].Equals("player"))
+            {
+                effectAsString += "the player";
+            }
+            else if (effectData[1].Equals("self"))
+            {
+                effectAsString += "this enemy";
+            }
+            else if (effectData[1].Equals("enemies"))
+            {
+                effectAsString += "all enemies";
+            }
+            else
+            {
+                return null;
+            }
+            if (effectData[0].Equals("dmg"))
+            {
+                effectAsString += ".";
+            }
+            else if (effectData[0].Equals("heal"))
+            {
+                effectAsString += " by " + (System.Convert.ToDouble(effectData[2]) * atkScale) + " HP.";
+            }
+            else if (effectData[0].Equals("buff"))
+            {
+                if (effectData[1].Equals("enemies"))
+                {
+                    effectAsString += "'";
+                }
+                else
+                {
+                    effectAsString += "'s";
+                }
+                if (effectData[2].Equals("atk"))
+                {
+                    effectAsString += " attack by " + (System.Convert.ToDouble(effectData[3]) * buffScale * 100) + "% for " + System.Convert.ToInt32(effectData[4]) + " turns.";
+                }
+                else if (effectData[2].Equals("def"))
+                {
+                    effectAsString += " defense by " + (System.Convert.ToDouble(effectData[3]) * buffScale * 100) + "% for " + System.Convert.ToInt32(effectData[4]) + " turns.";
+                }
+            }
+            actionAsString += effectAsString;
         }
-        return effectAsString;
+        return actionAsString;
     }
 }

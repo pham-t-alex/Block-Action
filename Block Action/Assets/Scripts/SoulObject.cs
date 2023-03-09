@@ -39,6 +39,7 @@ public class SoulObject : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     public List<Effect> effects = new List<Effect>();
+    public Element.Elements element;
 
     public Color originalColor;
 
@@ -194,7 +195,23 @@ public class SoulObject : MonoBehaviour
     {
         string info = "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n";
         info += "Element: ";
-        info += "Effects:";
+        if (element == Element.Elements.FIRE)
+        {
+            info += "Fire";
+        }
+        else if (element == Element.Elements.WATER)
+        {
+            info += "Water";
+        }
+        else if (element == Element.Elements.NATURE)
+        {
+            info += "Nature";
+        }
+        else if (element == Element.Elements.ELEMENTLESS)
+        {
+            info += "Elementless";
+        }
+        info += "\nEffects:";
         foreach (Effect e in effects)
         {
             string s = EffectAsString(e);

@@ -314,6 +314,7 @@ public class GridFitter : MonoBehaviour
                         }
                     }
                     selectedSoulObject = null;
+                    BlockInfoMenuHandler.InfoMenuHandler.Remove();
                     Battle.b.bs = BattleState.PlayerGrid;
                     //if mouse is touching an enemy and the player clicks, then add that enemy to the selected soul object's target list
                     //unselect the soul object, return to grid fitting phase

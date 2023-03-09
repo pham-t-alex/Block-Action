@@ -181,7 +181,7 @@ public class FighterController : MonoBehaviour
         {
             string[] effectData = effectAsString.Split(" ");
             Effect effect = null;
-            if (effectData[0].Equals("dmg"))
+            if (effectData[0].Equals("damage"))
             {
                 effect = new Damage(System.Convert.ToInt32(effectData[2]));
             }
