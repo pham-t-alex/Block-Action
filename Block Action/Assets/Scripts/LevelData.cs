@@ -14,12 +14,12 @@ public class LevelData : ScriptableObject
 
     public string background;
 
-    [TextArea(1, 3)]
+    [TextArea(1, 10)]
     public List<string> enemyWaves;
 
     [TextArea(1, 3)]
     public List<string> midLevelEffects;
 
     [TextArea(1, 3)]
-    public List<string> firstClearRewards;  
+    public List<string> firstClearRewards;
 }

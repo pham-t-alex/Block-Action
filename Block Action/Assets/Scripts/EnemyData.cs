@@ -10,6 +10,7 @@ public class EnemyData : ScriptableObject
 
     [TextArea(1, 10)]
     public string description;
+    [TextArea(1, 10)]
     public List<string> actions;
 
     public Sprite idle;
