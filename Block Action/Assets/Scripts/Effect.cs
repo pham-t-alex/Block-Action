@@ -22,6 +22,14 @@ public abstract class Effect
         {
             effect = new Damage(System.Convert.ToInt32(effectData[2]));
         }
+        else if (effectData[0].Equals("true_damage"))
+        {
+            effect = new TrueDamage(System.Convert.ToInt32(effectData[2]));
+        }
+        else if (effectData[0].Equals("def_ignoring_damage"))
+        {
+            effect = new DefIgnoringDamage(System.Convert.ToInt32(effectData[2]));
+        }
         else if (effectData[0].Equals("heal"))
         {
             effect = new Heal(System.Convert.ToDouble(effectData[2]));
@@ -68,9 +76,22 @@ public abstract class Effect
     public static string effectToString(Effect e, bool forBlock)
     {
         string effectString = "";
-        if (e is Damage)
+        if (e is Damage || e is TrueDamage || e is DefIgnoringDamage)
         {
-            effectString = "Deal " + ((Damage)e).dmg + " damage to ";
+            effectString = "Deal ";
+            if (e is Damage)
+            {
+                effectString += ((Damage)e).dmg + " damage";
+            }
+            else if (e is TrueDamage)
+            {
+                effectString += ((TrueDamage)e).dmg + " true damage";
+            }
+            else
+            {
+                effectString += ((DefIgnoringDamage)e).dmg + " def-ignoring damage";
+            }
+            effectString += " to ";
             if (e.targetType == TargetType.Self)
             {
                 effectString += "self";
