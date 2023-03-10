@@ -5,10 +5,12 @@ using TMPro;
 
 public class Buff : Effect
 {
+    public int numTurns;
     public double buff;
 
-    public Buff(double buff) {
+    public Buff(double buff, int numTurns) {
         this.buff = buff;
+        this.numTurns = numTurns;
     }
 
     // Start is called before the first frame update

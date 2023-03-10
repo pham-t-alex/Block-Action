@@ -214,89 +214,12 @@ public class SoulObject : MonoBehaviour
         info += "\nEffects:";
         foreach (Effect e in effects)
         {
-            string s = EffectAsString(e);
+            string s = Effect.effectToString(e, true);
             if (s != null)
             {
                 info += "\n- " + s;
             }
         }
         return info;
-    }
-
-    public string EffectAsString(Effect e)
-    {
-        string effectString;
-        if (e is Damage)
-        {
-            effectString = "Deal " + ((Damage)e).dmg + " damage to ";
-            if (e.targetType == TargetType.Self)
-            {
-                effectString += "the player.";
-            }
-            else if (e.targetType == TargetType.AllEnemies)
-            {
-                effectString += "all enemies.";
-            }
-            else if (e.targetType == TargetType.SingleTarget)
-            {
-                effectString += "an enemy.";
-            }
-        }
-        else if (e is Heal)
-        {
-            effectString = "Heal ";
-            if (e.targetType == TargetType.Self)
-            {
-                effectString += "the player";
-            }
-            else if (e.targetType == TargetType.AllEnemies)
-            {
-                effectString += "all enemies";
-            }
-            else if (e.targetType == TargetType.SingleTarget)
-            {
-                effectString += "an enemy";
-            }
-            effectString += " by " + ((Heal)e).heal + " HP.";
-        }
-        else if (e is Buff)
-        {
-            effectString = "Buff ";
-            if (e.targetType == TargetType.Self)
-            {
-                effectString += "the player's";
-            }
-            else if (e.targetType == TargetType.AllEnemies)
-            {
-                effectString += "all enemies'";
-            }
-            else if (e.targetType == TargetType.SingleTarget)
-            {
-                effectString += "an enemy's";
-            }
-            effectString += " attack by " + (((Buff)e).buff * 100) + "% for " + ((Buff)e).numTurns + " turns.";
-        }
-        else if (e is DefenseBuff)
-        {
-            effectString = "Buff ";
-            if (e.targetType == TargetType.Self)
-            {
-                effectString += "the player's";
-            }
-            else if (e.targetType == TargetType.AllEnemies)
-            {
-                effectString += "all enemies'";
-            }
-            else if (e.targetType == TargetType.SingleTarget)
-            {
-                effectString += "an enemy's";
-            }
-            effectString += " defense by " + (((DefenseBuff)e).defenseBuff * 100) + "% for " + ((DefenseBuff)e).numTurns + " turns.";
-        }
-        else
-        {
-            return null;
-        }
-        return effectString;
     }
 }

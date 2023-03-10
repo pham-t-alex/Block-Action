@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DelayedEffect : Effect
+public class RepeatingEffect : Effect
 {
-    public int delay;
+    public int duration;
     public Effect effect;
 
     //Don't use an effect with single target type
-    public DelayedEffect(int delay, Effect effect)
+    public RepeatingEffect(int duration, Effect effect)
     {
-        this.delay = delay;
+        this.duration = duration;
         this.effect = effect;
     }
     public override void ActivateEffect(Fighter fighter)
@@ -19,15 +19,15 @@ public class DelayedEffect : Effect
         {
             if (!f.dead)
             {
-                DelayedEffectStatus status = new DelayedEffectStatus(delay, effect, f);
+                RepeatingEffectStatus status = new RepeatingEffectStatus(duration, effect, f);
                 f.statusEffects.Add(status);
                 if (f.Equals(Player.player))
                 {
-                    Debug.Log("Delayed effect applied to the player.");
+                    Debug.Log("Repeating effect applied to the player.");
                 }
                 else
                 {
-                    Debug.Log("Delayed effect applied to an enemy.");
+                    Debug.Log("Repeating effect applied to an enemy.");
                 }
             }
         }

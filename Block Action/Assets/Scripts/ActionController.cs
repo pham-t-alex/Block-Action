@@ -180,18 +180,7 @@ public class ActionController : MonoBehaviour
     {
         //change later to add frames
         s.ActivateEffect();
-        foreach (Enemy e in Battle.b.enemies)
-        {
-            if (e.health <= 0)
-            {
-                e.dead = true;
-                e.buff = 1;
-                e.buffLeft.Clear();
-                e.defenseBuffLeft.Clear();
-                e.healthBar.gameObject.SetActive(false);
-                e.gameObject.SetActive(false);
-            }
-        }
+        Battle.updateDead();
     }
 
     static void EnemySequence(Enemy e)
@@ -222,15 +211,7 @@ public class ActionController : MonoBehaviour
             }
             effect.targets.Clear();
         }
-        if (Player.player.health <= 0)
-        {
-            Player.player.dead = true;
-            Player.player.buff = 1;
-            Player.player.buffLeft.Clear();
-            Player.player.defenseBuffLeft.Clear();
-            Player.player.healthBar.gameObject.SetActive(false);
-            Player.player.gameObject.SetActive(false);
-        }
+        Battle.updateDead();
         
     }
 }

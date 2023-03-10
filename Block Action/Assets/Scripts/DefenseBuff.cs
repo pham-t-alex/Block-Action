@@ -5,11 +5,13 @@ using TMPro;
 
 public class DefenseBuff : Effect
 {
+    public int numTurns;
     public double defenseBuff;
 
-    public DefenseBuff(double defenseBuff)
+    public DefenseBuff(double defenseBuff, int numTurns)
     {
         this.defenseBuff = defenseBuff;
+        this.numTurns = numTurns;
     }
 
     // Start is called before the first frame update

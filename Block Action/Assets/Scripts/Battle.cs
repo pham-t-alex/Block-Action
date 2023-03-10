@@ -105,6 +105,33 @@ public class Battle : MonoBehaviour
             GridFitter.EnemySelect();
         } else if (bs.Equals(BattleState.Gimmicks)) {
             GimmickController.MidLevelEffects();
+        } else if (bs.Equals(BattleState.StatusEffects)) {
+            Status.TriggerStatusEffects();
+        }
+    }
+
+    public static void updateDead()
+    {
+        if (Player.player.health <= 0)
+        {
+            Player.player.dead = true;
+            Player.player.buff = 1;
+            Player.player.buffLeft.Clear();
+            Player.player.defenseBuffLeft.Clear();
+            Player.player.healthBar.gameObject.SetActive(false);
+            Player.player.gameObject.SetActive(false);
+        }
+        foreach (Enemy e in b.enemies)
+        {
+            if (e.health <= 0)
+            {
+                e.dead = true;
+                e.buff = 1;
+                e.buffLeft.Clear();
+                e.defenseBuffLeft.Clear();
+                e.healthBar.gameObject.SetActive(false);
+                e.gameObject.SetActive(false);
+            }
         }
     }
 }

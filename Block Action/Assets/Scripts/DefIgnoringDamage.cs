@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Damage : Effect
+public class DefIgnoringDamage : Effect
 {
 
     public double dmg;
 
-    public Damage(int dmg)
+    public DefIgnoringDamage(int dmg)
     {
         this.dmg = dmg;
     }
@@ -16,19 +16,20 @@ public class Damage : Effect
 
     public override void ActivateEffect(Fighter fighter)
     {
-        foreach (Fighter f in targets) {
+        foreach (Fighter f in targets)
+        {
             if (!f.dead)
             {
                 int damageDealt;
                 int prevHealth = f.health;
                 if (fighter != null)
                 {
-                    damageDealt = (int)(dmg * makeNonNegative(fighter.buff) * makeNonNegative(f.defenseBuff));
+                    damageDealt = (int)(dmg * makeNonNegative(fighter.buff));
                     f.health -= damageDealt;
                 }
                 else
                 {
-                    damageDealt = (int)(dmg * makeNonNegative(f.defenseBuff));
+                    damageDealt = (int)(dmg);
                     f.health -= damageDealt;
                 }
                 GameObject indicator = Resources.Load<GameObject>("Indicator");
@@ -41,11 +42,11 @@ public class Damage : Effect
                 {
                     // Hurt animation only plays when Player takes damage
                     PlayerAnimator.SetTrigger("Hurt");
-                    Debug.Log("Player takes " + damageDealt + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                    Debug.Log("Player takes " + damageDealt + " def-ignoring damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
                 else
                 {
-                    Debug.Log("Enemy takes " + damageDealt + " damage | HP: " + (prevHealth) + " -> " + f.health);
+                    Debug.Log("Enemy takes " + damageDealt + " def-ignoring damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
             }
         }

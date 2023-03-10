@@ -114,6 +114,7 @@ public class FighterController : MonoBehaviour
             enemy.defenseBuff = 1.0;
             enemy.buffLeft = new List<BuffCounter>();
             enemy.defenseBuffLeft = new List<DefenseBuffCounter>();
+            enemy.statusEffects = new List<Status>();
             int lower = System.Convert.ToInt32(enemyInfo[4]);
             int upper = System.Convert.ToInt32(enemyInfo[5]);
             enemy.type = enemyInfo[0];
@@ -179,42 +180,7 @@ public class FighterController : MonoBehaviour
         string[] actionData = actionAsString.Split("\n");
         foreach (string effectAsString in actionData)
         {
-            string[] effectData = effectAsString.Split(" ");
-            Effect effect = null;
-            if (effectData[0].Equals("damage"))
-            {
-                effect = new Damage(System.Convert.ToInt32(effectData[2]));
-            }
-            else if (effectData[0].Equals("heal"))
-            {
-                effect = new Heal(System.Convert.ToDouble(effectData[2]));
-            }
-            else if (effectData[0].Equals("buff"))
-            {
-                if (effectData[2].Equals("atk"))
-                {
-                    effect = new Buff(System.Convert.ToDouble(effectData[3]));
-                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
-                }
-                else if (effectData[2].Equals("def"))
-                {
-                    effect = new DefenseBuff(System.Convert.ToDouble(effectData[3]));
-                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
-                }
-            }
-            if (effectData[1].Equals("player"))
-            {
-                effect.targetType = TargetType.SingleTarget;
-            }
-            else if (effectData[1].Equals("self"))
-            {
-                effect.targetType = TargetType.Self;
-            }
-            else if (effectData[1].Equals("enemies"))
-            {
-                effect.targetType = TargetType.AllEnemies;
-            }
-            a.effects.Add(effect);
+            a.effects.Add(Effect.effectFromString(effectAsString));
         }
         enemy.actions.Add(a);
     }

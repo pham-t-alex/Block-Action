@@ -26,6 +26,7 @@ public class Player : Fighter
         defenseBuff = 1.0;
         maxHealth = 100;
         buffLeft = new List<BuffCounter>();
+        statusEffects = new List<Status>();
         defenseBuffLeft = new List<DefenseBuffCounter>();
 
 
