@@ -99,41 +99,7 @@ public class ActionController : MonoBehaviour
             }
         }
         
-        //count down the number of turns for buffs
-        foreach (Fighter f in Battle.b.fighters) {
-            foreach (BuffCounter bc in f.buffLeft) {
-                bc.numTurns--;
-                if (bc.numTurns == 0) {
-                    double prevBuff = f.buff;
-                    f.buff -= bc.buff;
-                    if (f is Player)
-                    {
-                        Debug.Log($"Buff ended | Player buff {prevBuff}x -> {f.buff}");
-                    }
-                    else
-                    {
-                        Debug.Log($"Buff ended | Enemy buff {prevBuff}x -> {f.buff}");
-                    }
-                }
-            }
-            foreach (DefenseBuffCounter bc in f.defenseBuffLeft)
-            {
-                bc.numTurns--;
-                if (bc.numTurns == 0)
-                {
-                    double prevBuff = f.defenseBuff;
-                    f.defenseBuff += bc.defenseBuff;
-                    if (f is Player)
-                    {
-                        Debug.Log($"Defense Buff ended | Player defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
-                    }
-                    else
-                    {
-                        Debug.Log($"Defense Buff ended | Enemy defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
-                    }
-                }
-            }
-        }
+        
 
         if (Player.player.dead)
         {
@@ -170,9 +136,9 @@ public class ActionController : MonoBehaviour
         //reset soulblocks to original position
         GridFitter.ResetSoulObjects();
         GimmickController.gimmickController.index = 0;
-        Battle.b.bs = BattleState.Gimmicks;
+        Battle.b.bs = BattleState.StatusEffects;
+        Debug.Log("Status Effects");
         BottomDarkener.UndarkenBottom();
-        Debug.Log("Mid Level Effects");
         Battle.b.turnNumber++;
     }
 

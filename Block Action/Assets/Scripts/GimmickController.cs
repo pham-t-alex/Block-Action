@@ -42,8 +42,8 @@ public class GimmickController : MonoBehaviour
         {
             if (gimmickController.index >= gimmickController.midLevelEffects.Count)
             {
-                Battle.b.bs = BattleState.StatusEffects;
-                Debug.Log("Status Effects");
+                Battle.b.bs = BattleState.PlayerGrid;
+                Debug.Log("Grid Fitting");
                 return;
             }
             string[] gimmickInfo = gimmickController.midLevelEffects[gimmickController.index].Split(" ");
