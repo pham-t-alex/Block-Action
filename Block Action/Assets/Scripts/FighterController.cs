@@ -138,19 +138,31 @@ public class FighterController : MonoBehaviour
         {
             foreach (Effect effect in action.effects)
             {
-                if (effect is Damage)
+                Effect innerEffect = effect;
+                while (innerEffect is DelayedEffect || innerEffect is RepeatingEffect)
                 {
-                    Damage damageEffect = (Damage)effect;
+                    if (innerEffect is DelayedEffect)
+                    {
+                        innerEffect = ((DelayedEffect)innerEffect).effect;
+                    }
+                    else
+                    {
+                        innerEffect = ((RepeatingEffect)innerEffect).effect;
+                    }
+                }
+                if (innerEffect is Damage)
+                {
+                    Damage damageEffect = (Damage)innerEffect;
                     damageEffect.dmg *= atkScale;
                 }
-                if (effect is Heal)
+                if (innerEffect is Heal)
                 {
-                    Heal healEffect = (Heal)effect;
+                    Heal healEffect = (Heal)innerEffect;
                     healEffect.heal *= atkScale;
                 }
-                if (effect is Buff)
+                if (innerEffect is Buff)
                 {
-                    Buff buffEffect = (Buff)effect;
+                    Buff buffEffect = (Buff)innerEffect;
                     buffEffect.buff *= buffScale;
                 }
             }
