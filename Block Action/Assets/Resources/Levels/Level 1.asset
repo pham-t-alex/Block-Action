@@ -31,6 +31,7 @@ MonoBehaviour:
     Hog_Hunter 0.5 0.5 1 0 1'
   midLevelEffects:
   - turn 1 damage player 40
+  - wave 1 add_block guidingSoul1 0
   - wave 1 dialogue Level1Mid-1
   - wave 1 text Drag the soul blocks in the grid!
   - turn 4 dialogue Level1Mid-2

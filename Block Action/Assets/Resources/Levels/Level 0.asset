@@ -21,5 +21,4 @@ MonoBehaviour:
   - Hog 2 2 1 0 0
   midLevelEffects:
   - turn 3 end_level
-  firstClearRewards:
-  - guidingSoul1
+  firstClearRewards: []

@@ -155,6 +155,16 @@ public class FighterController : MonoBehaviour
                     Damage damageEffect = (Damage)innerEffect;
                     damageEffect.dmg *= atkScale;
                 }
+                if (innerEffect is TrueDamage)
+                {
+                    TrueDamage damageEffect = (TrueDamage)innerEffect;
+                    damageEffect.dmg *= atkScale;
+                }
+                if (innerEffect is DefIgnoringDamage)
+                {
+                    DefIgnoringDamage damageEffect = (DefIgnoringDamage)innerEffect;
+                    damageEffect.dmg *= atkScale;
+                }
                 if (innerEffect is Heal)
                 {
                     Heal healEffect = (Heal)innerEffect;

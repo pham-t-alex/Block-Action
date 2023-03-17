@@ -81,5 +81,17 @@ public class BlockInfoMenuHandler : MonoBehaviour
     public void SetInfo(string newInfo)
     {
         info.text = newInfo;
+        if (newInfo.Length < 70)
+        {
+            info.fontSize = 25;
+        }
+        else if (newInfo.Length < 100)
+        {
+            info.fontSize = 22;
+        }
+        else
+        {
+            info.fontSize = 20;
+        }
     }
 }
