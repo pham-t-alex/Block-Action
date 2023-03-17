@@ -70,10 +70,10 @@ public class DialogueHandler : MonoBehaviour
         {
             character.spriteRenderer.color = new Color(1, 1, 1, 0);
         }
-        if (PersistentDataManager.storyState == 0 || PersistentDataManager.levelNumber == 0)
+        if (PersistentDataManager.storyState == 0 || PersistentDataManager.levelNumber == -1)
         {
             PersistentDataManager.storyState = 0;
-            PersistentDataManager.levelNumber = 0;
+            PersistentDataManager.levelNumber = -1;
             UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
         }
         if (PersistentDataManager.storyOnly)
@@ -87,7 +87,7 @@ public class DialogueHandler : MonoBehaviour
             if (inkJSON == null)
             {
                 PersistentDataManager.storyState = 0;
-                PersistentDataManager.levelNumber = 0;
+                PersistentDataManager.levelNumber = -1;
                 PersistentDataManager.storyOnly = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
             }
@@ -117,7 +117,7 @@ public class DialogueHandler : MonoBehaviour
                 if (inkJSON == null)
                 {
                     PersistentDataManager.storyState = 0;
-                    PersistentDataManager.levelNumber = 0;
+                    PersistentDataManager.levelNumber = -1;
                     PersistentDataManager.storyOnly = false;
                     UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
                 }
@@ -203,7 +203,7 @@ public class DialogueHandler : MonoBehaviour
             else
             {
                 PersistentDataManager.storyState = 0;
-                PersistentDataManager.levelNumber = 0;
+                PersistentDataManager.levelNumber = -1;
                 PersistentDataManager.storyOnly = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
             }

@@ -12,6 +12,14 @@ public class EndTurnButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PersistentDataManager.levelNumber > 0)
+        {
+            endTurnButton.SetActive(true);
+        }
+        else
+        {
+            endTurnButton.SetActive(false);
+        }
         img = endTurnButton.GetComponent<Image>();
     }
 

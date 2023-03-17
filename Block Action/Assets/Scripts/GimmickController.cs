@@ -21,12 +21,12 @@ public class GimmickController : MonoBehaviour
     public List<string> midLevelEffects;
     public bool effectPause = false;
     public int index = 0;
-  
-    void Start()
+
+    public static void initialize()
     {
         if (Battle.b.levelData != null)
         {
-            midLevelEffects = new List<string>(Battle.b.levelData.midLevelEffects);
+            gimmickController.midLevelEffects = new List<string>(Battle.b.levelData.midLevelEffects);
         }
     }
 
@@ -270,6 +270,10 @@ public class GimmickController : MonoBehaviour
                 int index = Random.Range(0, g.tiles.Count - 1);
                 g.tiles[index].GetComponent<Tile>().lockTile(System.Convert.ToInt32(gimmickInfo[i + 2]));
             }
+        }
+        else if (gimmickInfo[i].Equals("end_level"))
+        {
+            BattleEndController.TriggerEnd();
         }
     }
 

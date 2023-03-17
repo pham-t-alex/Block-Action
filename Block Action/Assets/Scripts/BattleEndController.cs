@@ -94,6 +94,31 @@ public class BattleEndController : MonoBehaviour
         }
     }
 
+    //you win the level, but it doesn't feel like a victory - for scripted levels
+    public static void TriggerEnd()
+    {
+        battleEndController.victorious = true;
+        Battle.b.bs = BattleState.End;
+        ScreenDarkener.DarkenScreen();
+        gameEndText.SetActive(true);
+        gameEndText.GetComponent<TMP_Text>().color = new Color(1, 1, 1);
+        if (PersistentDataManager.levelNumber == 0)
+        {
+            FakeOutHandler.fakeOutHandler.gameObject.SetActive(false);
+        }
+        battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "END"));
+        GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
+        if (Battle.b.levelNumber == PersistentDataManager.levelsCompleted + 1)
+        {
+            PersistentDataManager.levelsCompleted++;
+            foreach (string reward in Battle.b.levelData.firstClearRewards)
+            {
+                PersistentDataManager.playerBlockInventory.Add(reward);
+            }
+        }
+        PersistentDataManager.storyState = 2;
+    }
+
     public static void TriggerDefeat()
     {
         if (Battle.b.bs != BattleState.End)
@@ -106,7 +131,7 @@ public class BattleEndController : MonoBehaviour
             battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "DEFEAT"));
             GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
             PersistentDataManager.storyState = 0;
-            PersistentDataManager.levelNumber = 0;
+            PersistentDataManager.levelNumber = -1;
         }
     }
 

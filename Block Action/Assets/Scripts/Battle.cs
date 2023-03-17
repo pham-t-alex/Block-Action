@@ -10,12 +10,12 @@ public class Battle : MonoBehaviour
     public BattleState bs;
     private static Battle _b;
     public int turnNumber;
-    public int _levelNumber;
+    public int _levelNumber = -1;
     public int levelNumber
     {
         get
         {
-            if (_levelNumber == 0)
+            if (_levelNumber == -1)
             {
                 _levelNumber = PersistentDataManager.levelNumber;
             }
@@ -34,7 +34,7 @@ public class Battle : MonoBehaviour
         {
             if (_levelData == null)
             {
-                if (levelNumber <= 0)
+                if (levelNumber < 0)
                 {
                     return null;
                 }
@@ -63,11 +63,10 @@ public class Battle : MonoBehaviour
     }
     public List<Enemy> enemies;
     public List<Fighter> fighters;
-
     // Start is called before the first frame update
     void Start()
     {
-        if (levelNumber == 0)
+        if (levelNumber == -1)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
@@ -81,7 +80,7 @@ public class Battle : MonoBehaviour
         
         turnNumber = 1;
         //level initialization
-
+        GimmickController.initialize();
         //for player
         bs = BattleState.Gimmicks;
 
