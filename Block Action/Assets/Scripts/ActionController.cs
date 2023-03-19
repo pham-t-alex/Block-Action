@@ -89,16 +89,23 @@ public class ActionController : MonoBehaviour
     public static void EnemyTurn()
     {
         bool allEnemiesDead = true;
-        foreach (Enemy e in Battle.b.enemies)
+        int actionNumber = 1;
+        bool tookAction = true;
+        while (tookAction)
         {
-            //attack animation
-            if (!e.dead)
+            tookAction = false;
+            foreach (Enemy e in Battle.b.enemies)
             {
-                EnemySequence(e);
-                allEnemiesDead = false;
+                //attack animation
+                if (!e.dead && e.actionCount >= actionNumber)
+                {
+                    tookAction = true;
+                    EnemySequence(e);
+                    allEnemiesDead = false;
+                }
             }
+            actionNumber++;
         }
-        
         
 
         if (Player.player.dead)
@@ -178,6 +185,5 @@ public class ActionController : MonoBehaviour
             effect.targets.Clear();
         }
         Battle.updateDead();
-        
     }
 }

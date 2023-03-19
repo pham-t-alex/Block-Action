@@ -12,6 +12,7 @@ public class Enemy : Fighter
     public int maxAction;
     public double atkScale;
     public double buffScale;
+    public int actionCount;
 
     // Start is called before the first frame update
     void Start()

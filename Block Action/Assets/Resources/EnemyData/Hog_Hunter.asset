@@ -16,6 +16,7 @@ MonoBehaviour:
   defaultStartingHealth: 120
   description: A corrupted hog hunter. Excels in ruthlessly hunting down whatever
     creature it intends to kill.
+  actionsPerTurn: 1
   actions:
   - damage singletarget 10
   - heal enemies 10

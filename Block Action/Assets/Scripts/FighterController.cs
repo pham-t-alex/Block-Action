@@ -187,6 +187,7 @@ public class FighterController : MonoBehaviour
         enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;
+        enemy.actionCount = enemyData.actionsPerTurn;
         for (int i = lower; i <= upper; i++)
         {
             addAction(enemy, enemyData.actions[i]);

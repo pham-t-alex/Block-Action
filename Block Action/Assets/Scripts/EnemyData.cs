@@ -10,6 +10,9 @@ public class EnemyData : ScriptableObject
 
     [TextArea(1, 10)]
     public string description;
+
+    public int actionsPerTurn;
+
     [TextArea(1, 10)]
     public List<string> actions;
 

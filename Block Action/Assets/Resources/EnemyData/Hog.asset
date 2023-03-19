@@ -16,6 +16,7 @@ MonoBehaviour:
   defaultStartingHealth: 50
   description: A corrupted hog. Its rage leads it to violently attack anything that
     isn't a hog.
+  actionsPerTurn: 1
   actions:
   - damage singletarget 10
   - buff enemies atk 0.2 3
