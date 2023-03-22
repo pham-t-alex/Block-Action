@@ -115,8 +115,8 @@ public class Battle : MonoBehaviour
         {
             Player.player.dead = true;
             Player.player.buff = 1;
-            Player.player.buffLeft.Clear();
-            Player.player.defenseBuffLeft.Clear();
+            Player.player.defenseBuff = 1;
+            Player.player.statusEffects.Clear();
             Player.player.healthBar.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
@@ -126,8 +126,8 @@ public class Battle : MonoBehaviour
             {
                 e.dead = true;
                 e.buff = 1;
-                e.buffLeft.Clear();
-                e.defenseBuffLeft.Clear();
+                e.defenseBuff = 1;
+                e.statusEffects.Clear();
                 e.healthBar.gameObject.SetActive(false);
                 e.gameObject.SetActive(false);
             }

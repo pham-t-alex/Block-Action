@@ -90,7 +90,7 @@ public class Enemy : Fighter
 
         string info = "Health: " + health + "/" + maxHealth + "\n";
         info += "Status Effects:";
-        foreach (BuffCounter bc in buffLeft)
+        /*foreach (BuffCounter bc in buffLeft)
         {
             if (bc.numTurns > 0)
             {
@@ -117,7 +117,7 @@ public class Enemy : Fighter
                     info += "\nDef " + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
                 }
             }
-        }
+        }*/
         info += "\nActions:";
         for (int i = minAction; i <= maxAction; i++)
         {

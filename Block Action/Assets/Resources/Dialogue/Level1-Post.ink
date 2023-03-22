@@ -49,5 +49,5 @@ Bringing out the protagonist character... #exit=Protagonist
 Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
 */
-
+#bgm=null
 thanks for the help #speaker=Protagonist

@@ -1,4 +1,4 @@
-﻿Ah, humanity. #speaker=???
+﻿Ah, humanity. #speaker=???#bgm=darkforesttheme
 An ever-growing force on the planet.
 The dominant species that rules over the continents.
 In your quest for the total subjugation of nature, you have brought devastation.

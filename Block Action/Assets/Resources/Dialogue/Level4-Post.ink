@@ -1,4 +1,4 @@
-﻿#move=2Protagonist
+﻿#move=2Protagonist#bgm=darkforesttheme
 #enter=Protagonist
 
 It seems the monsters we're facing are getting stronger and stronger. #speaker=Protagonist

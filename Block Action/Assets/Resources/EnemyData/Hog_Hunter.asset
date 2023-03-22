@@ -17,6 +17,7 @@ MonoBehaviour:
   description: A corrupted hog hunter. Excels in ruthlessly hunting down whatever
     creature it intends to kill.
   actionsPerTurn: 1
+  maxStunCharge: 100
   actions:
   - damage singletarget 10
   - heal enemies 10

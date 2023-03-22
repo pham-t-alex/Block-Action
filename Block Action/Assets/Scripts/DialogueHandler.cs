@@ -59,8 +59,6 @@ public class DialogueHandler : MonoBehaviour
 
     void Start()
     {
-        AudioController.audioController.PlayBGM(null);
-
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueSpeaker.SetActive(false);

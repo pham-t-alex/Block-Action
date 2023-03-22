@@ -15,7 +15,7 @@ MonoBehaviour:
   gridAsString: 
   gridWidth: 0
   gridHeight: 0
-  bgmName: darkforesttheme
+  bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
   - Hog 2 2 1 0 0

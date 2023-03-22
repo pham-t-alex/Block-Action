@@ -59,6 +59,7 @@ public class ActionController : MonoBehaviour
         }
         else
         {
+            Player.player.stunCharge = 0;
             Battle.b.bs = BattleState.EnemyAction;
             Debug.Log("Enemy Turn");
         }
@@ -66,7 +67,13 @@ public class ActionController : MonoBehaviour
 
     public async static void SoulObjectAnimation()
     {
-        if (soulObjectCount > 0)
+        if (Player.player.stunned)
+        {
+            Player.player.stunCharge = 0;
+            Battle.b.bs = BattleState.EnemyAction;
+            Debug.Log("Enemy Turn");
+        }
+        else if (soulObjectCount > 0)
         {
             for (int obj = 0; obj < soulObjectCount; obj++)
             {
@@ -88,30 +95,37 @@ public class ActionController : MonoBehaviour
 
     public static void EnemyTurn()
     {
-        bool allEnemiesDead = true;
-        int actionNumber = 1;
-        bool tookAction = true;
-        while (tookAction)
+        
+        foreach (Enemy e in Battle.b.enemies)
         {
-            tookAction = false;
-            foreach (Enemy e in Battle.b.enemies)
+            if (e.stunned)
             {
-                //attack animation
-                if (!e.dead && e.actionCount >= actionNumber)
+                e.stunCharge = 0;
+                continue;
+            }
+            for (int i = 0; i < e.actionCount; i++)
+            {
+                if (!e.dead && !e.stunned)
                 {
-                    tookAction = true;
                     EnemySequence(e);
-                    allEnemiesDead = false;
                 }
             }
-            actionNumber++;
+            //attack animation
         }
-        
 
         if (Player.player.dead)
         {
             BattleEndController.TriggerDefeat();
             return;
+        }
+
+        bool allEnemiesDead = true;
+        foreach (Enemy e in Battle.b.enemies)
+        {
+            if (!e.dead)
+            {
+                allEnemiesDead = false;
+            }
         }
 
         if (allEnemiesDead)

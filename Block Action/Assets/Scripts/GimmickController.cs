@@ -114,14 +114,6 @@ public class GimmickController : MonoBehaviour
                 if (!Player.player.dead)
                 {
                     Player.player.health -= damage;
-                    if (Player.player.health <= 0)
-                    {
-                        Player.player.dead = true;
-                        Player.player.buff = 1;
-                        Player.player.buffLeft.Clear();
-                        Player.player.healthBar.gameObject.SetActive(false);
-                        Player.player.gameObject.SetActive(false);
-                    }
                 }
             }
             else if (gimmickInfo[i + 1].Equals("enemies"))
@@ -131,17 +123,10 @@ public class GimmickController : MonoBehaviour
                     if (!e.dead)
                     {
                         e.health -= damage;
-                        if (e.health <= 0)
-                        {
-                            e.dead = true;
-                            e.buff = 1;
-                            e.buffLeft.Clear();
-                            e.healthBar.gameObject.SetActive(false);
-                            e.gameObject.SetActive(false);
-                        }
                     }
                 }
             }
+            Battle.updateDead();
         }
         else if (gimmickInfo[i].Equals("heal"))
         {
@@ -182,14 +167,14 @@ public class GimmickController : MonoBehaviour
                 {
                     if (gimmickInfo[i + 2].Equals("atk"))
                     {
-                        BuffCounter bc = new BuffCounter(length, buffValue);
-                        Player.player.buffLeft.Add(bc);
+                        AtkBuffStatus status = new AtkBuffStatus(length, buffValue, Player.player);
+                        Player.player.statusEffects.Add(status);
                         Player.player.buff += buffValue;
                     }
                     else if (gimmickInfo[i + 2].Equals("def"))
                     {
-                        DefenseBuffCounter bc = new DefenseBuffCounter(length, buffValue);
-                        Player.player.defenseBuffLeft.Add(bc);
+                        DefBuffStatus status = new DefBuffStatus(length, buffValue, Player.player);
+                        Player.player.statusEffects.Add(status);
                         Player.player.defenseBuff *= buffValue;
                     }
                 }
@@ -202,14 +187,14 @@ public class GimmickController : MonoBehaviour
                     {
                         if (gimmickInfo[i + 2].Equals("atk"))
                         {
-                            BuffCounter bc = new BuffCounter(length, buffValue);
-                            e.buffLeft.Add(bc);
+                            AtkBuffStatus status = new AtkBuffStatus(length, buffValue, e);
+                            e.statusEffects.Add(status);
                             e.buff += buffValue;
                         }
                         else if (gimmickInfo[i + 2].Equals("def"))
                         {
-                            DefenseBuffCounter bc = new DefenseBuffCounter(length, buffValue);
-                            e.defenseBuffLeft.Add(bc);
+                            DefBuffStatus status = new DefBuffStatus(length, buffValue, e);
+                            e.statusEffects.Add(status);
                             e.defenseBuff -= buffValue;
                         }
                     }

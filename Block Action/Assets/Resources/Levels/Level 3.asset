@@ -21,7 +21,7 @@ MonoBehaviour:
     ~~~~'
   gridWidth: 4
   gridHeight: 4
-  bgmName: darkforesttheme
+  bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
   - 'Hog 1 1 1 0 1

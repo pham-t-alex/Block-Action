@@ -25,9 +25,8 @@ public class Player : Fighter
         buff = 1.0;
         defenseBuff = 1.0;
         maxHealth = 100;
-        buffLeft = new List<BuffCounter>();
         statusEffects = new List<Status>();
-        defenseBuffLeft = new List<DefenseBuffCounter>();
+        stunChargeMax = 100;
 
 
         Battle.b.fighters.Add(this);
@@ -48,7 +47,7 @@ public class Player : Fighter
     {
         string info = "Health: " + health + "/" + maxHealth + "\n";
         info += "Status Effects:";
-        foreach (BuffCounter bc in buffLeft)
+        /*foreach (BuffCounter bc in buffLeft)
         {
             if (bc.numTurns > 0)
             {
@@ -75,7 +74,7 @@ public class Player : Fighter
                     info += "\nDef " + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
                 }
             }
-        }
+        }*/
         return info;
     }
 

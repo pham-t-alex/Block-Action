@@ -372,11 +372,14 @@ public class GridFitter : MonoBehaviour
                 e.targets.Clear();
             } //gets rid of targets
             soulObject.tilesTouching = null;
-            if (soulObject.currentCooldown > 0)
+            if (!Player.player.stunned)
             {
-                soulObject.currentCooldown--;
+                if (soulObject.currentCooldown > 0)
+                {
+                    soulObject.currentCooldown--;
+                }
+                soulObject.changeCooldownColor();
             }
-            soulObject.changeCooldownColor();
         }
         List<GameObject> l = gridFitter.grid.lockedTiles;
         for (int i = 0; i < l.Count; i++)

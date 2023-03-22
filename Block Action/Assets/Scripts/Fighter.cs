@@ -7,9 +7,16 @@ public abstract class Fighter : MonoBehaviour
     public int health;
     public double buff;
     public double defenseBuff;
-    public List<BuffCounter> buffLeft;
-    public List<DefenseBuffCounter> defenseBuffLeft;
     public List<Status> statusEffects;
+    public int stunChargeMax;
+    public int stunCharge;
+    public bool stunned
+    {
+        get
+        {
+            return stunCharge == stunChargeMax;
+        }
+    }
     public int maxHealth;
     public Healthbar healthBar;
     GameObject healthPrefab;

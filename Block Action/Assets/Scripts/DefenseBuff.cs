@@ -14,26 +14,14 @@ public class DefenseBuff : Effect
         this.numTurns = numTurns;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public override void ActivateEffect(Fighter fighter)
     {
         foreach (Fighter f in targets)
         {
             if (!f.dead)
             {
-                DefenseBuffCounter bc = new DefenseBuffCounter(numTurns, defenseBuff);
-                f.defenseBuffLeft.Add(bc);
+                DefBuffStatus status = new DefBuffStatus(numTurns, defenseBuff, f);
+                f.statusEffects.Add(status);
                 double prevBuff = f.defenseBuff;
                 f.defenseBuff -= defenseBuff;
                 if (f.Equals(Player.player))

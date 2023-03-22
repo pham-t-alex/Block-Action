@@ -112,8 +112,6 @@ public class FighterController : MonoBehaviour
             enemy.actions = new List<Action>();
             enemy.buff = 1.0;
             enemy.defenseBuff = 1.0;
-            enemy.buffLeft = new List<BuffCounter>();
-            enemy.defenseBuffLeft = new List<DefenseBuffCounter>();
             enemy.statusEffects = new List<Status>();
             int lower = System.Convert.ToInt32(enemyInfo[4]);
             int upper = System.Convert.ToInt32(enemyInfo[5]);
@@ -188,6 +186,7 @@ public class FighterController : MonoBehaviour
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;
         enemy.actionCount = enemyData.actionsPerTurn;
+        enemy.stunChargeMax = enemyData.maxStunCharge;
         for (int i = lower; i <= upper; i++)
         {
             addAction(enemy, enemyData.actions[i]);
