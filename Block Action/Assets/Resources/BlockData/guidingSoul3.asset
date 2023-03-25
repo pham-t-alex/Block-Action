@@ -17,7 +17,7 @@ MonoBehaviour:
   shapeAsString: ~
   width: 1
   height: 1
-  element: 
+  element: 0
   cooldown: 2
   isSoulBlock: 1
   effects:

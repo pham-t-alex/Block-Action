@@ -24,14 +24,14 @@ MonoBehaviour:
   bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
+  - 'Mushroom 1 1 1 0 -1
+
+    Hog 2 2 1 0 1
+
+    Hog 1 1 1 0 1'
   - 'Hog 1 1 1 0 1
 
-    Hog 1 1 1 0 1
-
-    Hog 2 2 1 0 1'
-  - 'Hog 1 1 1 0 1
-
-    Hog 1 1 1 0 1
+    Mushroom 2 2 1 0 -1
 
     Hog_Hunter 1.5 1.5 1 0 1'
   - Hog_Hunter 2 2 1 0 3

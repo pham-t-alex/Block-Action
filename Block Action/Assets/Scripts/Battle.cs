@@ -109,7 +109,7 @@ public class Battle : MonoBehaviour
         }
     }
 
-    public static void updateDead()
+    public static bool updateDead()
     {
         if (Player.player.health <= 0)
         {
@@ -120,6 +120,7 @@ public class Battle : MonoBehaviour
             Player.player.healthBar.gameObject.SetActive(false);
             Player.player.gameObject.SetActive(false);
         }
+        bool allEnemiesDead = true;
         foreach (Enemy e in b.enemies)
         {
             if (e.health <= 0)
@@ -131,6 +132,41 @@ public class Battle : MonoBehaviour
                 e.healthBar.gameObject.SetActive(false);
                 e.gameObject.SetActive(false);
             }
+            else
+            {
+                allEnemiesDead = false;
+            }
         }
+        if (Player.player.health <= 0)
+        {
+            BattleEndController.TriggerDefeat();
+            return true;
+        }
+        else if (allEnemiesDead)
+        {
+            if (Battle.b.wave < Battle.b.levelData.enemyWaves.Count)
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    Destroy(e.healthBar);
+                    Destroy(e);
+                }
+                Battle.b.enemies.Clear();
+                Battle.b.wave++;
+                FighterController.PlaceFighters();
+            }
+            else
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    Destroy(e.healthBar);
+                    Destroy(e);
+                }
+                Battle.b.enemies.Clear();
+                BattleEndController.TriggerVictory();
+                return true;
+            }
+        }
+        return false;
     }
 }

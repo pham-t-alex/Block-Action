@@ -65,7 +65,7 @@ public class BattleEndController : MonoBehaviour
                 }
                 else
                 {
-                    SceneManager.LoadScene("LevelSelection");
+                    SceneManager.LoadScene("StageSelection");
                 }
             }
         }

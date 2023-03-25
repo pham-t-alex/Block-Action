@@ -136,47 +136,77 @@ public class FighterController : MonoBehaviour
         {
             foreach (Effect effect in action.effects)
             {
-                Effect innerEffect = effect;
-                while (innerEffect is DelayedEffect || innerEffect is RepeatingEffect)
-                {
-                    if (innerEffect is DelayedEffect)
-                    {
-                        innerEffect = ((DelayedEffect)innerEffect).effect;
-                    }
-                    else
-                    {
-                        innerEffect = ((RepeatingEffect)innerEffect).effect;
-                    }
-                }
-                if (innerEffect is Damage)
-                {
-                    Damage damageEffect = (Damage)innerEffect;
-                    damageEffect.dmg *= atkScale;
-                }
-                if (innerEffect is TrueDamage)
-                {
-                    TrueDamage damageEffect = (TrueDamage)innerEffect;
-                    damageEffect.dmg *= atkScale;
-                }
-                if (innerEffect is DefIgnoringDamage)
-                {
-                    DefIgnoringDamage damageEffect = (DefIgnoringDamage)innerEffect;
-                    damageEffect.dmg *= atkScale;
-                }
-                if (innerEffect is Heal)
-                {
-                    Heal healEffect = (Heal)innerEffect;
-                    healEffect.heal *= atkScale;
-                }
-                if (innerEffect is Buff)
-                {
-                    Buff buffEffect = (Buff)innerEffect;
-                    buffEffect.buff *= buffScale;
-                }
+                scaleEffect(effect, atkScale, buffScale);
+            }
+        }
+        foreach (Status status in enemy.statusEffects)
+        {
+            if (status is AtkBuffStatus)
+            {
+                AtkBuffStatus atkBuff = (AtkBuffStatus)status;
+                enemy.buff -= atkBuff.buff;
+                atkBuff.buff *= buffScale;
+                enemy.buff += atkBuff.buff;
+            }
+            else if (status is DefBuffStatus)
+            {
+                DefBuffStatus defBuff = (DefBuffStatus)status;
+                enemy.defenseBuff += defBuff.buff;
+                defBuff.buff *= buffScale;
+                enemy.defenseBuff -= defBuff.buff;
+            }
+            else if (status is DelayedEffectStatus)
+            {
+                scaleEffect(((DelayedEffectStatus)status).delayedEffect, atkScale, buffScale);
+            }
+            else if (status is RepeatingEffectStatus)
+            {
+                scaleEffect(((RepeatingEffectStatus)status).repeatingEffect, atkScale, buffScale);
             }
         }
         enemy.atkScale = atkScale;
         enemy.buffScale = buffScale;
+    }
+
+    static void scaleEffect(Effect effect, double atkScale, double buffScale)
+    {
+        Effect innerEffect = effect;
+        while (innerEffect is DelayedEffect || innerEffect is RepeatingEffect)
+        {
+            if (innerEffect is DelayedEffect)
+            {
+                innerEffect = ((DelayedEffect)innerEffect).effect;
+            }
+            else
+            {
+                innerEffect = ((RepeatingEffect)innerEffect).effect;
+            }
+        }
+        if (innerEffect is Damage)
+        {
+            Damage damageEffect = (Damage)innerEffect;
+            damageEffect.dmg *= atkScale;
+        }
+        if (innerEffect is TrueDamage)
+        {
+            TrueDamage damageEffect = (TrueDamage)innerEffect;
+            damageEffect.dmg *= atkScale;
+        }
+        if (innerEffect is DefIgnoringDamage)
+        {
+            DefIgnoringDamage damageEffect = (DefIgnoringDamage)innerEffect;
+            damageEffect.dmg *= atkScale;
+        }
+        if (innerEffect is Heal)
+        {
+            Heal healEffect = (Heal)innerEffect;
+            healEffect.heal *= atkScale;
+        }
+        if (innerEffect is Buff)
+        {
+            Buff buffEffect = (Buff)innerEffect;
+            buffEffect.buff *= buffScale;
+        }
     }
 
     static void setEnemyData(Enemy enemy, string enemyName, int lower, int upper)
@@ -190,6 +220,10 @@ public class FighterController : MonoBehaviour
         for (int i = lower; i <= upper; i++)
         {
             addAction(enemy, enemyData.actions[i]);
+        }
+        for (int i = 0; i < enemyData.startingStatuses.Count; i++)
+        {
+            enemy.statusEffects.Add(Status.statusFromString(enemyData.startingStatuses[i], enemy));
         }
         enemy.minAction = lower;
         enemy.maxAction = upper;

@@ -116,45 +116,9 @@ public class ActionController : MonoBehaviour
             //attack animation
         }
 
-        if (Player.player.dead)
+        if (Battle.updateDead())
         {
-            BattleEndController.TriggerDefeat();
             return;
-        }
-
-        bool allEnemiesDead = true;
-        foreach (Enemy e in Battle.b.enemies)
-        {
-            if (!e.dead)
-            {
-                allEnemiesDead = false;
-            }
-        }
-
-        if (allEnemiesDead)
-        {
-            if (Battle.b.wave < Battle.b.levelData.enemyWaves.Count)
-            {
-                foreach (Enemy e in Battle.b.enemies)
-                {
-                    Destroy(e.healthBar);
-                    Destroy(e);
-                }
-                Battle.b.enemies.Clear();
-                Battle.b.wave++;
-                FighterController.PlaceFighters();
-            }
-            else
-            {
-                foreach (Enemy e in Battle.b.enemies)
-                {
-                    Destroy(e.healthBar);
-                    Destroy(e);
-                }
-                Battle.b.enemies.Clear();
-                BattleEndController.TriggerVictory();
-                return;
-            }
         }
 
         //reset soulblocks to original position

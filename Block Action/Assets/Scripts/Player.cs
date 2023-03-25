@@ -48,34 +48,14 @@ public class Player : Fighter
         string info = "Health: " + health + "/" + maxHealth + "\n";
         info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
         info += "Status Effects:";
-        /*foreach (BuffCounter bc in buffLeft)
+        foreach (Status status in statusEffects)
         {
-            if (bc.numTurns > 0)
+            string s = Status.statusToString(status);
+            if (s != null)
             {
-                if (bc.buff > 0)
-                {
-                    info += "\nAtk +" + (bc.buff * 100) + " % (" + bc.numTurns + " turns)";
-                }
-                else
-                {
-                    info += "\nAtk " + (bc.buff * 100) + " % (" + bc.numTurns + " turns)";
-                }
+                info += "\n- " + s + ".";
             }
         }
-        foreach (DefenseBuffCounter bc in defenseBuffLeft)
-        {
-            if (bc.numTurns > 0)
-            {
-                if (bc.defenseBuff > 0)
-                {
-                    info += "\nDef +" + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
-                }
-                else
-                {
-                    info += "\nDef " + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
-                }
-            }
-        }*/
         return info;
     }
 

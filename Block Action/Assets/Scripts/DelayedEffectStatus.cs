@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class DelayedEffectStatus : Status
 {
@@ -27,6 +28,30 @@ public class DelayedEffectStatus : Status
                 foreach (Enemy enemy in Battle.b.enemies)
                 {
                     delayedEffect.targets.Add(enemy);
+                }
+            }
+            else if (delayedEffect.targetType == TargetType.SingleTarget)
+            {
+                if (statusHolder == Player.player)
+                {
+                    List<int> aliveIndices = new List<int>();
+                    for (int i = 0; i < Battle.b.enemies.Count; i++)
+                    {
+                        if (!Battle.b.enemies[i].dead)
+                        {
+                            aliveIndices.Add(i);
+                        }
+                    }
+                    if (aliveIndices.Count == 0)
+                    {
+                        return;
+                    }
+                    Random rand = new Random();
+                    delayedEffect.targets.Add(Battle.b.enemies[rand.Next(0, aliveIndices.Count)]);
+                }
+                else
+                {
+                    delayedEffect.targets.Add(Player.player);
                 }
             }
             delayedEffect.ActivateEffect(null);

@@ -15,7 +15,7 @@ public abstract class Effect
         return effectFromStringArray(effectData);
     }
 
-    private static Effect effectFromStringArray(string[] effectData)
+    public static Effect effectFromStringArray(string[] effectData)
     {
         Effect effect = null;
         if (effectData[0].Equals("damage"))
