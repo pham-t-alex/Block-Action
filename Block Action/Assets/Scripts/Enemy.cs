@@ -89,6 +89,7 @@ public class Enemy : Fighter
         EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{type}");
 
         string info = "Health: " + health + "/" + maxHealth + "\n";
+        info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
         info += "Status Effects:";
         /*foreach (BuffCounter bc in buffLeft)
         {

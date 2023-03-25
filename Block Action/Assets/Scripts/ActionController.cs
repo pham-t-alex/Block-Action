@@ -59,7 +59,10 @@ public class ActionController : MonoBehaviour
         }
         else
         {
-            Player.player.stunCharge = 0;
+            if (Player.player.stunned)
+            {
+                Player.player.stunCharge = 0;
+            }
             Battle.b.bs = BattleState.EnemyAction;
             Debug.Log("Enemy Turn");
         }

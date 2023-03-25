@@ -57,6 +57,10 @@ public abstract class Effect
             System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
             effect = new RepeatingEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
         }
+        else if (effectData[0].Equals("stun"))
+        {
+            effect = new StunEffect(System.Convert.ToInt32(effectData[2]));
+        }
         if (effectData[1].Equals("self"))
         {
             effect.targetType = TargetType.Self;
@@ -98,17 +102,17 @@ public abstract class Effect
             }
             else if (e.targetType == TargetType.AllEnemies)
             {
-                effectString += "all enemies.";
+                effectString += "all enemies";
             }
             else if (e.targetType == TargetType.SingleTarget)
             {
                 if (forBlock)
                 {
-                    effectString += "an enemy.";
+                    effectString += "an enemy";
                 }
                 else
                 {
-                    effectString += "the player.";
+                    effectString += "the player";
                 }
             }
         }
@@ -134,7 +138,7 @@ public abstract class Effect
                     effectString += "the player";
                 }
             }
-            effectString += " by " + ((Heal)e).heal + " HP.";
+            effectString += " by " + ((Heal)e).heal + " HP";
         }
         else if (e is Buff)
         {
@@ -165,7 +169,7 @@ public abstract class Effect
                     effectString += "the player's";
                 }
             }
-            effectString += " attack by " + (((Buff)e).buff * 100) + "% for " + ((Buff)e).numTurns + " turns.";
+            effectString += " attack by " + (((Buff)e).buff * 100) + "% for " + ((Buff)e).numTurns + " turns";
         }
         else if (e is DefenseBuff)
         {
@@ -196,7 +200,7 @@ public abstract class Effect
                     effectString += "the player's";
                 }
             }
-            effectString += " defense by " + (((DefenseBuff)e).defenseBuff * 100) + "% for " + ((DefenseBuff)e).numTurns + " turns.";
+            effectString += " defense by " + (((DefenseBuff)e).defenseBuff * 100) + "% for " + ((DefenseBuff)e).numTurns + " turns";
         }
         else if (e is DelayedEffect)
         {
@@ -248,6 +252,29 @@ public abstract class Effect
             }
             effectString += ": ";
             effectString += effectToString(((RepeatingEffect)e).effect, forBlock);
+        }
+        else if (e is StunEffect)
+        {
+            effectString = "Apply " + ((StunEffect)e).stunCharge + " stun charge to ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
         }
         else
         {

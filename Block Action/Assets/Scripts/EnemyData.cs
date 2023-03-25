@@ -17,6 +17,8 @@ public class EnemyData : ScriptableObject
     [TextArea(1, 10)]
     public List<string> actions;
 
+    public List<string> startingStatuses;
+
     public Sprite idle;
     public Sprite attack;
     public Sprite hurt;

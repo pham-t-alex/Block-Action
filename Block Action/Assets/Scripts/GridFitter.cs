@@ -378,8 +378,8 @@ public class GridFitter : MonoBehaviour
                 {
                     soulObject.currentCooldown--;
                 }
-                soulObject.changeCooldownColor();
             }
+            soulObject.changeCooldownColor();
         }
         List<GameObject> l = gridFitter.grid.lockedTiles;
         for (int i = 0; i < l.Count; i++)

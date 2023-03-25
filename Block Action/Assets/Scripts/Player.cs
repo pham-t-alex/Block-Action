@@ -46,6 +46,7 @@ public class Player : Fighter
     public override string GetInfo()
     {
         string info = "Health: " + health + "/" + maxHealth + "\n";
+        info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
         info += "Status Effects:";
         /*foreach (BuffCounter bc in buffLeft)
         {

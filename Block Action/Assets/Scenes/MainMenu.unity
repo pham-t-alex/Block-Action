@@ -2417,6 +2417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d561a5f96dca49747b362fa856e5387f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBGM: 
   bgm: {fileID: 0}
   bgmRepeat: {fileID: 0}
 --- !u!4 &835805805
@@ -2888,7 +2889,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1028293474

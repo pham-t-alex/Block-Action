@@ -63,7 +63,7 @@ public class SoulObject : MonoBehaviour
 
     void OnMouseEnter()
     {
-        if (currentCooldown == 0) // If block is on cooldown, disable mouse interaction
+        if (currentCooldown == 0 && !Player.player.stunned) // If block is on cooldown, disable mouse interaction
         {
             mouseTouching = true;
         }
@@ -105,7 +105,23 @@ public class SoulObject : MonoBehaviour
 
     public void changeCooldownColor()
     {
-        if (currentCooldown > 0)
+        if (Player.player.stunned)
+        {
+            SetColor(originalColor * 0.1f);
+            if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
+            {
+                cooldownIndicator = Instantiate(Resources.Load("Text") as GameObject, transform.position, Quaternion.identity, transform);
+
+                TextMeshPro textSettings = cooldownIndicator.GetComponent<TextMeshPro>();
+                textSettings.outlineColor = new Color(0, 0.679903f, 8301887f);
+                textSettings.outlineWidth = 0.3f;
+                textSettings.fontSize = 16;
+            }
+
+            TextMeshPro cooldownText = cooldownIndicator.GetComponent<TextMeshPro>();
+            cooldownText.SetText("-");
+        }
+        else if (currentCooldown > 0)
         {
             SetColor(originalColor * 0.3f);
             if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
