@@ -48,6 +48,7 @@ public class FighterController : MonoBehaviour
         SpriteRenderer playerSprite = Player.player.GetComponent<SpriteRenderer>();
         y += playerSprite.bounds.size.y / 2;
         Player.player.transform.position = new Vector3(-7, y, 0);
+        Player.player.makeHealthBar();
     }
 
     static void PlaceEnemies()
@@ -79,6 +80,7 @@ public class FighterController : MonoBehaviour
             x -= spriteRenderer.bounds.size.x / 2;
             y += spriteRenderer.bounds.size.y / 2;
             Battle.b.enemies[i].transform.position = new Vector3(x, y, 0);
+            Battle.b.enemies[i].makeHealthBar();
             x -= spriteRenderer.bounds.size.x / 2;
             y -= spriteRenderer.bounds.size.y / 2;
             x -= fighterController.spaceBetweenEnemies;

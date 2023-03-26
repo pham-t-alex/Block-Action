@@ -19,6 +19,8 @@ public class EnemyData : ScriptableObject
 
     public List<string> startingStatuses;
 
+    public bool fadeOnDefeat = true;
+
     public Sprite idle;
     public Sprite attack;
     public Sprite hurt;

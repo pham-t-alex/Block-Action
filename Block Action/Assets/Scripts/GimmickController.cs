@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class GimmickController : MonoBehaviour
 {
@@ -36,23 +37,17 @@ public class GimmickController : MonoBehaviour
         
     }
 
-    public static void MidLevelEffects()
+    public async static void MidLevelEffects()
     {
-        if (!gimmickController.effectPause)
+        while (gimmickController.index < gimmickController.midLevelEffects.Count)
         {
-            if (gimmickController.index >= gimmickController.midLevelEffects.Count)
-            {
-                Battle.b.bs = BattleState.PlayerGrid;
-                Debug.Log("Grid Fitting");
-                return;
-            }
             string[] gimmickInfo = gimmickController.midLevelEffects[gimmickController.index].Split(" ");
             if (gimmickInfo[0].Equals("turn"))
             {
                 int turn = System.Convert.ToInt32(gimmickInfo[1]);
                 if (turn == Battle.b.turnNumber)
                 {
-                    ActivateMidLevelEffect(gimmickInfo, 2);
+                    await ActivateMidLevelEffect(gimmickInfo, 2);
                     gimmickController.midLevelEffects.RemoveAt(gimmickController.index);
                     gimmickController.index--;
                 }
@@ -62,20 +57,36 @@ public class GimmickController : MonoBehaviour
                 int wave = System.Convert.ToInt32(gimmickInfo[1]);
                 if (wave == Battle.b.wave)
                 {
-                    ActivateMidLevelEffect(gimmickInfo, 2);
+                    await ActivateMidLevelEffect(gimmickInfo, 2);
                     gimmickController.midLevelEffects.RemoveAt(gimmickController.index);
                     gimmickController.index--;
                 }
             }
             else if (gimmickInfo[0].Equals("repeating"))
             {
-                ActivateMidLevelEffect(gimmickInfo, 1);
+                await ActivateMidLevelEffect(gimmickInfo, 1);
             }
-            gimmickController.index++;
+            if (Battle.b.bs == BattleState.End)
+            {
+                return;
+            }
+            if (!Battle.finishedDead())
+            {
+                gimmickController.index++;
+            }
+            else
+            {
+                gimmickController.index = 0;
+                return;
+            }
         }
+        gimmickController.index = 0;
+        Battle.b.bs = BattleState.PlayerGrid;
+        BottomDarkener.UndarkenBottom();
+        Debug.Log("Grid Fitting");
     }
     
-    public static void ActivateMidLevelEffect(string[] gimmickInfo, int i)
+    public async static Task ActivateMidLevelEffect(string[] gimmickInfo, int i)
     {
         if (gimmickInfo[i].Equals("dialogue"))
         {
@@ -87,6 +98,10 @@ public class GimmickController : MonoBehaviour
             {
                 // Use textFileName to run the cutscene
                 MidlevelDialogueHandler.GetInstance().EnterDialogueMode(textFile);
+                while (gimmickController.effectPause == true)
+                {
+                    await Task.Yield();
+                }
             }
             else 
             {
@@ -126,7 +141,7 @@ public class GimmickController : MonoBehaviour
                     }
                 }
             }
-            Battle.updateDead();
+            await Battle.UpdateDead();
         }
         else if (gimmickInfo[i].Equals("heal"))
         {

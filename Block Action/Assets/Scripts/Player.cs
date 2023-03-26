@@ -18,9 +18,8 @@ public class Player : Fighter
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
-        makeHealthBar();
         health = 100; //might not be valid
         buff = 1.0;
         defenseBuff = 1.0;
@@ -30,12 +29,7 @@ public class Player : Fighter
 
 
         Battle.b.fighters.Add(this);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        updateHealthBar();
+        fadeOnDefeat = false;
     }
 
     public override string GetName()

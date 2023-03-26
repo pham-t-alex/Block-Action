@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepeatingEffect : Effect
+public class AfterActionEffect : Effect
 {
     public int duration;
     public Effect effect;
 
-    public RepeatingEffect(int duration, Effect effect)
+    public AfterActionEffect(int duration, Effect effect)
     {
         this.duration = duration;
         this.effect = effect;
@@ -18,15 +18,15 @@ public class RepeatingEffect : Effect
         {
             if (!f.dead)
             {
-                RepeatingEffectStatus status = new RepeatingEffectStatus(duration, effect, f);
+                AfterActionStatus status = new AfterActionStatus(duration, effect, f);
                 f.statusEffects.Add(status);
                 if (f.Equals(Player.player))
                 {
-                    Debug.Log("Repeating effect applied to the player.");
+                    Debug.Log("After-action effect applied to the player.");
                 }
                 else
                 {
-                    Debug.Log("Repeating effect applied to an enemy.");
+                    Debug.Log("After-action effect applied to an enemy.");
                 }
             }
         }

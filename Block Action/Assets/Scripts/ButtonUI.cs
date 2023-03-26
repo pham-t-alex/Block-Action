@@ -60,4 +60,20 @@ public class ButtonUI : MonoBehaviour
     {
         Debug.Log("Save Settings");
     }
+
+    public void DeveloperMode()
+    {
+        PersistentDataManager.levelsCompleted = 999999;
+        for (int i = 1; i < 100; i++)
+        {
+            LevelData levelData = Resources.Load<LevelData>($"Levels/Level {i}");
+            if (levelData != null)
+            {
+                foreach (string reward in levelData.firstClearRewards)
+                {
+                    PersistentDataManager.playerBlockInventory.Add(reward);
+                }
+            }
+        }
+    }
 }

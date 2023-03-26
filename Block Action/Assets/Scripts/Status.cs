@@ -17,29 +17,33 @@ public abstract class Status
         numTurns = 0;
     }
 
-    public static void TriggerStatusEffects()
+    public async static void TriggerStatusEffects()
     {
         foreach (Fighter f in Battle.b.fighters)
         {
             int statusEffectsSize = f.statusEffects.Count;
             for (int i = 0; i < statusEffectsSize; i++)
             {
-                f.statusEffects[i].decrementTurns();
-                if (f.statusEffects[i].numTurns <= 0)
+                if (!f.dead)
                 {
-                    f.statusEffects.RemoveAt(i);
-                    statusEffectsSize--;
-                    i--;
+                    f.statusEffects[i].decrementTurns();
+                    if (f.statusEffects[i].numTurns <= 0)
+                    {
+                        f.statusEffects.RemoveAt(i);
+                        statusEffectsSize--;
+                        i--;
+                    }
                 }
-            }
-            if (Battle.updateDead())
-            {
-                return;
+                await Battle.UpdateDead();
             }
         }
-
-        Battle.b.bs = BattleState.Gimmicks;
-        Debug.Log("Mid Level Effects");
+        if (!Battle.finishedDead())
+        {
+            Battle.b.turnNumber++;
+            Battle.b.bs = BattleState.Gimmicks;
+            GimmickController.MidLevelEffects();
+            Debug.Log("Mid Level Effects");
+        }
     }
 
     public static Status statusFromString(string statusAsString, Enemy fighter)
@@ -81,6 +85,12 @@ public abstract class Status
             string[] nextEffectData = new string[statusData.Length - 3];
             System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
             status = new RepeatingEffectStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+        }
+        else if (statusData[1].Equals("after_action"))
+        {
+            string[] nextEffectData = new string[statusData.Length - 3];
+            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
+            status = new AfterActionStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
         }
         status.removable = removable;
         return status;
@@ -147,6 +157,19 @@ public abstract class Status
             else
             {
                 statusString += Effect.effectToString(repeatingStatus.repeatingEffect, false);
+            }
+        }
+        else if (s is AfterActionStatus)
+        {
+            AfterActionStatus afterActionStatus = (AfterActionStatus)s;
+            statusString += "After-action effect (" + afterActionStatus.numTurns + " turns): ";
+            if (afterActionStatus.statusHolder == Player.player)
+            {
+                statusString += Effect.effectToString(afterActionStatus.afterActionEffect, true);
+            }
+            else
+            {
+                statusString += Effect.effectToString(afterActionStatus.afterActionEffect, false);
             }
         }
         return statusString;

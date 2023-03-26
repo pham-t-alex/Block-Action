@@ -14,7 +14,7 @@ public class SoulObjectData : ScriptableObject
     public int height;
     public Element.Elements element;
     public int cooldown;
-    public bool isSoulBlock;
+    public bool isSoulBlock = true;
 
     public List<string> effects;
 

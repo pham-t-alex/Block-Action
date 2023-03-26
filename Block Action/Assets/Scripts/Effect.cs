@@ -61,6 +61,12 @@ public abstract class Effect
         {
             effect = new StunEffect(System.Convert.ToInt32(effectData[2]));
         }
+        else if (effectData[0].Equals("apply_after_action"))
+        {
+            string[] nextEffectData = new string[effectData.Length - 3];
+            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
+            effect = new AfterActionEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+        }
         if (effectData[1].Equals("self"))
         {
             effect.targetType = TargetType.Self;
@@ -275,6 +281,31 @@ public abstract class Effect
                     effectString += "the player";
                 }
             }
+        }
+        else if (e is AfterActionEffect)
+        {
+            effectString = $"Apply after-action effect ({((AfterActionEffect)e).duration} turns) to ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
+            effectString += ": ";
+            effectString += effectToString(((AfterActionEffect)e).effect, forBlock);
         }
         else
         {

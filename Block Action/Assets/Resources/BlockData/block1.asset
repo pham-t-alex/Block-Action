@@ -24,4 +24,5 @@ MonoBehaviour:
   isSoulBlock: 1
   effects:
   - damage singletarget 50
+  - apply_after_action self 10 damage singletarget 10
   color: {r: 1, g: 0, b: 0, a: 1}

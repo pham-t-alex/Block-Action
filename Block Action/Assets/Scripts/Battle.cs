@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Battle : MonoBehaviour
 {
@@ -61,8 +62,8 @@ public class Battle : MonoBehaviour
             return _b;
         }
     }
-    public List<Enemy> enemies;
-    public List<Fighter> fighters;
+    public List<Enemy> enemies = new List<Enemy>();
+    public List<Fighter> fighters = new List<Fighter>();
     // Start is called before the first frame update
     void Start()
     {
@@ -82,13 +83,16 @@ public class Battle : MonoBehaviour
         //level initialization
         GimmickController.initialize();
         //for player
-        bs = BattleState.Gimmicks;
+        Player.player.Initialize();
 
         //grid initialization
         Grid.SetScale();
         GridFitter.ScaleBlocks();
         GridFitter.PlaceBlocks();
         FighterController.PlaceFighters();
+
+        bs = BattleState.Gimmicks;
+        GimmickController.MidLevelEffects();
     }
 
     // Update is called once per frame
@@ -98,51 +102,48 @@ public class Battle : MonoBehaviour
             GridFitter.GridFitting();
         //} else if (bs.Equals(BattleState.PlayerAction)) {
         //    ActionController.PlayerTurn();
-        } else if (bs.Equals(BattleState.EnemyAction)) {
-            ActionController.EnemyTurn();
+        //} else if (bs.Equals(BattleState.EnemyAction)) {
+        //    ActionController.EnemyTurn();
         } else if (bs.Equals(BattleState.EnemySelect)) {
             GridFitter.EnemySelect();
-        } else if (bs.Equals(BattleState.Gimmicks)) {
-            GimmickController.MidLevelEffects();
-        } else if (bs.Equals(BattleState.StatusEffects)) {
-            Status.TriggerStatusEffects();
+        //} else if (bs.Equals(BattleState.Gimmicks)) {
+        //    GimmickController.MidLevelEffects();
+        //} else if (bs.Equals(BattleState.StatusEffects)) {
+        //    Status.TriggerStatusEffects();
         }
     }
 
-    public static bool updateDead()
+    public async static Task UpdateDead()
     {
-        if (Player.player.health <= 0)
+        if (Player.player.dead && !Player.player.faded)
         {
-            Player.player.dead = true;
-            Player.player.buff = 1;
-            Player.player.defenseBuff = 1;
-            Player.player.statusEffects.Clear();
-            Player.player.healthBar.gameObject.SetActive(false);
-            Player.player.gameObject.SetActive(false);
+            await Player.player.Fade();
         }
-        bool allEnemiesDead = true;
         foreach (Enemy e in b.enemies)
         {
-            if (e.health <= 0)
+            if (e.dead && !e.faded)
             {
-                e.dead = true;
-                e.buff = 1;
-                e.defenseBuff = 1;
-                e.statusEffects.Clear();
-                e.healthBar.gameObject.SetActive(false);
-                e.gameObject.SetActive(false);
-            }
-            else
-            {
-                allEnemiesDead = false;
+                await e.Fade();
             }
         }
+    }
+
+    public static bool finishedDead()
+    {
         if (Player.player.health <= 0)
         {
             BattleEndController.TriggerDefeat();
             return true;
         }
-        else if (allEnemiesDead)
+        bool allEnemiesDead = true;
+        foreach (Enemy e in b.enemies)
+        {
+            if (!e.dead)
+            {
+                allEnemiesDead = false;
+            }
+        }
+        if (allEnemiesDead)
         {
             if (Battle.b.wave < Battle.b.levelData.enemyWaves.Count)
             {
@@ -154,6 +155,10 @@ public class Battle : MonoBehaviour
                 Battle.b.enemies.Clear();
                 Battle.b.wave++;
                 FighterController.PlaceFighters();
+                GridFitter.ResetSoulObjects();
+                Battle.b.turnNumber++;
+                b.bs = BattleState.Gimmicks;
+                GimmickController.MidLevelEffects();
             }
             else
             {
@@ -164,8 +169,8 @@ public class Battle : MonoBehaviour
                 }
                 Battle.b.enemies.Clear();
                 BattleEndController.TriggerVictory();
-                return true;
             }
+            return true;
         }
         return false;
     }

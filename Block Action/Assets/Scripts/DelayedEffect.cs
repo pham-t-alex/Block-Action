@@ -7,7 +7,6 @@ public class DelayedEffect : Effect
     public int delay;
     public Effect effect;
 
-    //Don't use an effect with single target type
     public DelayedEffect(int delay, Effect effect)
     {
         this.delay = delay;

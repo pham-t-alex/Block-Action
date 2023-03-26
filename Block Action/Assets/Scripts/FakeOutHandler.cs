@@ -39,5 +39,6 @@ public class FakeOutHandler : MonoBehaviour
     {
         GameText.setText("Nothing happened.");
         Battle.b.bs = BattleState.EnemyAction;
+        ActionController.EnemyTurn();
     }
 }

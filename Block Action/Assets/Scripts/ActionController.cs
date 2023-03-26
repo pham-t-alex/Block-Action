@@ -9,10 +9,9 @@ public class ActionController : MonoBehaviour
     //references player
     static PlayerAnimator playerAnimator;
     public GameObject player;
-    static int soulObjectCount;
 
     private static ActionController _actionController;
-    
+
     public static ActionController actionController
     {
         get
@@ -30,30 +29,23 @@ public class ActionController : MonoBehaviour
     {
         //References player
         playerAnimator = player.GetComponent<PlayerAnimator>();
-        soulObjectCount = 0;
     }
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public static void PlayerTurn()
     {
-        //take the list of soul blocks placed in the grid
-        foreach (SoulObject soulObject in Battle.b.placedSoulObjects)
-        {
-            //attack animation
-            soulObjectCount++;
-        }
         //if no blocks were placed in the grid, Attack animation does not play
-        if (soulObjectCount > 0)
+        if (Battle.b.placedSoulObjects.Count > 0)
         {
             SoulObjectAnimation();
         }
@@ -64,6 +56,7 @@ public class ActionController : MonoBehaviour
                 Player.player.stunCharge = 0;
             }
             Battle.b.bs = BattleState.EnemyAction;
+            EnemyTurn();
             Debug.Log("Enemy Turn");
         }
     }
@@ -76,9 +69,9 @@ public class ActionController : MonoBehaviour
             Battle.b.bs = BattleState.EnemyAction;
             Debug.Log("Enemy Turn");
         }
-        else if (soulObjectCount > 0)
+        else if (Battle.b.placedSoulObjects.Count > 0)
         {
-            for (int obj = 0; obj < soulObjectCount; obj++)
+            for (int obj = 0; obj < Battle.b.placedSoulObjects.Count; obj++)
             {
                 PlayerAnimator.SetTrigger("Attack");
                 PlayerSequence(Battle.b.placedSoulObjects[obj]);
@@ -89,16 +82,19 @@ public class ActionController : MonoBehaviour
                     await Task.Yield();
                 }
                 PlayerAnimator.attackDone = false;
+                await Battle.UpdateDead();
             }
-            soulObjectCount = 0;
-            Battle.b.bs = BattleState.EnemyAction;
-            Debug.Log("Enemy Turn");
+            if (!Battle.finishedDead())
+            {
+                Battle.b.bs = BattleState.EnemyAction;
+                EnemyTurn();
+                Debug.Log("Enemy Turn");
+            }
         }
     }
 
-    public static void EnemyTurn()
+    public async static void EnemyTurn()
     {
-        
         foreach (Enemy e in Battle.b.enemies)
         {
             if (e.stunned)
@@ -110,34 +106,30 @@ public class ActionController : MonoBehaviour
             {
                 if (!e.dead && !e.stunned)
                 {
-                    EnemySequence(e);
+                    await EnemySequence(e);
                 }
             }
             //attack animation
         }
-
-        if (Battle.updateDead())
+        if (!Battle.finishedDead())
         {
-            return;
+            //reset soulblocks to original position
+            GridFitter.ResetSoulObjects();
+            GimmickController.gimmickController.index = 0;
+            Battle.b.bs = BattleState.StatusEffects;
+            Debug.Log("Status Effects");
+            Status.TriggerStatusEffects();
         }
-
-        //reset soulblocks to original position
-        GridFitter.ResetSoulObjects();
-        GimmickController.gimmickController.index = 0;
-        Battle.b.bs = BattleState.StatusEffects;
-        Debug.Log("Status Effects");
-        BottomDarkener.UndarkenBottom();
-        Battle.b.turnNumber++;
     }
 
     static void PlayerSequence(SoulObject s)
     {
         //change later to add frames
         s.ActivateEffect();
-        Battle.updateDead();
+        TriggerAfterActionEffects(Player.player);
     }
 
-    static void EnemySequence(Enemy e)
+    async static Task EnemySequence(Enemy e)
     {
         //randomly runs one of many preset attacks
         Random rand = new Random();
@@ -165,6 +157,19 @@ public class ActionController : MonoBehaviour
             }
             effect.targets.Clear();
         }
-        Battle.updateDead();
+        TriggerAfterActionEffects(e);
+        await Battle.UpdateDead();
+        await Task.Delay(500);
+    }
+
+    static void TriggerAfterActionEffects(Fighter f)
+    {
+        foreach (Status s in f.statusEffects)
+        {
+            if (s is AfterActionStatus)
+            {
+                ((AfterActionStatus)s).ActivateInnerEffect();
+            }
+        }
     }
 }
