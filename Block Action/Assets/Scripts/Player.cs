@@ -29,7 +29,7 @@ public class Player : Fighter
 
 
         Battle.b.fighters.Add(this);
-        fadeOnDefeat = false;
+        fadeOnDefeat = true;
     }
 
     public override string GetName()

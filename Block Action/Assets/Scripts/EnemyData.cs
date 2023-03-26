@@ -14,6 +14,8 @@ public class EnemyData : ScriptableObject
     public int actionsPerTurn;
     public int maxStunCharge;
 
+    public List<string> states;
+
     [TextArea(1, 10)]
     public List<string> actions;
 

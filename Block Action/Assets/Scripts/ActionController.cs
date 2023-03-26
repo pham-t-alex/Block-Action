@@ -133,8 +133,28 @@ public class ActionController : MonoBehaviour
     {
         //randomly runs one of many preset attacks
         Random rand = new Random();
-        int i = rand.Next(0, e.numAtk);
-        Action action = e.actions[i];
+        int numAtk = getAttackCount(e);
+        if (numAtk <= 0)
+        {
+            return;
+        }
+        int i = rand.Next(0, numAtk);
+        Action action = null;
+        if (e.actionSets.ContainsKey("All"))
+        {
+            if (i < e.actionSets["All"].Count)
+            {
+                action = e.actionSets["All"][i];
+            }
+            else
+            {
+                action = e.actionSets[e.state][i - e.actionSets["All"].Count];
+            }
+        }
+        else
+        {
+            action = e.actionSets[e.state][i];
+        }
         foreach (Effect effect in action.effects)
         {
             if (effect.targetType == TargetType.Self)
@@ -160,6 +180,20 @@ public class ActionController : MonoBehaviour
         TriggerAfterActionEffects(e);
         await Battle.UpdateDead();
         await Task.Delay(500);
+    }
+
+    static int getAttackCount(Enemy e)
+    {
+        int atkCount = 0;
+        if (e.actionSets.ContainsKey("All"))
+        {
+            atkCount += e.actionSets["All"].Count;
+        }
+        if (e.actionSets.ContainsKey(e.state))
+        {
+            atkCount += e.actionSets[e.state].Count;
+        }
+        return atkCount;
     }
 
     static void TriggerAfterActionEffects(Fighter f)

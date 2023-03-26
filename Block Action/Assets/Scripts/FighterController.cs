@@ -111,7 +111,8 @@ public class FighterController : MonoBehaviour
         {
             string[] enemyInfo = line.Split(' ');
             Enemy enemy = Battle.b.enemies[i];
-            enemy.actions = new List<Action>();
+            enemy.actionSets = new Dictionary<string, List<Action>>();
+            enemy.states = new List<string>();
             enemy.buff = 1.0;
             enemy.defenseBuff = 1.0;
             enemy.statusEffects = new List<Status>();
@@ -119,7 +120,6 @@ public class FighterController : MonoBehaviour
             int upper = System.Convert.ToInt32(enemyInfo[5]);
             enemy.type = enemyInfo[0];
             setEnemyData(enemy, enemyInfo[0], lower, upper);
-            enemy.numAtk = enemy.actions.Count;
             enemy.gameObject.AddComponent<BoxCollider2D>();
             double hpScale = System.Convert.ToDouble(enemyInfo[1]);
             double atkScale = System.Convert.ToDouble(enemyInfo[2]);
@@ -134,11 +134,14 @@ public class FighterController : MonoBehaviour
     {
         enemy.health = (int) (enemy.health * hpScale);
         enemy.maxHealth = (int) (enemy.maxHealth * hpScale);
-        foreach (Action action in enemy.actions)
+        foreach (List<Action> actionSet in enemy.actionSets.Values)
         {
-            foreach (Effect effect in action.effects)
+            foreach (Action action in actionSet)
             {
-                scaleEffect(effect, atkScale, buffScale);
+                foreach (Effect effect in action.effects)
+                {
+                    scaleEffect(effect, atkScale, buffScale);
+                }
             }
         }
         foreach (Status status in enemy.statusEffects)
@@ -227,8 +230,14 @@ public class FighterController : MonoBehaviour
         {
             enemy.statusEffects.Add(Status.statusFromString(enemyData.startingStatuses[i], enemy));
         }
+        enemy.states.Add("Normal");
+        for (int i = 0; i < enemyData.states.Count; i++)
+        {
+            enemy.states.Add(enemyData.states[i]);
+        }
         enemy.minAction = lower;
         enemy.maxAction = upper;
+        enemy.state = enemy.states[0];
     }
 
     static void addAction(Enemy enemy, string actionAsString)
@@ -236,10 +245,17 @@ public class FighterController : MonoBehaviour
         Action a = new Action();
         a.effects = new List<Effect>();
         string[] actionData = actionAsString.Split("\n");
-        foreach (string effectAsString in actionData)
+        string state = actionData[0];
+        string[] newActionData = new string[actionData.Length - 1];
+        System.Array.Copy(actionData, 1, newActionData, 0, actionData.Length - 1);
+        foreach (string effectAsString in newActionData)
         {
             a.effects.Add(Effect.effectFromString(effectAsString));
         }
-        enemy.actions.Add(a);
+        if (!enemy.actionSets.ContainsKey(state))
+        {
+            enemy.actionSets.Add(state, new List<Action>());
+        }
+        enemy.actionSets[state].Add(a);
     }
 }

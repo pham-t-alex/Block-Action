@@ -18,11 +18,22 @@ MonoBehaviour:
     creature it intends to kill.
   actionsPerTurn: 1
   maxStunCharge: 100
+  states: []
   actions:
-  - damage singletarget 10
-  - heal enemies 10
-  - buff singletarget atk -0.5 2
-  - damage singletarget 15
+  - 'All
+
+    damage singletarget 10'
+  - 'All
+
+    heal enemies 10'
+  - 'All
+
+    buff singletarget atk -0.5 2'
+  - 'All
+
+    damage singletarget 15'
+  startingStatuses: []
+  fadeOnDefeat: 1
   idle: {fileID: 819675316, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   attack: {fileID: 508702825, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   hurt: {fileID: 2121103764, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}

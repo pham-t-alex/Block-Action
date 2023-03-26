@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Enemy : Fighter
 {
-    public List<Action> actions; // change to effect
-    public int numAtk;
+    public Dictionary<string, List<Action>> actionSets;
+    public List<string> states;
     public bool mouseTouching;
     public string type;
     public int minAction;
@@ -13,6 +13,7 @@ public class Enemy : Fighter
     public double atkScale;
     public double buffScale;
     public int actionCount;
+    public string state;
 
     // Start is called before the first frame update
     void Start()
@@ -92,12 +93,26 @@ public class Enemy : Fighter
             }
         }
         info += "\nActions:";
-        for (int i = 0; i < actions.Count; i++)
+        if (actionSets.ContainsKey("All"))
         {
-            string s = ActionAsString(actions[i]);
-            if (s != null)
+            for (int i = 0; i < actionSets["All"].Count; i++)
             {
-                info += "\n- " + s + ".";
+                string s = ActionAsString(actionSets["All"][i]);
+                if (s != null)
+                {
+                    info += "\n- " + s + ".";
+                }
+            }
+        }
+        if (actionSets.ContainsKey(state))
+        {
+            for (int i = 0; i < actionSets[state].Count; i++)
+            {
+                string s = ActionAsString(actionSets[state][i]);
+                if (s != null)
+                {
+                    info += "\n- " + s + ".";
+                }
             }
         }
         return info;
