@@ -18,6 +18,16 @@ public abstract class Effect
     public static Effect effectFromStringArray(string[] effectData)
     {
         Effect effect = null;
+        if (effectData[0].Equals("conditional"))
+        {
+            //Note: example conditional: "conditional health < user target [effect]"
+            //Therefore, the conditional should be 4 values: conditional subclass, comparison, first object, second object
+            Condition c = Condition.conditionFromStrings(effectData[1], effectData[2], effectData[3], effectData[4]);
+            string[] nextEffectData = new string[effectData.Length - 5];
+            System.Array.Copy(effectData, 5, nextEffectData, 0, effectData.Length - 5);
+            effect = new ConditionalEffect(effectFromStringArray(nextEffectData), c);
+            return effect;
+        }
         if (effectData[0].Equals("damage"))
         {
             effect = new Damage(System.Convert.ToInt32(effectData[2]));
@@ -389,6 +399,11 @@ public abstract class Effect
                 }
             }
         }
+        else if (e is ConditionalEffect)
+        {
+            effectString = ((ConditionalEffect)e).condition.ToString();
+            effectString += effectToString(((ConditionalEffect)e).effect, forBlock);
+        }
         else
         {
             return null;
@@ -743,6 +758,10 @@ public abstract class Effect
         else if (e is StateChangeEffect)
         {
             return Quality.Neutral;
+        }
+        else if (e is ConditionalEffect)
+        {
+            return GetQuality(((ConditionalEffect)e).effect, isPlayer);
         }
         else
         {

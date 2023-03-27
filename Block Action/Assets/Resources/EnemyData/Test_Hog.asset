@@ -34,13 +34,13 @@ MonoBehaviour:
     heal self 20'
   - 'Normal
 
-    change_state self Defensive'
-  - 'Defensive
-
-    change_state self Normal'
+    conditional health %< user 50 change_state self Defensive'
   - 'Defensive
 
     apply_repeating singletarget 100 true_damage self 10'
+  - 'Defensive
+
+    conditional health %> user 50 change_state self Normal'
   startingStatuses: []
   fadeOnDefeat: 1
   idle: {fileID: 1019089891, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}

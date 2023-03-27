@@ -24,4 +24,5 @@ MonoBehaviour:
   isSoulBlock: 1
   effects:
   - damage singletarget 50
+  - conditional health %< user target apply_delayed enemies 3 damage self 20
   color: {r: 1, g: 0, b: 0, a: 1}
