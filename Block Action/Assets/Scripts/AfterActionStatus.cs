@@ -55,4 +55,16 @@ public class AfterActionStatus : Status
         afterActionEffect.ActivateEffect(null);
         afterActionEffect.targets.Clear();
     }
+
+    public override Quality getQuality()
+    {
+        if (statusHolder is Player)
+        {
+            return Effect.GetQuality(afterActionEffect, true);
+        }
+        else
+        {
+            return Effect.GetQuality(afterActionEffect, false);
+        }
+    }
 }

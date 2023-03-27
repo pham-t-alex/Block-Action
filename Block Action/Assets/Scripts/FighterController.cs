@@ -118,7 +118,6 @@ public class FighterController : MonoBehaviour
             enemy.statusEffects = new List<Status>();
             int lower = System.Convert.ToInt32(enemyInfo[4]);
             int upper = System.Convert.ToInt32(enemyInfo[5]);
-            enemy.type = enemyInfo[0];
             setEnemyData(enemy, enemyInfo[0], lower, upper);
             enemy.gameObject.AddComponent<BoxCollider2D>();
             double hpScale = System.Convert.ToDouble(enemyInfo[1]);
@@ -218,6 +217,7 @@ public class FighterController : MonoBehaviour
     {
         EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{enemyName}");
         enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
+        enemy.type = enemyData.enemyName;
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;
         enemy.actionCount = enemyData.actionsPerTurn;

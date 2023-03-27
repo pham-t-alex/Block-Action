@@ -36,4 +36,20 @@ public class DefBuffStatus : Status
             Debug.Log($"Defense Buff ended | Enemy defense buff {1 - prevBuff}x -> {1 - statusHolder.defenseBuff}");
         }
     }
+
+    public override Quality getQuality()
+    {
+        if (buff > 0)
+        {
+            return Quality.Good;
+        }
+        else if (buff < 0)
+        {
+            return Quality.Bad;
+        }
+        else
+        {
+            return Quality.Neutral;
+        }
+    }
 }

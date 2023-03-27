@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
   m_Name: Hog
   m_EditorClassIdentifier: 
+  enemyName: Hog
   defaultMaxHealth: 50
   defaultStartingHealth: 50
   description: A corrupted hog. Its rage leads it to violently attack anything that
@@ -20,10 +21,10 @@ MonoBehaviour:
   maxStunCharge: 50
   states: []
   actions:
-  - 'All
+  - 'Normal
 
     damage singletarget 10'
-  - 'All
+  - 'Normal
 
     buff enemies atk 0.2 3'
   startingStatuses: []

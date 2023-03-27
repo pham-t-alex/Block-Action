@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
   m_Name: Hog_Hunter
   m_EditorClassIdentifier: 
+  enemyName: Hog_Hunter
   defaultMaxHealth: 120
   defaultStartingHealth: 120
   description: A corrupted hog hunter. Excels in ruthlessly hunting down whatever
@@ -20,16 +21,16 @@ MonoBehaviour:
   maxStunCharge: 100
   states: []
   actions:
-  - 'All
+  - 'Normal
 
     damage singletarget 10'
-  - 'All
+  - 'Normal
 
     heal enemies 10'
-  - 'All
+  - 'Normal
 
     buff singletarget atk -0.5 2'
-  - 'All
+  - 'Normal
 
     damage singletarget 15'
   startingStatuses: []

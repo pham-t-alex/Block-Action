@@ -17,6 +17,8 @@ public abstract class Status
         numTurns = 0;
     }
 
+    public abstract Quality getQuality();
+
     public async static void TriggerStatusEffects()
     {
         foreach (Fighter f in Battle.b.fighters)
@@ -174,4 +176,11 @@ public abstract class Status
         }
         return statusString;
     }
+}
+
+public enum Quality
+{
+    Good,
+    Bad,
+    Neutral
 }

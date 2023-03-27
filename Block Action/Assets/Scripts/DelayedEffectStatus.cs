@@ -58,4 +58,16 @@ public class DelayedEffectStatus : Status
             delayedEffect.targets.Clear();
         }
     }
+
+    public override Quality getQuality()
+    {
+        if (statusHolder is Player)
+        {
+            return Effect.GetQuality(delayedEffect, true);
+        }
+        else
+        {
+            return Effect.GetQuality(delayedEffect, false);
+        }
+    }
 }

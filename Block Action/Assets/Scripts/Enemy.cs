@@ -79,9 +79,8 @@ public class Enemy : Fighter
 
     public override string GetInfo()
     {
-        EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{type}");
-
         string info = "Health: " + health + "/" + maxHealth + "\n";
+        info += "State: " + state + "\n";
         info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
         info += "Status Effects:";
         foreach (Status status in statusEffects)

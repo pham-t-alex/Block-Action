@@ -67,6 +67,18 @@ public abstract class Effect
             System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
             effect = new AfterActionEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
         }
+        else if (effectData[0].Equals("change_state"))
+        {
+            effect = new StateChangeEffect(string.Join(" ", effectData, 2, effectData.Length - 2));
+        }
+        else if (effectData[0].Equals("remove_buff"))
+        {
+            effect = new BuffRemovalEffect(System.Convert.ToInt32(effectData[2]));
+        }
+        else if (effectData[0].Equals("remove_debuff"))
+        {
+            effect = new DebuffRemovalEffect(System.Convert.ToInt32(effectData[2]));
+        }
         if (effectData[1].Equals("self"))
         {
             effect.targetType = TargetType.Self;
@@ -307,10 +319,434 @@ public abstract class Effect
             effectString += ": ";
             effectString += effectToString(((AfterActionEffect)e).effect, forBlock);
         }
+        else if (e is StateChangeEffect)
+        {
+            effectString = $"Change ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self's"; //should be the most common
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies'";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy's";
+                }
+                else
+                { //note: under no circumstances should this happen
+                    effectString += "the player's";
+                }
+            }
+            effectString += " state to " + ((StateChangeEffect)e).state;
+        }
+        else if (e is BuffRemovalEffect)
+        {
+            effectString = $"Remove {((BuffRemovalEffect)e).quantity} buffs from ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
+        }
+        else if (e is DebuffRemovalEffect)
+        {
+            effectString = $"Remove {((DebuffRemovalEffect)e).quantity} debuffs from ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
+        }
         else
         {
             return null;
         }
         return effectString;
+    }
+
+    public static Quality GetQuality(Effect e, bool isPlayer)
+    {
+        if (e is Damage || e is TrueDamage || e is DefIgnoringDamage || e is BuffRemovalEffect)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.SingleTarget)
+                {
+                    return Quality.Good;
+                }
+                else
+                {
+                    return Quality.Bad;
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.SingleTarget)
+                {
+                    return Quality.Good;
+                }
+                else
+                {
+                    return Quality.Bad;
+                }
+            }
+        }
+        else if (e is Heal || e is DebuffRemovalEffect)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.Self)
+                {
+                    return Quality.Good;
+                }
+                else
+                {
+                    return Quality.Bad;
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                {
+                    return Quality.Good;
+                }
+                else
+                {
+                    return Quality.Bad;
+                }
+            }
+        }
+        else if (e is Buff)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.Self)
+                {
+                    if (((Buff)e).buff > 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else if (((Buff)e).buff < 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+                else
+                {
+                    if (((Buff)e).buff > 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (((Buff)e).buff < 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                {
+                    if (((Buff)e).buff > 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else if (((Buff)e).buff < 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+                else
+                {
+                    if (((Buff)e).buff > 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (((Buff)e).buff < 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+            }
+        }
+        else if (e is DefenseBuff)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.Self)
+                {
+                    if (((DefenseBuff)e).defenseBuff > 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else if (((DefenseBuff)e).defenseBuff < 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+                else
+                {
+                    if (((DefenseBuff)e).defenseBuff > 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (((DefenseBuff)e).defenseBuff < 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                {
+                    if (((DefenseBuff)e).defenseBuff > 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else if (((DefenseBuff)e).defenseBuff < 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+                else
+                {
+                    if (((DefenseBuff)e).defenseBuff > 0)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (((DefenseBuff)e).defenseBuff < 0)
+                    {
+                        return Quality.Good;
+                    }
+                    else
+                    {
+                        return Quality.Neutral;
+                    }
+                }
+            }
+        }
+        else if (e is DelayedEffect)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.Self)
+                {
+                    return GetQuality(((DelayedEffect)e).effect, true);
+                }
+                else
+                {
+                    Quality q = GetQuality(((DelayedEffect)e).effect, false);
+                    if (q == Quality.Good)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (q == Quality.Bad)
+                    {
+                        return Quality.Good;
+                    }
+                    return Quality.Neutral;
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                {
+                    return GetQuality(((DelayedEffect)e).effect, false);
+                }
+                else
+                {
+                    Quality q = GetQuality(((DelayedEffect)e).effect, true);
+                    if (q == Quality.Good)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (q == Quality.Bad)
+                    {
+                        return Quality.Good;
+                    }
+                    return Quality.Neutral;
+                }
+            }
+        }
+        else if (e is RepeatingEffect)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.Self)
+                {
+                    return GetQuality(((RepeatingEffect)e).effect, true);
+                }
+                else
+                {
+                    Quality q = GetQuality(((RepeatingEffect)e).effect, false);
+                    if (q == Quality.Good)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (q == Quality.Bad)
+                    {
+                        return Quality.Good;
+                    }
+                    return Quality.Neutral;
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                {
+                    return GetQuality(((RepeatingEffect)e).effect, false);
+                }
+                else
+                {
+                    Quality q = GetQuality(((RepeatingEffect)e).effect, true);
+                    if (q == Quality.Good)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (q == Quality.Bad)
+                    {
+                        return Quality.Good;
+                    }
+                    return Quality.Neutral;
+                }
+            }
+        }
+        else if (e is StunEffect)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.SingleTarget)
+                {
+                    return Quality.Good;
+                }
+                else
+                {
+                    return Quality.Bad;
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.SingleTarget)
+                {
+                    return Quality.Good;
+                }
+                else
+                {
+                    return Quality.Bad;
+                }
+            }
+        }
+        else if (e is AfterActionEffect)
+        {
+            if (isPlayer)
+            {
+                if (e.targetType == TargetType.Self)
+                {
+                    return GetQuality(((AfterActionEffect)e).effect, true);
+                }
+                else
+                {
+                    Quality q = GetQuality(((AfterActionEffect)e).effect, false);
+                    if (q == Quality.Good)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (q == Quality.Bad)
+                    {
+                        return Quality.Good;
+                    }
+                    return Quality.Neutral;
+                }
+            }
+            else
+            {
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                {
+                    return GetQuality(((AfterActionEffect)e).effect, false);
+                }
+                else
+                {
+                    Quality q = GetQuality(((AfterActionEffect)e).effect, true);
+                    if (q == Quality.Good)
+                    {
+                        return Quality.Bad;
+                    }
+                    else if (q == Quality.Bad)
+                    {
+                        return Quality.Good;
+                    }
+                    return Quality.Neutral;
+                }
+            }
+        }
+        else if (e is StateChangeEffect)
+        {
+            return Quality.Neutral;
+        }
+        else
+        {
+            return Quality.Neutral;
+        }
     }
 }

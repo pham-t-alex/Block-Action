@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
   m_Name: Mushroom
   m_EditorClassIdentifier: 
+  enemyName: Mushroom
   defaultMaxHealth: 100
   defaultStartingHealth: 100
   description: Exploding mushroom.
   actionsPerTurn: 0
   maxStunCharge: 10000
+  states: []
   actions: []
   startingStatuses:
   - unremovable delayed 3 damage singletarget 100
   - unremovable delayed 3 damage self 100000
+  fadeOnDefeat: 1
   idle: {fileID: 21300000, guid: f2fb8cb447a4cf448a5896df0ce83be9, type: 3}
   attack: {fileID: 21300000, guid: b82e6901a7aea4d4aa1120af37fdc427, type: 3}
   hurt: {fileID: 21300000, guid: a4e1468e67d808a48b1a7c99425a1faa, type: 3}

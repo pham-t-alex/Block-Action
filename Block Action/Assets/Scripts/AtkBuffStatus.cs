@@ -36,4 +36,20 @@ public class AtkBuffStatus : Status
             Debug.Log($"Buff ended | Enemy buff {prevBuff}x -> {statusHolder.buff}");
         }
     }
+
+    public override Quality getQuality()
+    {
+        if (buff > 0)
+        {
+            return Quality.Good;
+        }
+        else if (buff < 0)
+        {
+            return Quality.Bad;
+        }
+        else
+        {
+            return Quality.Neutral;
+        }
+    }
 }

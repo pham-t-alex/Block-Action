@@ -59,4 +59,16 @@ public class RepeatingEffectStatus : Status
             repeatingEffect.targets.Clear();
         }
     }
+
+    public override Quality getQuality()
+    {
+        if (statusHolder is Player)
+        {
+            return Effect.GetQuality(repeatingEffect, true);
+        }
+        else
+        {
+            return Effect.GetQuality(repeatingEffect, false);
+        }
+    }
 }
