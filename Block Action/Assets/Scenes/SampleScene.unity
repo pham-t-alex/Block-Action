@@ -13730,9 +13730,12 @@ MonoBehaviour:
   health: 0
   buff: 0
   defenseBuff: 0
+  stunChargeMax: 0
+  stunCharge: 0
   maxHealth: 0
   healthBar: {fileID: 0}
-  dead: 0
+  fadeOnDefeat: 1
+  faded: 0
   timeHovered: 0
   infoMenu: {fileID: 0}
 --- !u!212 &1750836034
@@ -13980,7 +13983,7 @@ GameObject:
   - component: {fileID: 1829648461}
   - component: {fileID: 1829648462}
   m_Layer: 0
-  m_Name: UIDisplayer
+  m_Name: particleHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14013,6 +14016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161b3fc06f7cee2498d97609a68af661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soulParticle: {fileID: 601457273204311173, guid: a00272acaee98934cb538a28a166240f, type: 3}
 --- !u!1 &1871693985
 GameObject:
   m_ObjectHideFlags: 0

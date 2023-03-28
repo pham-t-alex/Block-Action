@@ -38,3 +38,4 @@ MonoBehaviour:
   idle: {fileID: 819675316, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   attack: {fileID: 508702825, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   hurt: {fileID: 2121103764, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
+  soulColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}

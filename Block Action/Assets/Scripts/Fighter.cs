@@ -140,6 +140,11 @@ public abstract class Fighter : MonoBehaviour
         if (fadeOnDefeat)
         {
             await Task.Delay(200);
+            SoulParticle s = null;
+            if (this is Enemy enemy)
+            {
+                s = ParticleHandler.CreateSoulParticle(transform.position, enemy.soulColor);
+            }
             SpriteRenderer fighterRenderer = GetComponent<SpriteRenderer>();
             float baseOpacity = fighterRenderer.color.a;
             for (int i = 0; i < 10; i++)
@@ -150,7 +155,15 @@ public abstract class Fighter : MonoBehaviour
                     newOpacity = 0;
                 }
                 fighterRenderer.color = new Color(fighterRenderer.color.r, fighterRenderer.color.g, fighterRenderer.color.b, newOpacity);
+                if (s != null)
+                {
+                    s.IncreaseOpacity();
+                }
                 await Task.Delay(50);
+            }
+            if (s != null)
+            {
+                s.StartCoroutine(s.FlyToPlayer());
             }
             healthBar.gameObject.SetActive(false);
             if (infoMenu != null)

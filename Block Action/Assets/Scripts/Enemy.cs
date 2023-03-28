@@ -14,6 +14,7 @@ public class Enemy : Fighter
     public double buffScale;
     public int actionCount;
     public string state;
+    public Color soulColor;
 
     // Start is called before the first frame update
     void Start()

@@ -28,4 +28,6 @@ public class EnemyData : ScriptableObject
     public Sprite idle;
     public Sprite attack;
     public Sprite hurt;
+
+    public Color soulColor = Color.white;
 }

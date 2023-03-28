@@ -238,6 +238,7 @@ public class FighterController : MonoBehaviour
         enemy.minAction = lower;
         enemy.maxAction = upper;
         enemy.state = enemy.states[0];
+        enemy.soulColor = enemyData.soulColor;
     }
 
     static void addAction(Enemy enemy, string actionAsString)
