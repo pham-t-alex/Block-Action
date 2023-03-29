@@ -112,7 +112,6 @@ public class FighterController : MonoBehaviour
             string[] enemyInfo = line.Split(' ');
             Enemy enemy = Battle.b.enemies[i];
             enemy.actionSets = new Dictionary<string, List<Action>>();
-            enemy.states = new List<string>();
             enemy.buff = 1.0;
             enemy.defenseBuff = 1.0;
             enemy.statusEffects = new List<Status>();
@@ -230,14 +229,9 @@ public class FighterController : MonoBehaviour
         {
             enemy.statusEffects.Add(Status.statusFromString(enemyData.startingStatuses[i], enemy));
         }
-        enemy.states.Add("Normal");
-        for (int i = 0; i < enemyData.states.Count; i++)
-        {
-            enemy.states.Add(enemyData.states[i]);
-        }
         enemy.minAction = lower;
         enemy.maxAction = upper;
-        enemy.state = enemy.states[0];
+        enemy.state = "Normal";
         enemy.soulColor = enemyData.soulColor;
     }
 

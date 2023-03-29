@@ -5,7 +5,6 @@ using UnityEngine;
 public class Enemy : Fighter
 {
     public Dictionary<string, List<Action>> actionSets;
-    public List<string> states;
     public bool mouseTouching;
     public string type;
     public int minAction;
