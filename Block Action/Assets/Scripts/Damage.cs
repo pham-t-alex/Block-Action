@@ -45,7 +45,7 @@ public class Damage : Effect
                 }
                 else
                 {
-
+                    //EnemyAnimator.SetTrigger("Hurt");
                     Debug.Log("Enemy takes " + damageDealt + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
             }

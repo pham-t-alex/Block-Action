@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 596005828554361066}
   - component: {fileID: -2143331305839309126}
   - component: {fileID: -3063676574858463061}
-  - component: {fileID: 2025114788422696728}
   - component: {fileID: -7135011707343438370}
+  - component: {fileID: 7515041055999148829}
   m_Layer: 0
   m_Name: Hog
   m_TagString: Untagged
@@ -107,18 +107,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2025114788422696728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387881003405268669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d4c9124c505cd344a578f012bc2d747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-7135011707343438370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,3 +139,15 @@ MonoBehaviour:
   actionCount: 0
   state: 
   soulColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &7515041055999148829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387881003405268669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57466de04100b804bb046f1f18d38c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

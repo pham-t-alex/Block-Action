@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class ActionController : MonoBehaviour
 {
-    private string activeEnemy;
+    //private EnemyAnimator enemyAnimator;
 
     //references player
     static PlayerAnimator playerAnimator;
@@ -43,6 +43,7 @@ public class ActionController : MonoBehaviour
     {
 
     }
+
 
     public static void PlayerTurn()
     {
@@ -112,7 +113,7 @@ public class ActionController : MonoBehaviour
                 }
             }
             //attack animation
-            PlayerAnimator.SetTrigger("Hog Attack");
+            //EnemyAnimator.SetTrigger("Attack");
         }
         if (!Battle.finishedDead())
         {
