@@ -45,6 +45,7 @@ public class Damage : Effect
                 }
                 else
                 {
+
                     Debug.Log("Enemy takes " + damageDealt + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
             }

@@ -89,6 +89,7 @@ public class FighterController : MonoBehaviour
 
     static void GenerateEnemies()
     {
+        int enemyCount = 0;
         if (Battle.b.levelData == null)
         {
             return;
@@ -109,8 +110,10 @@ public class FighterController : MonoBehaviour
         int i = 0;
         while (line != null)
         {
+            enemyCount++;
             string[] enemyInfo = line.Split(' ');
             Enemy enemy = Battle.b.enemies[i];
+            enemy.setUnique("Enemy" + enemyCount);
             enemy.actionSets = new Dictionary<string, List<Action>>();
             enemy.buff = 1.0;
             enemy.defenseBuff = 1.0;

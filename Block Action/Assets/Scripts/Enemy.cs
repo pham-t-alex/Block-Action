@@ -15,6 +15,10 @@ public class Enemy : Fighter
     public string state;
     public Color soulColor;
 
+    private string uniqueName;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,6 +119,16 @@ public class Enemy : Fighter
             }
         }
         return info;
+    }
+
+    public void setUnique(string unique)
+    {
+        uniqueName = unique;
+    }
+
+    public string getUnique()
+    {
+        return uniqueName;
     }
 
     public string ActionAsString(Action action)
