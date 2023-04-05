@@ -100,7 +100,8 @@ public class FighterController : MonoBehaviour
         while (line != null)
         {
             string[] enemyInfo = line.Split(' ');
-            GameObject enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            //GameObject enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject enemy = Instantiate(Resources.Load<GameObject>("Sprites/Enemies/Hog/Hog"), new Vector3(0, 0, 0), Quaternion.identity);
             Battle.b.enemies.Add(enemy.GetComponent<Enemy>());
             Battle.b.fighters.Add(enemy.GetComponent<Enemy>());
             line = s.ReadLine();
@@ -218,7 +219,7 @@ public class FighterController : MonoBehaviour
     static void setEnemyData(Enemy enemy, string enemyName, int lower, int upper)
     {
         EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{enemyName}");
-        enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
+        //enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
         enemy.type = enemyData.enemyName;
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;

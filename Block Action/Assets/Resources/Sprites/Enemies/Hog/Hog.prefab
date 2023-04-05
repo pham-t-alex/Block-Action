@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -2143331305839309126}
   - component: {fileID: -3063676574858463061}
   - component: {fileID: 2025114788422696728}
+  - component: {fileID: -7135011707343438370}
   m_Layer: 0
   m_Name: Hog
   m_TagString: Untagged
@@ -118,3 +119,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d4c9124c505cd344a578f012bc2d747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7135011707343438370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387881003405268669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808b30614c57e8f40bc0553a7eef4074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  buff: 0
+  defenseBuff: 0
+  stunChargeMax: 0
+  stunCharge: 0
+  maxHealth: 0
+  healthBar: {fileID: 0}
+  fadeOnDefeat: 1
+  faded: 0
+  timeHovered: 0
+  infoMenu: {fileID: 0}
+  mouseTouching: 0
+  type: 
+  minAction: 0
+  maxAction: 0
+  atkScale: 0
+  buffScale: 0
+  actionCount: 0
+  state: 
+  soulColor: {r: 0, g: 0, b: 0, a: 0}
