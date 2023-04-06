@@ -21,7 +21,7 @@ public class GridFitter : MonoBehaviour
     } //Singleton object version, accessible through GridFitter.gridFitter, and will never throw NullPointerException
 
     public GameObject target; //target sprite gameobject
-    static SoulObject selectedSoulObject; //currently selected soul object
+    public static SoulObject selectedSoulObject; //currently selected soul object
     static float selectedTime = float.MinValue; //used to allow object to follow mouse around for a short amount of time after being selected
     //This was added since it makes the dragging of the block more smooth. Without this feature, if the mouse exits the bounds of the block, it would
     //become unselected, so if you drag too fast, it would stop. This buffer would allow dragging to be more smooth, while still allowing the player
@@ -46,7 +46,7 @@ public class GridFitter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //Method ran in Battle class, ran so long as the battle state is grid fitting phase
@@ -65,7 +65,6 @@ public class GridFitter : MonoBehaviour
                 //mouse position. With this, you can drag the soul object from its edge, it feels more natural.
                 // COMEBACK
                 selectedSoulObject.transform.localScale = new Vector3(gridFitter.scale, gridFitter.scale, 1);
-                selectedSoulObject.timeHovered = 0;
             }
             else if (selectedTime > float.MinValue) //When the object stops being selected (<0)
             {
@@ -102,7 +101,10 @@ public class GridFitter : MonoBehaviour
                                     SoulFrame s = (SoulFrame) soulObject;
                                     s.filled = false;
                                 }
-                                soulObject.targets.Clear();
+                                foreach (Effect e in soulObject.effects)
+                                {
+                                    e.targets.Clear();
+                                }
                                 updateFrames();
                             }
                             soulObject.tilesTouching = null;
@@ -119,8 +121,6 @@ public class GridFitter : MonoBehaviour
                             soulObject.SetRenderOrder(4);
                         } //sets display order in layer for display
                         selectedTime = 0.05f; //sets selected time to 0.05 seconds (after 0.05 seconds of not being touched by mouse down, it will deselect)
-                        selectedSoulObject.DestroyInfoMenu();
-                        selectedSoulObject.timeHovered = 0;
                     }
                 }
             }
@@ -201,21 +201,17 @@ public class GridFitter : MonoBehaviour
             }
 
             gridFitter.grid.soulObjectsInGrid.Add(soulObject); //added to soul objects in grid
-            if (soulObject.isAoe) //if the soul object is AOE
+            foreach (Effect e in soulObject.effects)
             {
-                foreach (Enemy e in Battle.b.enemies)
+                if (e.targetType == TargetType.SingleTarget)
                 {
-                    soulObject.targets.Add(e); //add every target
+                    Battle.b.bs = BattleState.EnemySelect;
+                    break;
                 }
-                selectedSoulObject = null; //unselect the object
             }
-            else if (soulObject.isSingleTarget)
+            if (Battle.b.bs != BattleState.EnemySelect)
             {
-                Battle.b.bs = BattleState.EnemySelect; //if it is single target, go to enemy select phase
-            }
-            else
-            {
-                selectedSoulObject = null; //unselect the object
+                selectedSoulObject = null;
             }
         }
         else //failed placement
@@ -310,8 +306,15 @@ public class GridFitter : MonoBehaviour
                 touchingEnemy = true;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    selectedSoulObject.targets.Add(enemy);
+                    foreach (Effect e in selectedSoulObject.effects)
+                    {
+                        if (e.targetType == TargetType.SingleTarget)
+                        {
+                            e.targets.Add(enemy);
+                        }
+                    }
                     selectedSoulObject = null;
+                    BlockInfoMenuHandler.InfoMenuHandler.Remove();
                     Battle.b.bs = BattleState.PlayerGrid;
                     //if mouse is touching an enemy and the player clicks, then add that enemy to the selected soul object's target list
                     //unselect the soul object, return to grid fitting phase
@@ -364,11 +367,17 @@ public class GridFitter : MonoBehaviour
             {
                 soulObject.SetRenderOrder(6);
             }
-            soulObject.targets.Clear(); //gets rid of targets
-            soulObject.tilesTouching = null;
-            if (soulObject.currentCooldown > 0)
+            foreach (Effect e in soulObject.effects)
             {
-                soulObject.currentCooldown--;
+                e.targets.Clear();
+            } //gets rid of targets
+            soulObject.tilesTouching = null;
+            if (!Player.player.stunned)
+            {
+                if (soulObject.currentCooldown > 0)
+                {
+                    soulObject.currentCooldown--;
+                }
             }
             soulObject.changeCooldownColor();
         }

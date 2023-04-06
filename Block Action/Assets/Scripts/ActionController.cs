@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 public class ActionController : MonoBehaviour
 {
+    //private EnemyAnimator enemyAnimator;
+
     //references player
     static PlayerAnimator playerAnimator;
     public GameObject player;
-    static int soulObjectCount;
 
     private static ActionController _actionController;
-    
+
     public static ActionController actionController
     {
         get
@@ -30,45 +31,50 @@ public class ActionController : MonoBehaviour
     {
         //References player
         playerAnimator = player.GetComponent<PlayerAnimator>();
-        soulObjectCount = 0;
     }
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
 
     public static void PlayerTurn()
     {
-        //take the list of soul blocks placed in the grid
-        foreach (SoulObject soulObject in Battle.b.placedSoulObjects)
-        {
-            //attack animation
-            soulObjectCount++;
-        }
         //if no blocks were placed in the grid, Attack animation does not play
-        if (soulObjectCount > 0)
+        if (Battle.b.placedSoulObjects.Count > 0)
         {
             SoulObjectAnimation();
         }
         else
         {
+            if (Player.player.stunned)
+            {
+                Player.player.stunCharge = 0;
+            }
             Battle.b.bs = BattleState.EnemyAction;
+            EnemyTurn();
             Debug.Log("Enemy Turn");
         }
     }
 
     public async static void SoulObjectAnimation()
     {
-        if (soulObjectCount > 0)
+        if (Player.player.stunned)
         {
-            for (int obj = 0; obj < soulObjectCount; obj++)
+            Player.player.stunCharge = 0;
+            Battle.b.bs = BattleState.EnemyAction;
+            Debug.Log("Enemy Turn");
+        }
+        else if (Battle.b.placedSoulObjects.Count > 0)
+        {
+            for (int obj = 0; obj < Battle.b.placedSoulObjects.Count; obj++)
             {
                 PlayerAnimator.SetTrigger("Attack");
                 PlayerSequence(Battle.b.placedSoulObjects[obj]);
@@ -79,142 +85,129 @@ public class ActionController : MonoBehaviour
                     await Task.Yield();
                 }
                 PlayerAnimator.attackDone = false;
+                await Battle.UpdateDead();
             }
-            soulObjectCount = 0;
-            Battle.b.bs = BattleState.EnemyAction;
-            Debug.Log("Enemy Turn");
+            if (!Battle.finishedDead())
+            {
+                Battle.b.bs = BattleState.EnemyAction;
+                EnemyTurn();
+                Debug.Log("Enemy Turn");
+            }
         }
     }
 
-    public static void EnemyTurn()
+    public async static void EnemyTurn()
     {
-        bool allEnemiesDead = true;
         foreach (Enemy e in Battle.b.enemies)
         {
+            if (e.stunned)
+            {
+                e.stunCharge = 0;
+                continue;
+            }
+            for (int i = 0; i < e.actionCount; i++)
+            {
+                if (!e.dead && !e.stunned)
+                {
+                    await EnemySequence(e);
+                }
+            }
             //attack animation
-            if (!e.dead)
-            {
-                EnemySequence(e);
-                allEnemiesDead = false;
-            }
+            //EnemyAnimator.SetTrigger("Attack");
         }
-        
-        //count down the number of turns for buffs
-        foreach (Fighter f in Battle.b.fighters) {
-            foreach (BuffCounter bc in f.buffLeft) {
-                bc.numTurns--;
-                if (bc.numTurns == 0) {
-                    double prevBuff = f.buff;
-                    f.buff -= bc.buff;
-                    if (f is Player)
-                    {
-                        Debug.Log($"Buff ended | Player buff {prevBuff}x -> {f.buff}");
-                    }
-                    else
-                    {
-                        Debug.Log($"Buff ended | Enemy buff {prevBuff}x -> {f.buff}");
-                    }
-                }
-            }
-            foreach (DefenseBuffCounter bc in f.defenseBuffLeft)
-            {
-                bc.numTurns--;
-                if (bc.numTurns == 0)
-                {
-                    double prevBuff = f.defenseBuff;
-                    f.defenseBuff += bc.defenseBuff;
-                    if (f is Player)
-                    {
-                        Debug.Log($"Defense Buff ended | Player defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
-                    }
-                    else
-                    {
-                        Debug.Log($"Defense Buff ended | Enemy defense buff {1 - prevBuff}x -> {1 - f.defenseBuff}");
-                    }
-                }
-            }
-        }
-
-        if (Player.player.dead)
+        if (!Battle.finishedDead())
         {
-            BattleEndController.TriggerDefeat();
-            return;
+            //reset soulblocks to original position
+            GridFitter.ResetSoulObjects();
+            GimmickController.gimmickController.index = 0;
+            Battle.b.bs = BattleState.StatusEffects;
+            Debug.Log("Status Effects");
+            Status.TriggerStatusEffects();
         }
-
-        if (allEnemiesDead)
-        {
-            if (Battle.b.wave < Battle.b.levelData.enemyWaves.Count)
-            {
-                foreach (Enemy e in Battle.b.enemies)
-                {
-                    Destroy(e.healthBar);
-                    Destroy(e);
-                }
-                Battle.b.enemies.Clear();
-                Battle.b.wave++;
-                FighterController.PlaceFighters();
-            }
-            else
-            {
-                foreach (Enemy e in Battle.b.enemies)
-                {
-                    Destroy(e.healthBar);
-                    Destroy(e);
-                }
-                Battle.b.enemies.Clear();
-                BattleEndController.TriggerVictory();
-                return;
-            }
-        }
-
-        //reset soulblocks to original position
-        GridFitter.ResetSoulObjects();
-        GimmickController.gimmickController.index = 0;
-        Battle.b.bs = BattleState.Gimmicks;
-        BottomDarkener.UndarkenBottom();
-        Debug.Log("Mid Level Effects");
-        Battle.b.turnNumber++;
     }
 
     static void PlayerSequence(SoulObject s)
     {
         //change later to add frames
         s.ActivateEffect();
-        foreach (Enemy e in Battle.b.enemies)
-        {
-            if (e.health <= 0)
-            {
-                e.dead = true;
-                e.buff = 1;
-                e.buffLeft.Clear();
-                e.defenseBuffLeft.Clear();
-                e.healthBar.gameObject.SetActive(false);
-                e.gameObject.SetActive(false);
-            }
-        }
+        TriggerAfterActionEffects(Player.player);
     }
 
-    static void EnemySequence(Enemy e)
+    async static Task EnemySequence(Enemy e)
     {
         //randomly runs one of many preset attacks
         Random rand = new Random();
-        int i = rand.Next(0, e.numAtk);
-        if (e.effects[i].self) {
-            e.effects[i].targets.Add(e);
-            e.effects[i].ActivateEffect(e);
-        }
-        else {
-            e.effects[i].ActivateEffect(e);
-        }
-        if (Player.player.health <= 0)
+        int numAtk = getAttackCount(e);
+        if (numAtk <= 0)
         {
-            Player.player.dead = true;
-            Player.player.buff = 1;
-            Player.player.buffLeft.Clear();
-            Player.player.defenseBuffLeft.Clear();
-            Player.player.healthBar.gameObject.SetActive(false);
-            Player.player.gameObject.SetActive(false);
+            return;
         }
-        
+        int i = rand.Next(0, numAtk);
+        Action action = null;
+        if (e.actionSets.ContainsKey("All"))
+        {
+            if (i < e.actionSets["All"].Count)
+            {
+                action = e.actionSets["All"][i];
+            }
+            else
+            {
+                action = e.actionSets[e.state][i - e.actionSets["All"].Count];
+            }
+        }
+        else
+        {
+            action = e.actionSets[e.state][i];
+        }
+        foreach (Effect effect in action.effects)
+        {
+            if (effect.targetType == TargetType.Self)
+            {
+                effect.targets.Add(e);
+                effect.ActivateEffect(e);
+            }
+            else if (effect.targetType == TargetType.AllEnemies)
+            {
+                foreach (Enemy enemy in Battle.b.enemies)
+                {
+                    effect.targets.Add(enemy);
+                }
+                effect.ActivateEffect(e);
+            }
+            else if (effect.targetType == TargetType.SingleTarget)
+            {
+                effect.targets.Add(Player.player);
+                effect.ActivateEffect(e);
+            }
+            effect.targets.Clear();
+        }
+        TriggerAfterActionEffects(e);
+        await Battle.UpdateDead();
+        await Task.Delay(500);
+    }
+
+    static int getAttackCount(Enemy e)
+    {
+        int atkCount = 0;
+        if (e.actionSets.ContainsKey("All"))
+        {
+            atkCount += e.actionSets["All"].Count;
+        }
+        if (e.actionSets.ContainsKey(e.state))
+        {
+            atkCount += e.actionSets[e.state].Count;
+        }
+        return atkCount;
+    }
+
+    static void TriggerAfterActionEffects(Fighter f)
+    {
+        foreach (Status s in f.statusEffects)
+        {
+            if (s is AfterActionStatus)
+            {
+                ((AfterActionStatus)s).ActivateInnerEffect();
+            }
+        }
     }
 }

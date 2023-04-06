@@ -31,6 +31,24 @@ This method will move the specified character to one of the preset locations alr
 
 Ex. #move=3character
 
+bgm
+- bgm format: #bgm=(name of bgm)
+- name should be exactly as indicated in the files
+- will print out the inputted audio name in the console for precautionary measures
+- if no audio is played, that means the name might not exist or is typed incorrectly
+This method will set the background music to the name that has been inputted. It will return a debug log along with what was inputted if not found.
+
+Ex. #bgm=darkforesttheme
+
+sprite
+- sprite format: #sprite=(gameObject),(sprite)
+- gameObject will be the name of the game object whose sprite will be changed
+- sprite will be the new sprite that the game object will change into.
+- will return debug logs if one of the parameters are not found
+This method will take the game object name and the sprite, separated by a comma, to change the sprite of the specified game object with the specified sprite. Sprites must be added to the "sprites" array in DialogueHandler in order for this tp function correctly.
+
+Ex. #sprite=GuidanceSoul=FProtagSheet_0
+
 */
 
 /*

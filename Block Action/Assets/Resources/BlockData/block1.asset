@@ -19,9 +19,10 @@ MonoBehaviour:
     ~~'
   width: 2
   height: 2
-  element: 
+  element: 0
   cooldown: 2
   isSoulBlock: 1
   effects:
-  - dmg enemy 50
+  - damage singletarget 50
+  - conditional health %< user target apply_delayed enemies 3 damage self 20
   color: {r: 1, g: 0, b: 0, a: 1}

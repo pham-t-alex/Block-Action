@@ -20,9 +20,9 @@ MonoBehaviour:
     ~'
   width: 1
   height: 2
-  element: 
+  element: 0
   cooldown: 0
   isSoulBlock: 1
   effects:
-  - dmg enemies 20
+  - damage enemies 20
   color: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}

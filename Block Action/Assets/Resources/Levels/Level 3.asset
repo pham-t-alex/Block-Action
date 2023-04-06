@@ -21,18 +21,17 @@ MonoBehaviour:
     ~~~~'
   gridWidth: 4
   gridHeight: 4
-  bgm: {fileID: 8300000, guid: 29c5a7f526071714c9df9e98e445c542, type: 3}
-  bgmRepeat: {fileID: 0}
+  bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
+  - 'Mushroom 1 1 1 0 -1
+
+    Hog 2 2 1 0 1
+
+    Hog 1 1 1 0 1'
   - 'Hog 1 1 1 0 1
 
-    Hog 1 1 1 0 1
-
-    Hog 2 2 1 0 1'
-  - 'Hog 1 1 1 0 1
-
-    Hog 1 1 1 0 1
+    Mushroom 2 2 1 0 -1
 
     Hog_Hunter 1.5 1.5 1 0 1'
   - Hog_Hunter 2 2 1 0 3

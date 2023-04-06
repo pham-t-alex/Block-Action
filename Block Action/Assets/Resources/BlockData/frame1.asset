@@ -17,9 +17,9 @@ MonoBehaviour:
   shapeAsString: ~~~~
   width: 4
   height: 1
-  element: 
+  element: 0
   cooldown: 2
   isSoulBlock: 0
   effects:
-  - dmg enemy 10
+  - damage singletarget 10
   color: {r: 0, g: 1, b: 0.8903768, a: 1}

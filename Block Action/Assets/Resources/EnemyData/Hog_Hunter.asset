@@ -12,15 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
   m_Name: Hog_Hunter
   m_EditorClassIdentifier: 
+  enemyName: Hog_Hunter
   defaultMaxHealth: 120
   defaultStartingHealth: 120
   description: A corrupted hog hunter. Excels in ruthlessly hunting down whatever
     creature it intends to kill.
+  actionsPerTurn: 1
+  maxStunCharge: 100
+  states: []
   actions:
-  - dmg player 10
-  - heal enemies 10
-  - buff player atk -0.5 2
-  - dmg player 15
+  - 'Normal
+
+    damage singletarget 10'
+  - 'Normal
+
+    heal enemies 10'
+  - 'Normal
+
+    buff singletarget atk -0.5 2'
+  - 'Normal
+
+    damage singletarget 15'
+  startingStatuses: []
+  fadeOnDefeat: 1
   idle: {fileID: 819675316, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   attack: {fileID: 508702825, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   hurt: {fileID: 2121103764, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
+  soulColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}

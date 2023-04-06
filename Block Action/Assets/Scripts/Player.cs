@@ -18,24 +18,18 @@ public class Player : Fighter
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
-        makeHealthBar();
         health = 100; //might not be valid
         buff = 1.0;
         defenseBuff = 1.0;
         maxHealth = 100;
-        buffLeft = new List<BuffCounter>();
-        defenseBuffLeft = new List<DefenseBuffCounter>();
+        statusEffects = new List<Status>();
+        stunChargeMax = 100;
 
 
         Battle.b.fighters.Add(this);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        updateHealthBar();
+        fadeOnDefeat = true;
     }
 
     public override string GetName()
@@ -45,35 +39,15 @@ public class Player : Fighter
 
     public override string GetInfo()
     {
-        string info = "<i>Wielder of souls.</i>\n\n";
-        info += "Health: " + health + "/" + maxHealth + "\n";
+        string info = "Health: " + health + "/" + maxHealth + "\n";
+        info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
         info += "Status Effects:";
-        foreach (BuffCounter bc in buffLeft)
+        foreach (Status status in statusEffects)
         {
-            if (bc.numTurns > 0)
+            string s = Status.statusToString(status);
+            if (s != null)
             {
-                if (bc.buff > 0)
-                {
-                    info += "\nAtk +" + (bc.buff * 100) + " % (" + bc.numTurns + " turns)";
-                }
-                else
-                {
-                    info += "\nAtk " + (bc.buff * 100) + " % (" + bc.numTurns + " turns)";
-                }
-            }
-        }
-        foreach (DefenseBuffCounter bc in defenseBuffLeft)
-        {
-            if (bc.numTurns > 0)
-            {
-                if (bc.defenseBuff > 0)
-                {
-                    info += "\nDef +" + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
-                }
-                else
-                {
-                    info += "\nDef " + (bc.defenseBuff * 100) + " % (" + bc.numTurns + " turns)";
-                }
+                info += "\n- " + s + ".";
             }
         }
         return info;

@@ -24,14 +24,8 @@ public class SoulObject : MonoBehaviour
     public int width;
     public int height;
 
-    public bool isAoe;
-    public bool isSingleTarget;
-    public bool isHeal;
-    public int damage;
-    public int heal;
     public string soulName;
     public string description;
-    public BlockInfoMenu infoMenu;
 
     // Variables required for cooldown calculations
     public int defaultCooldown;
@@ -45,41 +39,31 @@ public class SoulObject : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     public List<Effect> effects = new List<Effect>();
-    public List<Fighter> targets;
+    public Element.Elements element;
 
     public Color originalColor;
 
     public Vector3 startPosition;
 
-    public float timeHovered;
-
     // Start is called before the first frame update
     void Start()
     {
         soulCollider = GetComponent<Collider2D>();
-        timeHovered = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     void OnMouseOver()
     {
-        if (timeHovered >= 1)
-        {
-            CreateInfoMenu();
-        }
-        else
-        {
-            timeHovered += Time.deltaTime;
-        }
+        CreateInfoMenu();
     }
 
     void OnMouseEnter()
     {
-        if (currentCooldown == 0) // If block is on cooldown, disable mouse interaction
+        if (currentCooldown == 0 && !Player.player.stunned) // If block is on cooldown, disable mouse interaction
         {
             mouseTouching = true;
         }
@@ -88,23 +72,32 @@ public class SoulObject : MonoBehaviour
     void OnMouseExit()
     {
         mouseTouching = false;
-        timeHovered = 0;
-        DestroyInfoMenu();
+        if (GridFitter.selectedSoulObject != this)
+        {
+            BlockInfoMenuHandler.InfoMenuHandler.Remove();
+        }
     }
 
     public void ActivateEffect() {
         foreach (Effect effect in effects)
         {
-            if (effect.self)
+            if (effect.targetType == TargetType.Self)
             {
                 List<Fighter> l = new List<Fighter>();
                 l.Add(Player.player);
                 effect.targets = l;
                 effect.ActivateEffect(Player.player);
             }
+            else if (effect.targetType == TargetType.AllEnemies)
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    effect.targets.Add(e);
+                }
+                effect.ActivateEffect(Player.player);
+            }
             else
             {
-                effect.targets = targets;
                 effect.ActivateEffect(Player.player);
             }
         }
@@ -112,7 +105,23 @@ public class SoulObject : MonoBehaviour
 
     public void changeCooldownColor()
     {
-        if (currentCooldown > 0)
+        if (Player.player.stunned)
+        {
+            SetColor(originalColor * 0.1f);
+            if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
+            {
+                cooldownIndicator = Instantiate(Resources.Load("Text") as GameObject, transform.position, Quaternion.identity, transform);
+
+                TextMeshPro textSettings = cooldownIndicator.GetComponent<TextMeshPro>();
+                textSettings.outlineColor = new Color(0, 0.679903f, 8301887f);
+                textSettings.outlineWidth = 0.3f;
+                textSettings.fontSize = 16;
+            }
+
+            TextMeshPro cooldownText = cooldownIndicator.GetComponent<TextMeshPro>();
+            cooldownText.SetText("-");
+        }
+        else if (currentCooldown > 0)
         {
             SetColor(originalColor * 0.3f);
             if (cooldownIndicator == null) // If there is no cooldown indicator then perform the following actions
@@ -182,34 +191,9 @@ public class SoulObject : MonoBehaviour
 
     public void CreateInfoMenu()
     {
-        if (infoMenu == null)
-        {
-
-            Vector3 infoPosition = transform.position;
-            GameObject infoCanvas = GameObject.FindGameObjectWithTag("InfoMenus");
-            float minX = (-1 * Camera.main.orthographicSize * Screen.width / Screen.height) + 3.5f;
-            infoPosition.y += 4;
-            infoPosition.x = Mathf.Max(infoPosition.x, minX);
-            Vector3 infoPosition2 = Fighter.WorldToScreenSpace(infoPosition, Camera.main, infoCanvas.GetComponent<RectTransform>());
-            GameObject g = Instantiate(BlockGenerator.blockGenerator.blockInfoMenu, Vector3.zero, Quaternion.identity);
-            g.transform.SetParent(infoCanvas.transform);
-            g.GetComponent<RectTransform>().anchoredPosition = infoPosition2;
-            g.transform.localScale = new Vector3(1, 1, 1);
-            infoMenu = g.GetComponent<BlockInfoMenu>();
-
-            infoMenu.SetTitle(SoulNameWithoutUnderscores());
-            infoMenu.SetInfo(InfoText());
-        }
+        BlockInfoMenuHandler.InfoMenuHandler.Set(SoulNameWithoutUnderscores(), InfoText());
     }
 
-    public void DestroyInfoMenu()
-    {
-        if (infoMenu != null)
-        {
-            Destroy(infoMenu.gameObject);
-            infoMenu = null;
-        }
-    }
 
     public string SoulNameWithoutUnderscores()
     {
@@ -225,102 +209,33 @@ public class SoulObject : MonoBehaviour
 
     public string InfoText()
     {
-        string info = "<i>" + description + "</i>\n\n";
-        if (this is SoulBlock)
+        string info = "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n";
+        info += "Element: ";
+        if (element == Element.Elements.FIRE)
         {
-            info += "Type: Soul Block\n";
+            info += "Fire";
         }
-        else if (this is SoulFrame)
+        else if (element == Element.Elements.WATER)
         {
-            info += "Type: Soul Frame\n";
+            info += "Water";
         }
-        info += "Cooldown: " + currentCooldown + "/" + defaultCooldown + "\n";
-        info += "Effects:";
+        else if (element == Element.Elements.NATURE)
+        {
+            info += "Nature";
+        }
+        else if (element == Element.Elements.ELEMENTLESS)
+        {
+            info += "Elementless";
+        }
+        info += "\nEffects:";
         foreach (Effect e in effects)
         {
-            string s = EffectAsString(e);
+            string s = Effect.effectToString(e, true);
             if (s != null)
             {
                 info += "\n- " + s;
             }
         }
         return info;
-    }
-
-    public string EffectAsString(Effect e)
-    {
-        string effectString;
-        if (e is Damage)
-        {
-            effectString = "Deal " + ((Damage)e).dmg + " damage to ";
-            if (e.self)
-            {
-                effectString += "the player.";
-            }
-            else if (isAoe)
-            {
-                effectString += "all enemies.";
-            }
-            else if (isSingleTarget)
-            {
-                effectString += "an enemy.";
-            }
-        }
-        else if (e is Heal)
-        {
-            effectString = "Heal ";
-            if (e.self)
-            {
-                effectString += "the player";
-            }
-            else if (isAoe)
-            {
-                effectString += "all enemies";
-            }
-            else if (isSingleTarget)
-            {
-                effectString += "an enemy";
-            }
-            effectString += " by " + ((Heal)e).heal + " HP.";
-        }
-        else if (e is Buff)
-        {
-            effectString = "Buff ";
-            if (e.self)
-            {
-                effectString += "the player's";
-            }
-            else if (isAoe)
-            {
-                effectString += "all enemies'";
-            }
-            else if (isSingleTarget)
-            {
-                effectString += "an enemy's";
-            }
-            effectString += " attack by " + (((Buff)e).buff * 100) + "% for " + ((Buff)e).numTurns + " turns.";
-        }
-        else if (e is DefenseBuff)
-        {
-            effectString = "Buff ";
-            if (e.self)
-            {
-                effectString += "the player's";
-            }
-            else if (isAoe)
-            {
-                effectString += "all enemies'";
-            }
-            else if (isSingleTarget)
-            {
-                effectString += "an enemy's";
-            }
-            effectString += " defense by " + (((DefenseBuff)e).defenseBuff * 100) + "% for " + ((DefenseBuff)e).numTurns + " turns.";
-        }
-        else
-        {
-            return null;
-        }
-        return effectString;
     }
 }

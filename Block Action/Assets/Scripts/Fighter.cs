@@ -1,18 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public abstract class Fighter : MonoBehaviour
 {
     public int health;
     public double buff;
     public double defenseBuff;
-    public List<BuffCounter> buffLeft;
-    public List<DefenseBuffCounter> defenseBuffLeft;
+    public List<Status> statusEffects;
+    public int stunChargeMax;
+    public int stunCharge;
+    public bool stunned
+    {
+        get
+        {
+            return stunCharge == stunChargeMax;
+        }
+    }
     public int maxHealth;
     public Healthbar healthBar;
     GameObject healthPrefab;
-    public bool dead = false;
+    public bool dead
+    {
+        get
+        {
+            return (health <= 0);
+        }
+    }
+    public bool fadeOnDefeat = true;
+    public bool faded = false;
     public float timeHovered;
     public FighterInfoMenu infoMenu;
     void Start()
@@ -22,6 +39,10 @@ public abstract class Fighter : MonoBehaviour
 
     public void makeHealthBar()
     {
+        if (healthBar != null)
+        {
+            return;
+        }
         healthPrefab = Resources.Load<GameObject>("Healthbar");
         Vector3 healthBarPosition = new Vector3(transform.position.x, transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.5f, 0);
         Vector3 healthBarPos2 = WorldToScreenSpace(healthBarPosition, Camera.main, Healthbar.healthCanvas.GetComponent<RectTransform>());
@@ -34,7 +55,14 @@ public abstract class Fighter : MonoBehaviour
 
     public void updateHealthBar()
     {
-        healthBar.setHealth(100 * health / maxHealth);
+        if (health > 0)
+        {
+            healthBar.setHealth(100 * health / maxHealth);
+        }
+        else
+        {
+            healthBar.setHealth(0);
+        }
     }
 
     public static Vector3 WorldToScreenSpace(Vector3 worldPos, Camera cam, RectTransform area)
@@ -51,8 +79,9 @@ public abstract class Fighter : MonoBehaviour
         return screenPoint;
     }
 
-    void update() { 
-    
+    void Update()
+    {
+        updateHealthBar();
     }
 
     void OnMouseOver()
@@ -102,4 +131,51 @@ public abstract class Fighter : MonoBehaviour
     public abstract string GetName();
 
     public abstract string GetInfo();
+
+    public async Task Fade()
+    {
+        buff = 0;
+        defenseBuff = 0;
+        statusEffects.Clear();
+        if (fadeOnDefeat)
+        {
+            await Task.Delay(200);
+            SoulParticle s = null;
+            if (this is Enemy enemy)
+            {
+                s = ParticleHandler.CreateSoulParticle(transform.position, enemy.soulColor);
+            }
+            SpriteRenderer fighterRenderer = GetComponent<SpriteRenderer>();
+            float baseOpacity = fighterRenderer.color.a;
+            for (int i = 0; i < 10; i++)
+            {
+                float newOpacity = fighterRenderer.color.a - (0.1f * baseOpacity);
+                if (newOpacity < 0)
+                {
+                    newOpacity = 0;
+                }
+                fighterRenderer.color = new Color(fighterRenderer.color.r, fighterRenderer.color.g, fighterRenderer.color.b, newOpacity);
+                if (s != null)
+                {
+                    s.IncreaseOpacity();
+                }
+                await Task.Delay(50);
+            }
+            if (s != null)
+            {
+                s.StartCoroutine(s.FlyToPlayer());
+            }
+            healthBar.gameObject.SetActive(false);
+            if (infoMenu != null)
+            {
+                infoMenu.gameObject.SetActive(false);
+            }
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            await Task.Delay(500);
+        }
+        faded = true;
+    }
 }

@@ -10,17 +10,16 @@ public class LevelData : ScriptableObject
     public int gridWidth;
     public int gridHeight;
 
-    public AudioClip bgm;
-    public AudioClip bgmRepeat;
+    public string bgmName;
 
     public string background;
 
-    [TextArea(1, 3)]
+    [TextArea(1, 10)]
     public List<string> enemyWaves;
 
     [TextArea(1, 3)]
     public List<string> midLevelEffects;
 
     [TextArea(1, 3)]
-    public List<string> firstClearRewards;  
+    public List<string> firstClearRewards;
 }

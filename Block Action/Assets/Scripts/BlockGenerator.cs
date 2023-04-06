@@ -129,45 +129,11 @@ public class BlockGenerator : MonoBehaviour
 
         foreach (string effectAsString in soulObjectData.effects)
         {
-            string[] effectData = effectAsString.Split(" ");
-            Effect effect = null;
-            if (effectData[0].Equals("dmg"))
-            {
-                effect = new Damage(System.Convert.ToInt32(effectData[2]));
-            }
-            else if (effectData[0].Equals("heal"))
-            {
-                effect = new Heal(System.Convert.ToDouble(effectData[2]));
-            }
-            else if (effectData[0].Equals("buff"))
-            {
-                if (effectData[2].Equals("atk"))
-                {
-                    effect = new Buff(System.Convert.ToDouble(effectData[3]));
-                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
-                }
-                else if (effectData[2].Equals("def"))
-                {
-                    effect = new DefenseBuff(System.Convert.ToDouble(effectData[3]));
-                    effect.numTurns = System.Convert.ToInt32(effectData[4]);
-                }
-            }
-            if (effectData[1].Equals("self"))
-            {
-                effect.self = true;
-            }
-            else if (effectData[1].Equals("enemies"))
-            {
-                soulObject.isAoe = true;
-            }
-            else if (effectData[1].Equals("enemy"))
-            {
-                soulObject.isSingleTarget = true;
-            }
-            soulObject.effects.Add(effect);
+            soulObject.effects.Add(Effect.effectFromString(effectAsString));
         }
         soulObject.soulName = soulObjectData.soulName;
         soulObject.description = soulObjectData.description;
+        soulObject.element = soulObjectData.element;
 
         return soulObject;
     }

@@ -9,5 +9,6 @@ public enum BattleState
     PlayerAction,
     EnemyAction,
     Gimmicks,
+    StatusEffects,
     End
 }

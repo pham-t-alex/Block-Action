@@ -48,6 +48,7 @@ public class FighterController : MonoBehaviour
         SpriteRenderer playerSprite = Player.player.GetComponent<SpriteRenderer>();
         y += playerSprite.bounds.size.y / 2;
         Player.player.transform.position = new Vector3(-7, y, 0);
+        Player.player.makeHealthBar();
     }
 
     static void PlaceEnemies()
@@ -79,6 +80,7 @@ public class FighterController : MonoBehaviour
             x -= spriteRenderer.bounds.size.x / 2;
             y += spriteRenderer.bounds.size.y / 2;
             Battle.b.enemies[i].transform.position = new Vector3(x, y, 0);
+            Battle.b.enemies[i].makeHealthBar();
             x -= spriteRenderer.bounds.size.x / 2;
             y -= spriteRenderer.bounds.size.y / 2;
             x -= fighterController.spaceBetweenEnemies;
@@ -87,6 +89,7 @@ public class FighterController : MonoBehaviour
 
     static void GenerateEnemies()
     {
+        int enemyCount = 0;
         if (Battle.b.levelData == null)
         {
             return;
@@ -97,7 +100,8 @@ public class FighterController : MonoBehaviour
         while (line != null)
         {
             string[] enemyInfo = line.Split(' ');
-            GameObject enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            //GameObject enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject enemy = Instantiate(Resources.Load<GameObject>("Sprites/Enemies/Hog/Hog"), new Vector3(0, 0, 0), Quaternion.identity);
             Battle.b.enemies.Add(enemy.GetComponent<Enemy>());
             Battle.b.fighters.Add(enemy.GetComponent<Enemy>());
             line = s.ReadLine();
@@ -107,18 +111,17 @@ public class FighterController : MonoBehaviour
         int i = 0;
         while (line != null)
         {
+            enemyCount++;
             string[] enemyInfo = line.Split(' ');
             Enemy enemy = Battle.b.enemies[i];
-            enemy.effects = new List<Effect>();
+            enemy.setUnique("Enemy" + enemyCount);
+            enemy.actionSets = new Dictionary<string, List<Action>>();
             enemy.buff = 1.0;
             enemy.defenseBuff = 1.0;
-            enemy.buffLeft = new List<BuffCounter>();
-            enemy.defenseBuffLeft = new List<DefenseBuffCounter>();
+            enemy.statusEffects = new List<Status>();
             int lower = System.Convert.ToInt32(enemyInfo[4]);
             int upper = System.Convert.ToInt32(enemyInfo[5]);
-            enemy.type = enemyInfo[0];
             setEnemyData(enemy, enemyInfo[0], lower, upper);
-            enemy.numAtk = enemy.effects.Count;
             enemy.gameObject.AddComponent<BoxCollider2D>();
             double hpScale = System.Convert.ToDouble(enemyInfo[1]);
             double atkScale = System.Convert.ToDouble(enemyInfo[2]);
@@ -133,82 +136,125 @@ public class FighterController : MonoBehaviour
     {
         enemy.health = (int) (enemy.health * hpScale);
         enemy.maxHealth = (int) (enemy.maxHealth * hpScale);
-        foreach (Effect effect in enemy.effects)
+        foreach (List<Action> actionSet in enemy.actionSets.Values)
         {
-            if (effect is Damage)
+            foreach (Action action in actionSet)
             {
-                Damage damageEffect = (Damage) effect;
-                damageEffect.dmg *= atkScale;
+                foreach (Effect effect in action.effects)
+                {
+                    scaleEffect(effect, atkScale, buffScale);
+                }
             }
-            if (effect is Heal)
+        }
+        foreach (Status status in enemy.statusEffects)
+        {
+            if (status is AtkBuffStatus)
             {
-                Heal healEffect = (Heal) effect;
-                healEffect.heal *= atkScale;
+                AtkBuffStatus atkBuff = (AtkBuffStatus)status;
+                enemy.buff -= atkBuff.buff;
+                atkBuff.buff *= buffScale;
+                enemy.buff += atkBuff.buff;
             }
-            if (effect is Buff)
+            else if (status is DefBuffStatus)
             {
-                Buff buffEffect = (Buff) effect;
-                buffEffect.buff *= buffScale;
+                DefBuffStatus defBuff = (DefBuffStatus)status;
+                enemy.defenseBuff += defBuff.buff;
+                defBuff.buff *= buffScale;
+                enemy.defenseBuff -= defBuff.buff;
+            }
+            else if (status is DelayedEffectStatus)
+            {
+                scaleEffect(((DelayedEffectStatus)status).delayedEffect, atkScale, buffScale);
+            }
+            else if (status is RepeatingEffectStatus)
+            {
+                scaleEffect(((RepeatingEffectStatus)status).repeatingEffect, atkScale, buffScale);
             }
         }
         enemy.atkScale = atkScale;
         enemy.buffScale = buffScale;
     }
 
+    static void scaleEffect(Effect effect, double atkScale, double buffScale)
+    {
+        Effect innerEffect = effect;
+        while (innerEffect is DelayedEffect || innerEffect is RepeatingEffect)
+        {
+            if (innerEffect is DelayedEffect)
+            {
+                innerEffect = ((DelayedEffect)innerEffect).effect;
+            }
+            else
+            {
+                innerEffect = ((RepeatingEffect)innerEffect).effect;
+            }
+        }
+        if (innerEffect is Damage)
+        {
+            Damage damageEffect = (Damage)innerEffect;
+            damageEffect.dmg *= atkScale;
+        }
+        if (innerEffect is TrueDamage)
+        {
+            TrueDamage damageEffect = (TrueDamage)innerEffect;
+            damageEffect.dmg *= atkScale;
+        }
+        if (innerEffect is DefIgnoringDamage)
+        {
+            DefIgnoringDamage damageEffect = (DefIgnoringDamage)innerEffect;
+            damageEffect.dmg *= atkScale;
+        }
+        if (innerEffect is Heal)
+        {
+            Heal healEffect = (Heal)innerEffect;
+            healEffect.heal *= atkScale;
+        }
+        if (innerEffect is Buff)
+        {
+            Buff buffEffect = (Buff)innerEffect;
+            buffEffect.buff *= buffScale;
+        }
+    }
+
     static void setEnemyData(Enemy enemy, string enemyName, int lower, int upper)
     {
         EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{enemyName}");
-        enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
+        //enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
+        enemy.type = enemyData.enemyName;
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;
+        enemy.actionCount = enemyData.actionsPerTurn;
+        enemy.stunChargeMax = enemyData.maxStunCharge;
         for (int i = lower; i <= upper; i++)
         {
-            addEffect(enemy, enemyData.actions[i]);
+            addAction(enemy, enemyData.actions[i]);
+        }
+        for (int i = 0; i < enemyData.startingStatuses.Count; i++)
+        {
+            enemy.statusEffects.Add(Status.statusFromString(enemyData.startingStatuses[i], enemy));
         }
         enemy.minAction = lower;
         enemy.maxAction = upper;
+        enemy.state = "Normal";
+        enemy.soulColor = enemyData.soulColor;
     }
 
-    static void addEffect(Enemy enemy, string effectAsString)
+    static void addAction(Enemy enemy, string actionAsString)
     {
-        string[] effectData = effectAsString.Split(" ");
-        Effect effect = null;
-        if (effectData[0].Equals("dmg"))
+        Action a = new Action();
+        a.effects = new List<Effect>();
+        string[] actionData = actionAsString.Split("\n");
+        string state = actionData[0];
+        string[] newActionData = new string[actionData.Length - 1];
+        System.Array.Copy(actionData, 1, newActionData, 0, actionData.Length - 1);
+        foreach (string effectAsString in newActionData)
         {
-            effect = new Damage(System.Convert.ToInt32(effectData[2]));
+            a.effects.Add(Effect.effectFromString(effectAsString));
         }
-        else if (effectData[0].Equals("heal"))
+        if (!enemy.actionSets.ContainsKey(state))
         {
-            effect = new Heal(System.Convert.ToDouble(effectData[2]));
+            enemy.actionSets.Add(state, new List<Action>());
         }
-        else if (effectData[0].Equals("buff"))
-        {
-            if (effectData[2].Equals("atk"))
-            {
-                effect = new Buff(System.Convert.ToDouble(effectData[3]));
-                effect.numTurns = System.Convert.ToInt32(effectData[4]);
-            }
-            else if (effectData[2].Equals("def"))
-            {
-                effect = new DefenseBuff(System.Convert.ToDouble(effectData[3]));
-                effect.numTurns = System.Convert.ToInt32(effectData[4]);
-            }
-        }
-        if (effectData[1].Equals("player"))
-        {
-            effect.targets.Add(Player.player);
-        }
-        else if (effectData[1].Equals("self"))
-        {
-            effect.self = true;
-        }
-        else if (effectData[1].Equals("enemies"))
-        {
-            foreach (Enemy e in Battle.b.enemies)
-            {
-                effect.targets.Add(e);
-            }
-        }
-        enemy.effects.Add(effect);
+        enemy.actionSets[state].Add(a);
     }
 }

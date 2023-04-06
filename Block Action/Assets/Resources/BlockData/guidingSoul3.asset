@@ -17,9 +17,10 @@ MonoBehaviour:
   shapeAsString: ~
   width: 1
   height: 1
-  element: 
+  element: 0
   cooldown: 2
   isSoulBlock: 1
   effects:
   - heal self 30
+  - remove_debuff self 2
   color: {r: 0.8666667, g: 0.8, b: 0.5372549, a: 1}

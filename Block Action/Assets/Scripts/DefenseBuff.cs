@@ -5,23 +5,13 @@ using TMPro;
 
 public class DefenseBuff : Effect
 {
+    public int numTurns;
     public double defenseBuff;
 
-    public DefenseBuff(double defenseBuff)
+    public DefenseBuff(double defenseBuff, int numTurns)
     {
         this.defenseBuff = defenseBuff;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        this.numTurns = numTurns;
     }
 
     public override void ActivateEffect(Fighter fighter)
@@ -30,8 +20,8 @@ public class DefenseBuff : Effect
         {
             if (!f.dead)
             {
-                DefenseBuffCounter bc = new DefenseBuffCounter(numTurns, defenseBuff);
-                f.defenseBuffLeft.Add(bc);
+                DefBuffStatus status = new DefBuffStatus(numTurns, defenseBuff, f);
+                f.statusEffects.Add(status);
                 double prevBuff = f.defenseBuff;
                 f.defenseBuff -= defenseBuff;
                 if (f.Equals(Player.player))

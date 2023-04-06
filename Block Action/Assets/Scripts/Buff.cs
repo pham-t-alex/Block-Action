@@ -5,32 +5,21 @@ using TMPro;
 
 public class Buff : Effect
 {
+    public int numTurns;
     public double buff;
 
-    public Buff(double buff) {
+    public Buff(double buff, int numTurns) {
         this.buff = buff;
+        this.numTurns = numTurns;
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void ActivateEffect(Fighter fighter)
     {
         foreach (Fighter f in targets)
         {
             if (!f.dead)
             {
-                BuffCounter bc = new BuffCounter(numTurns, buff);
-                f.buffLeft.Add(bc);
+                AtkBuffStatus status = new AtkBuffStatus(numTurns, buff, f);
+                f.statusEffects.Add(status);
                 double prevBuff = f.buff;
                 f.buff += buff;
                 if (f.Equals(Player.player))

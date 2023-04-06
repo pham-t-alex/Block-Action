@@ -1,4 +1,4 @@
-﻿/*
+/*
 METHODS:
 speaker
 - speaker format: #speaker=(text)
@@ -50,4 +50,4 @@ Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
 */
 
-ow that hurt #speaker=Protagonist
+ow that hurt #speaker=Protagonist#bgm=darkforesttheme

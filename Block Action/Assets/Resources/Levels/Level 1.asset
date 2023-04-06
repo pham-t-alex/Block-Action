@@ -17,8 +17,7 @@ MonoBehaviour:
     ~~'
   gridWidth: 2
   gridHeight: 2
-  bgm: {fileID: 8300000, guid: 29c5a7f526071714c9df9e98e445c542, type: 3}
-  bgmRepeat: {fileID: 0}
+  bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
   - Hog 1 1 1 0 0
@@ -31,10 +30,10 @@ MonoBehaviour:
 
     Hog_Hunter 0.5 0.5 1 0 1'
   midLevelEffects:
-  - turn 1 damage player 50
+  - turn 1 damage player 40
+  - wave 1 add_block guidingSoul1 0
   - wave 1 dialogue Level1Mid-1
   - wave 1 text Drag the soul blocks in the grid!
-  - wave 1 add_block guidingSoul1 0
   - turn 4 dialogue Level1Mid-2
   - turn 4 remove_block Guiding_Soul
   - turn 4 add_block guidingSoul2 0
