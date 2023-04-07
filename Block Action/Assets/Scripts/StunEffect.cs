@@ -38,6 +38,10 @@ public class StunEffect : Effect
                     if (f.Equals(Player.player))
                     {
                         Debug.Log("Player has been stunned");
+                        foreach (SoulObject s in Battle.b.soulObjects)
+                        {
+                            s.changeCooldownColor();
+                        }
                     }
                     else
                     {

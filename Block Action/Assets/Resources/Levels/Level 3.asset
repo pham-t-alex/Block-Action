@@ -43,4 +43,7 @@ MonoBehaviour:
   - wave 1 add_block block4 0
   - wave 1 add_block frame1 0
   - wave 1 add_block frame2 0
-  firstClearRewards: []
+  - wave 2 text New soul obtained!
+  - wave 3 add_block mushroom 0
+  firstClearRewards:
+  - mushroom
