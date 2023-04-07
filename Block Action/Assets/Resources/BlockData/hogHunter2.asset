@@ -24,5 +24,5 @@ MonoBehaviour:
   cooldown: 3
   isSoulBlock: 1
   effects:
-  - damage singletarget 60
+  - damage singletarget 40
   color: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
