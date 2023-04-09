@@ -24,6 +24,7 @@ public class Player : Fighter
         buff = 1.0;
         defenseBuff = 1.0;
         maxHealth = 100;
+        baseElement = Element.Elements.ELEMENTLESS;
         statusEffects = new List<Status>();
         stunChargeMax = 100;
 
