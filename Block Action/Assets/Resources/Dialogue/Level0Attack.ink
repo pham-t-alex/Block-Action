@@ -1,0 +1,1 @@
+Protagonist throws a stick at the hog.

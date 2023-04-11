@@ -1,0 +1,1 @@
+Protagonist braces for an attack.

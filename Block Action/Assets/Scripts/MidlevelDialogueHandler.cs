@@ -142,6 +142,10 @@ public class MidlevelDialogueHandler : MonoBehaviour
             {
                 GimmickController.UnpauseEffects();
             }
+            if (PersistentDataManager.levelNumber == 0)
+            {
+                FakeOutHandler.Unpause();
+            }
         }
     }
 

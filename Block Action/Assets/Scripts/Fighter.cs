@@ -87,7 +87,7 @@ public abstract class Fighter : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (timeHovered >= 1)
+        if (timeHovered >= 0.3)
         {
             CreateInfoMenu();
         }

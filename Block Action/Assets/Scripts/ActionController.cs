@@ -48,7 +48,7 @@ public class ActionController : MonoBehaviour
     public static void PlayerTurn()
     {
         //if no blocks were placed in the grid, Attack animation does not play
-        if (Battle.b.placedSoulObjects.Count > 0)
+        if (Battle.b.placedSoulObjects.Count > 0 || PersistentDataManager.levelNumber == 0)
         {
             SoulObjectAnimation();
         }
@@ -93,6 +93,18 @@ public class ActionController : MonoBehaviour
                 EnemyTurn();
                 Debug.Log("Enemy Turn");
             }
+        }
+        else if (PersistentDataManager.levelNumber == 0)
+        {
+            Effect effect = new Damage(0);
+            foreach (Enemy e in Battle.b.enemies)
+            {
+                effect.targets.Add(e);
+            }
+            effect.ActivateEffect(null);
+            await Task.Delay(500);
+            Battle.b.bs = BattleState.EnemyAction;
+            EnemyTurn();
         }
     }
 

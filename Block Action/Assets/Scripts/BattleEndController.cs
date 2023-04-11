@@ -102,10 +102,6 @@ public class BattleEndController : MonoBehaviour
         ScreenDarkener.DarkenScreen();
         gameEndText.SetActive(true);
         gameEndText.GetComponent<TMP_Text>().color = new Color(1, 1, 1);
-        if (PersistentDataManager.levelNumber == 0)
-        {
-            FakeOutHandler.fakeOutHandler.gameObject.SetActive(false);
-        }
         battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "END"));
         GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
         if (Battle.b.levelNumber == PersistentDataManager.levelsCompleted + 1)
@@ -124,6 +120,13 @@ public class BattleEndController : MonoBehaviour
         if (Battle.b.bs != BattleState.End)
         {
             battleEndController.victorious = false;
+            if (PersistentDataManager.levelNumber == 0)
+            {
+                Transform fakeOut = FakeOutHandler.fakeOutHandler.transform;
+                for (int i = 0; i < fakeOut.childCount; i++) {
+                    fakeOut.GetChild(i).gameObject.SetActive(false);
+                }
+            }
             Battle.b.bs = BattleState.End;
             ScreenDarkener.DarkenScreen();
             gameEndText.SetActive(true);
