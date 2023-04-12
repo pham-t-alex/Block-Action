@@ -25,4 +25,5 @@ MonoBehaviour:
   effects:
   - damage singletarget 40
   - conditional health %< user target apply_delayed enemies 3 damage self 20
+  - apply_element singletarget fire 3
   color: {r: 1, g: 0, b: 0, a: 1}

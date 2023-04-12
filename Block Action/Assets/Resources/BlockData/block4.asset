@@ -19,10 +19,12 @@ MonoBehaviour:
     ~0~'
   width: 3
   height: 2
-  element: 
+  element: 0
   cooldown: 2
   isSoulBlock: 1
   effects:
   - heal self 20
   - buff self atk 0.2 3
+  - apply_element singletarget nature 3
+  - conditional element = target nature stun enemies 100
   color: {r: 0, g: 1, b: 0.025494576, a: 1}

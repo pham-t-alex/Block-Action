@@ -89,6 +89,25 @@ public abstract class Effect
         {
             effect = new DebuffRemovalEffect(System.Convert.ToInt32(effectData[2]));
         }
+        else if (effectData[0].Equals("apply_element"))
+        {
+            if (effectData[2] == "fire")
+            {
+                effect = new ElementalApplicationEffect(Element.Elements.FIRE, System.Convert.ToInt32(effectData[3]));
+            }
+            else if (effectData[2] == "water")
+            {
+                effect = new ElementalApplicationEffect(Element.Elements.WATER, System.Convert.ToInt32(effectData[3]));
+            }
+            else if (effectData[2] == "nature")
+            {
+                effect = new ElementalApplicationEffect(Element.Elements.NATURE, System.Convert.ToInt32(effectData[3]));
+            }
+            else
+            {
+                effect = new ElementalApplicationEffect(Element.Elements.ELEMENTLESS, System.Convert.ToInt32(effectData[3]));
+            }
+        }
         if (effectData[1].Equals("self"))
         {
             effect.targetType = TargetType.Self;
@@ -403,6 +422,44 @@ public abstract class Effect
         {
             effectString = ((ConditionalEffect)e).condition.ToString();
             effectString += effectToString(((ConditionalEffect)e).effect, forBlock);
+        }
+        else if (e is ElementalApplicationEffect)
+        {
+            effectString = $"Apply ";
+            switch (((ElementalApplicationEffect)e).element) {
+                case Element.Elements.FIRE:
+                    effectString += "Fire";
+                    break;
+                case Element.Elements.WATER:
+                    effectString += "Water";
+                    break;
+                case Element.Elements.NATURE:
+                    effectString += "Nature";
+                    break;
+                case Element.Elements.ELEMENTLESS:
+                    effectString += "Elementless";
+                    break;
+            }
+            effectString += $" x{((ElementalApplicationEffect)e).stackCount} to ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
         }
         else
         {
@@ -766,6 +823,7 @@ public abstract class Effect
         else
         {
             return Quality.Neutral;
+            //ElementalApplication
         }
     }
 }

@@ -234,6 +234,14 @@ public class FighterController : MonoBehaviour
         enemy.actionCount = enemyData.actionsPerTurn;
         enemy.stunChargeMax = enemyData.maxStunCharge;
         enemy.baseElement = enemyData.baseElement;
+        if (enemy.baseElement == Element.Elements.ELEMENTLESS)
+        {
+            enemy.currentElementStack = 0;
+        }
+        else
+        {
+            enemy.currentElementStack = Element.MAX_ELEMENT_STACK / 2;
+        }
         for (int i = lower; i <= upper; i++)
         {
             addAction(enemy, enemyData.actions[i]);

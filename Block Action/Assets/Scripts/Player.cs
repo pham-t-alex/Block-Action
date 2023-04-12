@@ -26,6 +26,7 @@ public class Player : Fighter
         maxHealth = 100;
         baseElement = Element.Elements.ELEMENTLESS;
         currentElement = baseElement;
+        currentElementStack = 0;
         statusEffects = new List<Status>();
         stunChargeMax = 100;
 
@@ -45,15 +46,15 @@ public class Player : Fighter
         info += "Element: ";
         if (currentElement == Element.Elements.FIRE)
         {
-            info += "Fire";
+            info += "Fire x" + currentElementStack;
         }
         else if (currentElement == Element.Elements.WATER)
         {
-            info += "Water";
+            info += "Water x" + currentElementStack;
         }
         else if (currentElement == Element.Elements.NATURE)
         {
-            info += "Nature";
+            info += "Nature x" + currentElementStack;
         }
         else if (currentElement == Element.Elements.ELEMENTLESS)
         {

@@ -5,11 +5,12 @@ using UnityEngine;
 public class Element : MonoBehaviour
 {
     //Need to type element name in all caps btw
+    public const int MAX_ELEMENT_STACK = 5;
     public enum Elements{ELEMENTLESS, FIRE, WATER, NATURE};
 
     //Return -1 if the enemy resisted the attack, 0 if it's normal damage,
     //and 1 if the one taking damage was weak to the attack
-    private static int weaknessCheck(Elements attackElement, Elements damagedElement) {
+    public static int weaknessCheck(Elements attackElement, Elements damagedElement) {
         //A perk of choosing elementless attacks could be that the attack will never be resisted
         int weaknessValue = 0;
         

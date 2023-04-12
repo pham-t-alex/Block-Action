@@ -86,6 +86,33 @@ public abstract class Condition
                 condition = new HealthCondition(t, c, System.Convert.ToInt32(object2));
             }
         }
+        else if (subclass.Equals("element"))
+        {
+            if (t == Type.Comparative)
+            {
+                condition = new ElementCondition(t, c, Element.Elements.ELEMENTLESS);
+            }
+            else
+            {
+                Element.Elements e;
+                switch (object2)
+                {
+                    case "fire":
+                        e = Element.Elements.FIRE;
+                        break;
+                    case "water":
+                        e = Element.Elements.WATER;
+                        break;
+                    case "nature":
+                        e = Element.Elements.NATURE;
+                        break;
+                    default:
+                        e = Element.Elements.ELEMENTLESS;
+                        break;
+                }
+                condition = new ElementCondition(t, c, e);
+            }
+        }
         return condition;
     }
 
