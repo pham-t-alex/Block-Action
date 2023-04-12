@@ -21,7 +21,7 @@ MonoBehaviour:
     ~~~'
   width: 3
   height: 3
-  element: 0
+  element: 1
   cooldown: 4
   isSoulBlock: 1
   effects:

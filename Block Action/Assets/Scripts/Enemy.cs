@@ -84,6 +84,47 @@ public class Enemy : Fighter
     public override string GetInfo()
     {
         string info = "Health: " + health + "/" + maxHealth + "\n";
+        info += "Element: ";
+        if (currentElement == Element.Elements.FIRE)
+        {
+            info += "Fire";
+        }
+        else if (currentElement == Element.Elements.WATER)
+        {
+            info += "Water";
+        }
+        else if (currentElement == Element.Elements.NATURE)
+        {
+            info += "Nature";
+        }
+        else if (currentElement == Element.Elements.ELEMENTLESS)
+        {
+            info += "Elementless";
+        }
+        if (baseElement == currentElement)
+        {
+            info += "\n";
+        }
+        else
+        {
+            info += " | Base: ";
+            if (baseElement == Element.Elements.FIRE)
+            {
+                info += "Fire\n";
+            }
+            else if (baseElement == Element.Elements.WATER)
+            {
+                info += "Water\n";
+            }
+            else if (baseElement == Element.Elements.NATURE)
+            {
+                info += "Nature\n";
+            }
+            else if (baseElement == Element.Elements.ELEMENTLESS)
+            {
+                info += "Elementless\n";
+            }
+        }
         info += "State: " + state + "\n";
         info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
         info += "Status Effects:";

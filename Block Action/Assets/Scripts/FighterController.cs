@@ -233,6 +233,7 @@ public class FighterController : MonoBehaviour
         enemy.health = enemyData.defaultStartingHealth;
         enemy.actionCount = enemyData.actionsPerTurn;
         enemy.stunChargeMax = enemyData.maxStunCharge;
+        enemy.baseElement = enemyData.baseElement;
         for (int i = lower; i <= upper; i++)
         {
             addAction(enemy, enemyData.actions[i]);
@@ -244,6 +245,7 @@ public class FighterController : MonoBehaviour
         enemy.minAction = lower;
         enemy.maxAction = upper;
         enemy.state = "Normal";
+        enemy.currentElement = enemy.baseElement;
         enemy.soulColor = enemyData.soulColor;
     }
 
@@ -257,7 +259,16 @@ public class FighterController : MonoBehaviour
         System.Array.Copy(actionData, 1, newActionData, 0, actionData.Length - 1);
         foreach (string effectAsString in newActionData)
         {
-            a.effects.Add(Effect.effectFromString(effectAsString));
+            Effect e = Effect.effectFromString(effectAsString);
+            if (e is Damage)
+            {
+                ((Damage)e).element = enemy.baseElement;
+            }
+            else if (e is DefIgnoringDamage)
+            {
+                ((DefIgnoringDamage)e).element = enemy.baseElement;
+            }
+            a.effects.Add(e);
         }
         if (!enemy.actionSets.ContainsKey(state))
         {

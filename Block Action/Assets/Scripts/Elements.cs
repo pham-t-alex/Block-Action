@@ -15,8 +15,8 @@ public class Element : MonoBehaviour
         
         if (attackElement == Elements.FIRE)
         {
-            //Fire type enemies will take less damage from fire moves
-            if (damagedElement == Elements.FIRE) 
+            //Water type enemies will take less damage from fire moves
+            if (damagedElement == Elements.WATER) 
             {
                 weaknessValue = -1;
             } 
@@ -28,8 +28,8 @@ public class Element : MonoBehaviour
         }
         else if (attackElement == Elements.WATER)
         {
-            //Water resists water
-            if (damagedElement == Elements.WATER)
+            //Nature resists water
+            if (damagedElement == Elements.NATURE)
             {
                 weaknessValue = -1;
             }
@@ -41,8 +41,8 @@ public class Element : MonoBehaviour
         }
         else if (attackElement == Elements.NATURE)
         {
-            //Nature resists itself
-            if (damagedElement == Elements.NATURE)
+            //Fire resists nature
+            if (damagedElement == Elements.FIRE)
             {
                 weaknessValue = -1;
             }
@@ -69,7 +69,7 @@ public class Element : MonoBehaviour
         float dmgModifier = 0.0f;
         if (weakness == -1)
         {
-            dmgModifier = 0.5f;
+            dmgModifier = 0.8f;
         }
         else if (weakness == 0)
         {
@@ -77,7 +77,7 @@ public class Element : MonoBehaviour
         }
         else if (weakness == 1)
         {
-            dmgModifier = 2.0f;
+            dmgModifier = 1.2f;
         }
 
         return dmgModifier;

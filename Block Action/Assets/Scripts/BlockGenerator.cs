@@ -62,6 +62,7 @@ public class BlockGenerator : MonoBehaviour
         soulObject.placed = false;
         soulObject.width = soulObjectData.width;
         soulObject.height = soulObjectData.height;
+        soulObject.element = soulObjectData.element;
 
         string shape = soulObjectData.shapeAsString;
         StringReader s = new StringReader(shape);
@@ -129,7 +130,16 @@ public class BlockGenerator : MonoBehaviour
 
         foreach (string effectAsString in soulObjectData.effects)
         {
-            soulObject.effects.Add(Effect.effectFromString(effectAsString));
+            Effect e = Effect.effectFromString(effectAsString);
+            if (e is Damage)
+            {
+                ((Damage)e).element = soulObject.element;
+            }
+            else if (e is DefIgnoringDamage)
+            {
+                ((DefIgnoringDamage)e).element = soulObject.element;
+            }
+            soulObject.effects.Add(e);
         }
         soulObject.soulName = soulObjectData.soulName;
         soulObject.description = soulObjectData.description;

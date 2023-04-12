@@ -13,6 +13,8 @@ public class EnemyData : ScriptableObject
     [TextArea(1, 10)]
     public string description;
 
+    public Element.Elements baseElement;
+
     public int actionsPerTurn;
     public int maxStunCharge;
 

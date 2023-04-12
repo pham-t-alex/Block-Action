@@ -16,9 +16,9 @@ MonoBehaviour:
   defaultMaxHealth: 100
   defaultStartingHealth: 100
   description: Exploding mushroom.
+  baseElement: 0
   actionsPerTurn: 0
   maxStunCharge: 10000
-  states: []
   actions: []
   startingStatuses:
   - unremovable delayed 3 damage singletarget 100

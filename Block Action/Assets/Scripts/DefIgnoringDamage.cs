@@ -7,6 +7,7 @@ public class DefIgnoringDamage : Effect
 {
 
     public double dmg;
+    public Element.Elements element;
 
     public DefIgnoringDamage(int dmg)
     {
@@ -24,12 +25,12 @@ public class DefIgnoringDamage : Effect
                 int prevHealth = f.health;
                 if (fighter != null)
                 {
-                    damageDealt = (int)(dmg * makeNonNegative(fighter.buff));
+                    damageDealt = (int)(dmg * makeNonNegative(fighter.buff) * Element.elementalDamageModifier(element, f.currentElement));
                     f.health -= damageDealt;
                 }
                 else
                 {
-                    damageDealt = (int)(dmg);
+                    damageDealt = (int)(dmg * Element.elementalDamageModifier(element, f.currentElement));
                     f.health -= damageDealt;
                 }
                 GameObject indicator = Resources.Load<GameObject>("Indicator");

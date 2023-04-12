@@ -9,6 +9,7 @@ public abstract class Fighter : MonoBehaviour
     public double buff;
     public double defenseBuff;
     public Element.Elements baseElement;
+    public Element.Elements currentElement;
     public List<Status> statusEffects;
     public int stunChargeMax;
     public int stunCharge;

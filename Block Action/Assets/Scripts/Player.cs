@@ -25,6 +25,7 @@ public class Player : Fighter
         defenseBuff = 1.0;
         maxHealth = 100;
         baseElement = Element.Elements.ELEMENTLESS;
+        currentElement = baseElement;
         statusEffects = new List<Status>();
         stunChargeMax = 100;
 
@@ -41,6 +42,47 @@ public class Player : Fighter
     public override string GetInfo()
     {
         string info = "Health: " + health + "/" + maxHealth + "\n";
+        info += "Element: ";
+        if (currentElement == Element.Elements.FIRE)
+        {
+            info += "Fire";
+        }
+        else if (currentElement == Element.Elements.WATER)
+        {
+            info += "Water";
+        }
+        else if (currentElement == Element.Elements.NATURE)
+        {
+            info += "Nature";
+        }
+        else if (currentElement == Element.Elements.ELEMENTLESS)
+        {
+            info += "Elementless";
+        }
+        if (baseElement == currentElement)
+        {
+            info += "\n";
+        }
+        else
+        {
+            info += " | Base: ";
+            if (baseElement == Element.Elements.FIRE)
+            {
+                info += "Fire\n";
+            }
+            else if (baseElement == Element.Elements.WATER)
+            {
+                info += "Water\n";
+            }
+            else if (baseElement == Element.Elements.NATURE)
+            {
+                info += "Nature\n";
+            }
+            else if (baseElement == Element.Elements.ELEMENTLESS)
+            {
+                info += "Elementless\n";
+            }
+        }
         info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
         info += "Status Effects:";
         foreach (Status status in statusEffects)

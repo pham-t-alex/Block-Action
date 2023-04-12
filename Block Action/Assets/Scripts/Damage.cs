@@ -7,6 +7,7 @@ public class Damage : Effect
 {
 
     public double dmg;
+    public Element.Elements element;
 
     public Damage(int dmg)
     {
@@ -23,12 +24,12 @@ public class Damage : Effect
                 int prevHealth = f.health;
                 if (fighter != null)
                 {
-                    damageDealt = (int)(dmg * makeNonNegative(fighter.buff) * makeNonNegative(f.defenseBuff));
+                    damageDealt = (int)(dmg * makeNonNegative(fighter.buff) * makeNonNegative(f.defenseBuff) * Element.elementalDamageModifier(element, f.currentElement));
                     f.health -= damageDealt;
                 }
                 else
                 {
-                    damageDealt = (int)(dmg * makeNonNegative(f.defenseBuff));
+                    damageDealt = (int)(dmg * makeNonNegative(f.defenseBuff) * Element.elementalDamageModifier(element, f.currentElement));
                     f.health -= damageDealt;
                 }
                 GameObject indicator = Resources.Load<GameObject>("Indicator");
