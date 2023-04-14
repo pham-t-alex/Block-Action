@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Healthbar : MonoBehaviour
 {
@@ -31,6 +32,19 @@ public class Healthbar : MonoBehaviour
         }
     }
 
+    private GameObject _healthNumber;
+    public GameObject healthNumber
+    {
+        get
+        {
+            if (_healthNumber == null)
+            {
+                _healthNumber = transform.GetChild(2).gameObject;
+            }
+            return _healthNumber;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,9 +64,9 @@ public class Healthbar : MonoBehaviour
         }
     }
     
-    public void setHealth(int health)
+    public void setHealth(int health, int maxHealth)
     {
-        slider.value = health;
+        slider.value = 100 * health / maxHealth;
+        healthNumber.GetComponent<TMP_Text>().text = health + "";
     }
-    
 }

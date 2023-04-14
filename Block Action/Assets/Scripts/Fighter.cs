@@ -60,11 +60,11 @@ public abstract class Fighter : MonoBehaviour
     {
         if (health > 0)
         {
-            healthBar.setHealth(100 * health / maxHealth);
+            healthBar.setHealth(health, maxHealth);
         }
         else
         {
-            healthBar.setHealth(0);
+            healthBar.setHealth(health, maxHealth);
         }
     }
 
