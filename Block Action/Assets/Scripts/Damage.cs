@@ -34,6 +34,7 @@ public class Damage : Effect
                 }
                 GameObject indicator = Resources.Load<GameObject>("Indicator");
                 GameObject g = GameObject.Instantiate(indicator, f.transform);
+                g.GetComponent<Indicator>().FlyAway();
                 TMP_Text text = g.GetComponent<TMP_Text>();
                 text.color = new Color(1, 0, 0);
                 text.text = damageDealt + "";
@@ -49,7 +50,16 @@ public class Damage : Effect
                     //EnemyAnimator.SetTrigger("Hurt");
                     Debug.Log("Enemy takes " + damageDealt + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
+
+                if (fighter != null)
+                {
+                    ActionController.TriggerWhenHitEffects(f);
+                }
             }
+        }
+        if (fighter != null)
+        {
+            ActionController.TriggerAfterDamageEffects(fighter);
         }
     }
 

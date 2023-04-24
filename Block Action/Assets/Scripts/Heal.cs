@@ -26,6 +26,7 @@ public class Heal : Effect
                     GameObject indicator = Resources.Load<GameObject>("Indicator");
                     GameObject g = GameObject.Instantiate(indicator, f.transform);
                     TMP_Text text = g.GetComponent<TMP_Text>();
+                    g.GetComponent<Indicator>().Offset();
                     text.color = new Color(0, 1, 0);
                     text.text = "" + (int)heal;
 

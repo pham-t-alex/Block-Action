@@ -77,6 +77,18 @@ public abstract class Effect
             System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
             effect = new AfterActionEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
         }
+        else if (effectData[0].Equals("apply_after_damage"))
+        {
+            string[] nextEffectData = new string[effectData.Length - 3];
+            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
+            effect = new AfterDamageEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+        }
+        else if (effectData[0].Equals("apply_when_hit"))
+        {
+            string[] nextEffectData = new string[effectData.Length - 3];
+            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
+            effect = new WhenHitEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+        }
         else if (effectData[0].Equals("change_state"))
         {
             effect = new StateChangeEffect(string.Join(" ", effectData, 2, effectData.Length - 2));
@@ -323,9 +335,20 @@ public abstract class Effect
                 }
             }
         }
-        else if (e is AfterActionEffect)
+        else if (e is AfterActionEffect || e is AfterDamageEffect || e is WhenHitEffect)
         {
-            effectString = $"Apply after-action effect ({((AfterActionEffect)e).duration} turns) to ";
+            if (e is AfterActionEffect)
+            {
+                effectString = $"Apply after-action effect ({((AfterActionEffect)e).duration} turns) to ";
+            }
+            else if (e is AfterDamageEffect)
+            {
+                effectString = $"Apply after-damage effect ({((AfterDamageEffect)e).duration} turns) to ";
+            }
+            else
+            {
+                effectString = $"Apply when-hit effect ({((WhenHitEffect)e).duration} turns) to ";
+            }
             if (e.targetType == TargetType.Self)
             {
                 effectString += "self";
@@ -346,7 +369,18 @@ public abstract class Effect
                 }
             }
             effectString += ": ";
-            effectString += effectToString(((AfterActionEffect)e).effect, forBlock);
+            if (e is AfterActionEffect)
+            {
+                effectString += effectToString(((AfterActionEffect)e).effect, forBlock);
+            }
+            else if (e is AfterDamageEffect)
+            {
+                effectString += effectToString(((AfterDamageEffect)e).effect, forBlock);
+            }
+            else
+            {
+                effectString += effectToString(((WhenHitEffect)e).effect, forBlock);
+            }
         }
         else if (e is StateChangeEffect)
         {
@@ -426,7 +460,8 @@ public abstract class Effect
         else if (e is ElementalApplicationEffect)
         {
             effectString = $"Apply ";
-            switch (((ElementalApplicationEffect)e).element) {
+            switch (((ElementalApplicationEffect)e).element)
+            {
                 case Element.Elements.FIRE:
                     effectString += "Fire";
                     break;
@@ -769,46 +804,73 @@ public abstract class Effect
                 }
             }
         }
-        else if (e is AfterActionEffect)
+        else if (e is AfterActionEffect || e is AfterDamageEffect || e is WhenHitEffect)
         {
             if (isPlayer)
             {
                 if (e.targetType == TargetType.Self)
                 {
-                    return GetQuality(((AfterActionEffect)e).effect, true);
+                    if (e is AfterActionEffect)
+                    {
+                        return GetQuality(((AfterActionEffect)e).effect, true);
+                    }
+                    else if (e is AfterDamageEffect)
+                    {
+                        return GetQuality(((AfterDamageEffect)e).effect, true);
+                    }
+                    else
+                    {
+                        return GetQuality(((WhenHitEffect)e).effect, true);
+                    }
+                    
                 }
                 else
                 {
-                    Quality q = GetQuality(((AfterActionEffect)e).effect, false);
-                    if (q == Quality.Good)
+                    if (e is AfterActionEffect)
                     {
-                        return Quality.Bad;
+                        return Status.oppositeQuality(GetQuality(((AfterActionEffect)e).effect, false));
                     }
-                    else if (q == Quality.Bad)
+                    else if (e is AfterDamageEffect)
                     {
-                        return Quality.Good;
+                        return Status.oppositeQuality(GetQuality(((AfterDamageEffect)e).effect, false));
                     }
-                    return Quality.Neutral;
+                    else
+                    {
+                        return Status.oppositeQuality(GetQuality(((WhenHitEffect)e).effect, false));
+                    }
                 }
             }
             else
             {
                 if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
                 {
-                    return GetQuality(((AfterActionEffect)e).effect, false);
+                    if (e is AfterActionEffect)
+                    {
+                        return GetQuality(((AfterActionEffect)e).effect, false);
+                    }
+                    else if (e is AfterDamageEffect)
+                    {
+                        return GetQuality(((AfterDamageEffect)e).effect, false);
+                    }
+                    else
+                    {
+                        return GetQuality(((WhenHitEffect)e).effect, false);
+                    }
                 }
                 else
                 {
-                    Quality q = GetQuality(((AfterActionEffect)e).effect, true);
-                    if (q == Quality.Good)
+                    if (e is AfterActionEffect)
                     {
-                        return Quality.Bad;
+                        return Status.oppositeQuality(GetQuality(((AfterActionEffect)e).effect, true));
                     }
-                    else if (q == Quality.Bad)
+                    else if (e is AfterDamageEffect)
                     {
-                        return Quality.Good;
+                        return Status.oppositeQuality(GetQuality(((AfterDamageEffect)e).effect, true));
                     }
-                    return Quality.Neutral;
+                    else
+                    {
+                        return Status.oppositeQuality(GetQuality(((WhenHitEffect)e).effect, true));
+                    }
                 }
             }
         }

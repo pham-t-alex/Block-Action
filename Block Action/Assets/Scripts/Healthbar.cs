@@ -67,6 +67,6 @@ public class Healthbar : MonoBehaviour
     public void setHealth(int health, int maxHealth)
     {
         slider.value = 100 * health / maxHealth;
-        healthNumber.GetComponent<TMP_Text>().text = health + "";
+        healthNumber.GetComponent<TMP_Text>().text = Mathf.Max(health, 0) + "";
     }
 }

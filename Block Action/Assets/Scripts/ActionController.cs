@@ -222,4 +222,26 @@ public class ActionController : MonoBehaviour
             }
         }
     }
+
+    public static void TriggerWhenHitEffects(Fighter f)
+    {
+        foreach (Status s in f.statusEffects)
+        {
+            if (s is WhenHitStatus)
+            {
+                ((WhenHitStatus)s).ActivateInnerEffect();
+            }
+        }
+    }
+
+    public static void TriggerAfterDamageEffects(Fighter f)
+    {
+        foreach (Status s in f.statusEffects)
+        {
+            if (s is AfterDamageStatus)
+            {
+                ((AfterDamageStatus)s).ActivateInnerEffect();
+            }
+        }
+    }
 }

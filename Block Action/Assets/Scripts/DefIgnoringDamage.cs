@@ -49,7 +49,16 @@ public class DefIgnoringDamage : Effect
                 {
                     Debug.Log("Enemy takes " + damageDealt + " def-ignoring damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
+
+                if (fighter != null)
+                {
+                    ActionController.TriggerWhenHitEffects(f);
+                }
             }
+        }
+        if (fighter != null)
+        {
+            ActionController.TriggerAfterDamageEffects(fighter);
         }
     }
 

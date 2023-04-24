@@ -38,7 +38,16 @@ public class TrueDamage : Effect
                 {
                     Debug.Log("Enemy takes " + (int)(dmg) + " true damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
+
+                if (fighter != null)
+                {
+                    ActionController.TriggerWhenHitEffects(f);
+                }
             }
+        }
+        if (fighter != null)
+        {
+            ActionController.TriggerAfterDamageEffects(fighter);
         }
     }
 }

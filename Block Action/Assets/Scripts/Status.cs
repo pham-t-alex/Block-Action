@@ -94,6 +94,18 @@ public abstract class Status
             System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
             status = new AfterActionStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
         }
+        else if (statusData[1].Equals("after_damage"))
+        {
+            string[] nextEffectData = new string[statusData.Length - 3];
+            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
+            status = new AfterDamageStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+        }
+        else if (statusData[1].Equals("when_hit"))
+        {
+            string[] nextEffectData = new string[statusData.Length - 3];
+            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
+            status = new WhenHitStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+        }
         status.removable = removable;
         return status;
     }
@@ -174,7 +186,46 @@ public abstract class Status
                 statusString += Effect.effectToString(afterActionStatus.afterActionEffect, false);
             }
         }
+        else if (s is AfterDamageStatus)
+        {
+            AfterDamageStatus afterDamageStatus = (AfterDamageStatus)s;
+            statusString += "After-action effect (" + afterDamageStatus.numTurns + " turns): ";
+            if (afterDamageStatus.statusHolder == Player.player)
+            {
+                statusString += Effect.effectToString(afterDamageStatus.afterDamageEffect, true);
+            }
+            else
+            {
+                statusString += Effect.effectToString(afterDamageStatus.afterDamageEffect, false);
+            }
+        }
+        else if (s is WhenHitStatus)
+        {
+            WhenHitStatus whenHitStatus = (WhenHitStatus)s;
+            statusString += "After-action effect (" + whenHitStatus.numTurns + " turns): ";
+            if (whenHitStatus.statusHolder == Player.player)
+            {
+                statusString += Effect.effectToString(whenHitStatus.whenHitEffect, true);
+            }
+            else
+            {
+                statusString += Effect.effectToString(whenHitStatus.whenHitEffect, false);
+            }
+        }
         return statusString;
+    }
+
+    public static Quality oppositeQuality(Quality q)
+    {
+        if (q == Quality.Good)
+        {
+            return Quality.Bad;
+        }
+        else if (q == Quality.Bad)
+        {
+            return Quality.Good;
+        }
+        return Quality.Neutral;
     }
 }
 
