@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Unity.VisualScripting;
+using System.Data;
 
 public class BlockGenerator : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class BlockGenerator : MonoBehaviour
     public GameObject frameSquare;
     public GameObject blockParticles;
     public GameObject blockInfoMenu;
+    public GameObject[] icons;
 
     private static BlockGenerator _blockGenerator;
     public static BlockGenerator blockGenerator
@@ -145,6 +148,86 @@ public class BlockGenerator : MonoBehaviour
         soulObject.description = soulObjectData.description;
         soulObject.element = soulObjectData.element;
 
+        List<GameObject> effectIcons = new List<GameObject>();
+
+        /**
+        foreach (string effect in soulObjectData.effects) {
+            Debug.Log(soulObject + " DATA: " + effect);
+        }
+        foreach (Effect effect in soulObject.effects)
+        {
+            Debug.Log(soulObject + "EFFECT: " + effect);
+        }
+        */
+
+        List<GameObject> iconList = new List<GameObject>();
+        
+        // Add icons to the iconList
+        foreach (GameObject icon in blockGenerator.icons) {
+            iconList.Add(icon);
+        }
+
+        // Scans each description and adds appropriate effect
+        foreach (string data in soulObjectData.effects)
+        {
+            List<GameObject> selectableIcons = iconList;
+            if (data.Contains("damage enemies")) {
+                if (selectableIcons[0] != null) {
+                    effectIcons.Add(selectableIcons[0]); // AoE Attack icon
+                    selectableIcons[0] = null;
+                }
+            }
+            if (data.Contains("buff") && data.Contains("atk")) {
+                if (selectableIcons[1] != null) {
+                    effectIcons.Add(selectableIcons[1]); // Atk Buff icon
+                    selectableIcons[1] = null;
+                }
+            }
+            if (data.Contains("remove_debuff")) {
+                if (selectableIcons[3] != null) {
+                    effectIcons.Add(selectableIcons[3]); // Debuff Removal icon
+                    selectableIcons[3] = null;
+                }
+            }
+            if (data.Contains("buff") && data.Contains("def")) {
+                if (selectableIcons[4] != null) {
+                    effectIcons.Add(selectableIcons[4]); // Defense Buff icon
+                    selectableIcons[4] = null;
+                }
+            }
+            if (data.Contains("delayed") || data.Contains("apply_after_damge")) {
+                if (selectableIcons[6] != null) {
+                    effectIcons.Add(selectableIcons[6]); // Delayed icon
+                    selectableIcons[6] = null;
+                }
+            }
+            if (data.Contains("heal")) {
+                if (selectableIcons[7] != null) {
+                    effectIcons.Add(selectableIcons[7]); // Heal icon
+                    selectableIcons[7] = null;
+                }
+            }
+            if (data.Contains("singletarget")) {
+                if (selectableIcons[9] != null) {
+                    effectIcons.Add(selectableIcons[9]); // Single Target icon
+                    selectableIcons[9] = null;
+                }
+            }
+        }
+
+        int effectCount = effectIcons.Count;
+        float iconSpacing = 0.8f;
+        float iconXPosition = (float)((iconSpacing / 2) - (effectCount * iconSpacing / 2));
+
+        // Calculates and creates icons
+        foreach (GameObject icon in effectIcons) {
+            // Debug.Log(soulObject.soulName + "   " + effectCount + "   " + icon.name + "   " + soulObject.height);
+            var soulObjectIcon = Instantiate(icon, soulObject.transform); // Create icon
+            soulObjectIcon.transform.position = soulObject.transform.position; // Set icon as parent of soulObject
+            soulObjectIcon.transform.position += new Vector3(iconXPosition, -0.4f - (0.5f * soulObject.height), 0); // Adds icon at iconXPosiiton
+            iconXPosition += iconSpacing; // Increments iconXPosition
+        }
+        
         return soulObject;
     }
 }

@@ -9,7 +9,7 @@ public class StageSelectionInitialize : MonoBehaviour
     void Start()
     {
         if (PersistentDataManager.levelsCompleted == -1)
-        {
+        {  
             PersistentDataManager.levelNumber = 0;
             PersistentDataManager.storyState = 1;
             SceneManager.LoadScene("Story");

@@ -64,7 +64,7 @@ public abstract class Fighter : MonoBehaviour
         }
         else
         {
-            healthBar.setHealth(health, maxHealth);
+            //healthBar.setHealth(health, maxHealth);
         }
     }
 

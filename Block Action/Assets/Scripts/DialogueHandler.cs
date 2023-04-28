@@ -393,4 +393,27 @@ public class DialogueHandler : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         actionIsPerforming = false;
     }
+
+    public void SkipDialogue() {
+        ExitDialogueMode();
+        if (PersistentDataManager.storyState == 1)
+        {
+            PersistentDataManager.storyState = 0;
+            if (Resources.Load<LevelData>($"Levels/Level {PersistentDataManager.levelNumber}") == null)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
+            }
+            else
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+            }
+        }
+        else
+        {
+            PersistentDataManager.storyState = 0;
+            PersistentDataManager.levelNumber = -1;
+            PersistentDataManager.storyOnly = false;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
+        }
+    }
 }

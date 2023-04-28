@@ -121,6 +121,27 @@ public class GridFitter : MonoBehaviour
                             soulObject.SetRenderOrder(4);
                         } //sets display order in layer for display
                         selectedTime = 0.05f; //sets selected time to 0.05 seconds (after 0.05 seconds of not being touched by mouse down, it will deselect)
+
+                        // Hides/Shows soulObject effect icons
+                        if (soulObject.placed)
+                        {
+                            foreach (Transform child in soulObject.transform)
+                            {
+                                if (child.gameObject.tag.Equals("EffectIcon"))
+                                {
+                                    child.GetComponent<Renderer>().enabled = false;
+                                }
+                            }
+                        }
+                        else {
+                            foreach (Transform child in soulObject.transform)
+                            {
+                                if (child.gameObject.tag.Equals("EffectIcon"))
+                                {
+                                    child.GetComponent<Renderer>().enabled = true;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -212,6 +233,14 @@ public class GridFitter : MonoBehaviour
             if (Battle.b.bs != BattleState.EnemySelect)
             {
                 selectedSoulObject = null;
+            }
+
+            // Hides soulObject effect icons
+            foreach (Transform child in soulObject.transform)
+            {
+                if (child.gameObject.tag.Equals("EffectIcon")) { 
+                    child.GetComponent<Renderer>().enabled = false;
+                }
             }
         }
         else //failed placement
@@ -380,6 +409,15 @@ public class GridFitter : MonoBehaviour
                 }
             }
             soulObject.changeCooldownColor();
+
+            // Hides soulObject effectIcons
+            foreach (Transform child in soulObject.transform)
+            {
+                if (child.gameObject.tag.Equals("EffectIcon"))
+                {
+                    child.GetComponent<Renderer>().enabled = true;
+                }
+            }
         }
         List<GameObject> l = gridFitter.grid.lockedTiles;
         for (int i = 0; i < l.Count; i++)
