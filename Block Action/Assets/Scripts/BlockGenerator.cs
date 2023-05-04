@@ -168,7 +168,7 @@ public class BlockGenerator : MonoBehaviour
         }
 
         // Scans each description and adds appropriate effect
-        foreach (string data in soulObjectData.effects)
+        /*foreach (string data in soulObjectData.effects)
         {
             List<GameObject> selectableIcons = iconList;
             if (data.Contains("damage enemies")) {
@@ -212,6 +212,66 @@ public class BlockGenerator : MonoBehaviour
                     effectIcons.Add(selectableIcons[9]); // Single Target icon
                     selectableIcons[9] = null;
                 }
+            }
+        }*/
+        List<GameObject> selectableIcons = iconList;
+        foreach (Effect effect in soulObject.effects)
+        {
+            Effect e = effect;
+            while (e is ConditionalEffect)
+            {
+                e = ((ConditionalEffect)e).effect;
+            }
+            if (e is Damage || e is DefIgnoringDamage || e is TrueDamage)
+            {
+                if (e.targetType == TargetType.AllEnemies)
+                {
+                    effectIcons.Add(selectableIcons[0]);
+                }
+                else
+                {
+                    effectIcons.Add(selectableIcons[9]);
+                }
+            }
+            else if (e is Buff)
+            {
+                Buff b = (Buff)e;
+                if (b.buff >= 0)
+                {
+                    effectIcons.Add(selectableIcons[1]);
+                }
+                else
+                {
+                    effectIcons.Add(selectableIcons[2]);
+                }
+            }
+            else if (e is DebuffRemovalEffect)
+            {
+                effectIcons.Add(selectableIcons[3]);
+            }
+            else if (e is DefenseBuff)
+            {
+                DefenseBuff b = (DefenseBuff)e;
+                if (b.defenseBuff >= 0)
+                {
+                    effectIcons.Add(selectableIcons[4]);
+                }
+                else
+                {
+                    effectIcons.Add(selectableIcons[5]);
+                }
+            }
+            else if (e is DelayedEffect || e is AfterActionEffect || e is AfterDamageEffect || e is WhenHitEffect)
+            {
+                effectIcons.Add(selectableIcons[6]);
+            }
+            else if (e is Heal)
+            {
+                effectIcons.Add(selectableIcons[7]);
+            }
+            else if (e is RepeatingEffect)
+            {
+                effectIcons.Add(selectableIcons[8]);
             }
         }
 
