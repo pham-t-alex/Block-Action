@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
+  m_Name: Lizard_Monster
+  m_EditorClassIdentifier: 
+  enemyName: Lizard_Monster
+  defaultMaxHealth: 100
+  defaultStartingHealth: 100
+  description: 
+  baseElement: 1
+  actionsPerTurn: 1
+  maxStunCharge: 75
+  actions:
+  - 'All
+
+    damage singletarget 15
+
+    apply_element singletarget fire 2'
+  - 'All
+
+    apply_element self fire 1
+
+    conditional element = user fire buff
+    self atk 0.5 3
+
+    conditional element = user fire apply_delayed self 1 damage
+    self 10'
+  startingStatuses:
+  - unremovable after_action 1000 apply_repeating singletarget 3 damage self 5
+  fadeOnDefeat: 1
+  idle: {fileID: 21300000, guid: 3951000e5e9bc0d41b3346871f5e2149, type: 3}
+  attack: {fileID: 21300000, guid: a0abc43c6192e0944b056cbfc9f3efda, type: 3}
+  hurt: {fileID: 21300000, guid: e8afdcb5953fc314e9023b6276ce5f27, type: 3}
+  soulColor: {r: 0.16470589, g: 0.3764706, b: 0.2, a: 1}

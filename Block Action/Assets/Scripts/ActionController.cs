@@ -214,33 +214,33 @@ public class ActionController : MonoBehaviour
 
     static void TriggerAfterActionEffects(Fighter f)
     {
-        foreach (Status s in f.statusEffects)
+        for (int i = 0; i < f.statusEffects.Count; i++)
         {
-            if (s is AfterActionStatus)
+            if (f.statusEffects[i] is AfterActionStatus)
             {
-                ((AfterActionStatus)s).ActivateInnerEffect();
+                ((AfterActionStatus)f.statusEffects[i]).ActivateInnerEffect();
             }
         }
     }
 
     public static void TriggerWhenHitEffects(Fighter f)
     {
-        foreach (Status s in f.statusEffects)
+        for (int i = 0; i < f.statusEffects.Count; i++)
         {
-            if (s is WhenHitStatus)
+            if (f.statusEffects[i] is WhenHitStatus)
             {
-                ((WhenHitStatus)s).ActivateInnerEffect();
+                ((WhenHitStatus)f.statusEffects[i]).ActivateInnerEffect();
             }
         }
     }
 
     public static void TriggerAfterDamageEffects(Fighter f)
     {
-        foreach (Status s in f.statusEffects)
+        for (int i = 0; i < f.statusEffects.Count; i++)
         {
-            if (s is AfterDamageStatus)
+            if (f.statusEffects[i] is AfterDamageStatus)
             {
-                ((AfterDamageStatus)s).ActivateInnerEffect();
+                ((AfterDamageStatus)f.statusEffects[i]).ActivateInnerEffect();
             }
         }
     }

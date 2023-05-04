@@ -26,7 +26,7 @@ public class WhenHitEffect : Effect
                 }
                 else
                 {
-                    Debug.Log("When=hit effect applied to an enemy.");
+                    Debug.Log("When-hit effect applied to an enemy.");
                 }
             }
         }

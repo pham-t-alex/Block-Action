@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
+  m_Name: Forest_Bear
+  m_EditorClassIdentifier: 
+  enemyName: Forest_Bear
+  defaultMaxHealth: 300
+  defaultStartingHealth: 300
+  description: 
+  baseElement: 3
+  actionsPerTurn: 1
+  maxStunCharge: 250
+  actions:
+  - 'All
+
+    damage singletarget 8
+
+    apply_element self nature 3'
+  - 'All
+
+    buff self def 0.2 4
+
+    stun self -50
+
+    apply_when_hit self 5 buff
+    self atk 0.2 3'
+  - 'All
+
+    damage singletarget 12'
+  - 'All
+
+    damage singletarget 14'
+  startingStatuses:
+  - unremovable buff def 0.3 1000
+  fadeOnDefeat: 1
+  idle: {fileID: 21300000, guid: 3f320fcc10ac14941b284ee0d0e181b6, type: 3}
+  attack: {fileID: 21300000, guid: ebc912191c647984592531482e305616, type: 3}
+  hurt: {fileID: 21300000, guid: dc8058595817eb240a49c6195b4f5c2a, type: 3}
+  soulColor: {r: 0.28235295, g: 0.2901961, b: 0.0627451, a: 1}

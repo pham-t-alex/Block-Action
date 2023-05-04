@@ -24,9 +24,12 @@ MonoBehaviour:
   bgmName: regionalbattle
   background: Dark Forest
   enemyWaves:
-  - 'Test_Hog 1 1 1 0 6
+  - 'Lizard_Monster 1 1 1 0 1
 
-    Test_Hog 1 1 1 0 6'
+    Forest_Bear 1 1 1 0 3
+
+    Lizard_Monster 1 1
+    1 0 1'
   midLevelEffects:
   - wave 1 text These hogs have some dangerous abilities...
   - wave 1 add_block block1 0
