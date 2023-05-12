@@ -40,12 +40,16 @@ public class AttackProjectile : MonoBehaviour
         }
         if (elapsedTime > lifetime)
         {
+            GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), target.transform.position, Quaternion.identity);
+            ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;
+            emission.rateOverTime = 400 * damage / target.maxHealth;
             GameObject indicator = Resources.Load<GameObject>("Indicator");
             GameObject g = GameObject.Instantiate(indicator, target.transform);
             g.GetComponent<Indicator>().FlyAway();
             TMP_Text text = g.GetComponent<TMP_Text>();
             text.color = new Color(1, 0, 0);
             text.text = damage + "";
+            
             if (target.Equals(Player.player))
             {
                 PlayerAnimator.SetTrigger("Hurt");

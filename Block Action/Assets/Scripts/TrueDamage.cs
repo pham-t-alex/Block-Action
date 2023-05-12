@@ -21,7 +21,22 @@ public class TrueDamage : Effect
             if (!f.dead)
             {
                 int prevHealth = f.health;
+                if (fighter is Enemy e)
+                {
+                    if (e.type == "Lizard_Monster")
+                    {
+                        AttackProjectile p = GameObject.Instantiate(Resources.Load<GameObject>("Fireball")).GetComponent<AttackProjectile>();
+                        p.Init((int)dmg, fighter, f, -0.5f, 0.5f);
+                        continue;
+                    }
+                }
                 f.health -= (int)(dmg);
+                if (fighter != null)
+                {
+                    GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
+                    ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;
+                    emission.rateOverTime = 400 * (int) dmg / f.maxHealth;
+                }
                 GameObject indicator = Resources.Load<GameObject>("Indicator");
                 GameObject g = GameObject.Instantiate(indicator, f.transform);
                 TMP_Text text = g.GetComponent<TMP_Text>();

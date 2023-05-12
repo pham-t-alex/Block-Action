@@ -50,4 +50,8 @@ Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
 */
 
-ow that hurt #speaker=Protagonist#bgm=darkforesttheme
+#bgm=darkforesttheme
+Huff huff (I can't run anymore!!!) #speaker=Protagonist
+No! I don't want to die! #speaker=Protagonist
+This is getting hard to look at. #speaker=???
+If you don't want to die then you better listen! Take this lantern! #speaker=???

@@ -34,6 +34,9 @@ public class Damage : Effect
                             continue;
                         }
                     }
+                    GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
+                    ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;
+                    emission.rateOverTime = 400 * damageDealt / f.maxHealth;
                     f.health -= damageDealt;
                 }
                 else
@@ -41,6 +44,12 @@ public class Damage : Effect
                     damageDealt = (int)(dmg * makeNonNegative(f.defenseBuff) * Element.elementalDamageModifier(element, f.currentElement));
                     f.health -= damageDealt;
                 }
+                GameObject indicator = Resources.Load<GameObject>("Indicator");
+                GameObject g = GameObject.Instantiate(indicator, f.transform);
+                g.GetComponent<Indicator>().FlyAway();
+                TMP_Text text = g.GetComponent<TMP_Text>();
+                text.color = new Color(1, 0, 0);
+                text.text = damageDealt + "";
 
                 if (f.Equals(Player.player))
                 {
@@ -53,13 +62,6 @@ public class Damage : Effect
                     //EnemyAnimator.SetTrigger("Hurt");
                     Debug.Log("Enemy takes " + damageDealt + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
-
-                GameObject indicator = Resources.Load<GameObject>("Indicator");
-                GameObject g = GameObject.Instantiate(indicator, f.transform);
-                g.GetComponent<Indicator>().FlyAway();
-                TMP_Text text = g.GetComponent<TMP_Text>();
-                text.color = new Color(1, 0, 0);
-                text.text = damageDealt + "";
 
                 if (fighter != null)
                 {

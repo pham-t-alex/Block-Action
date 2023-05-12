@@ -26,6 +26,18 @@ public class DefIgnoringDamage : Effect
                 if (fighter != null)
                 {
                     damageDealt = (int)(dmg * makeNonNegative(fighter.buff) * Element.elementalDamageModifier(element, f.currentElement));
+                    if (fighter is Enemy e)
+                    {
+                        if (e.type == "Lizard_Monster")
+                        {
+                            AttackProjectile p = GameObject.Instantiate(Resources.Load<GameObject>("Fireball")).GetComponent<AttackProjectile>();
+                            p.Init(damageDealt, fighter, f, -0.5f, 0.5f);
+                            continue;
+                        }
+                    }
+                    GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
+                    ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;
+                    emission.rateOverTime = 400 * damageDealt / f.maxHealth;
                     f.health -= damageDealt;
                 }
                 else

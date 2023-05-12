@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cf92abb5e2971429f53ccd1317873b, type: 3}
   m_Name: guidingSoul1
   m_EditorClassIdentifier: 
-  soulName: Guiding_Soul
+  soulName: ???
   description: A supportive soul. Not very good at combat, but useful as a guide.
   shapeAsString: ~
   width: 1

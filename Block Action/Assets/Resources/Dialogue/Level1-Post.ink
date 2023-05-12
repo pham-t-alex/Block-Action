@@ -50,4 +50,7 @@ Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
 */
 #bgm=null
-thanks for the help #speaker=Protagonist
+Wow, good job on not dying! We're not out of the woods just yet, but you're pretty good at using the lantern, so there's still a chance. #speaker=???
+... what in the world... #speaker=Protagonist
+Yeah, even if we get out of here, there's even more monsters out there... #speaker=???
+Nice meeting you, lets go get more soul blocks, the more we have the stronger we'll be. Let's go!
