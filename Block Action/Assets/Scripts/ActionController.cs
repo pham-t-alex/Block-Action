@@ -74,6 +74,7 @@ public class ActionController : MonoBehaviour
         }
         else if (Battle.b.placedSoulObjects.Count > 0)
         {
+            ActionUserParticle.actionUserParticle.setAction(Player.player);
             for (int obj = 0; obj < Battle.b.placedSoulObjects.Count; obj++)
             {
                 PlayerAnimator.SetTrigger("Attack");
@@ -93,6 +94,7 @@ public class ActionController : MonoBehaviour
                 EnemyTurn();
                 Debug.Log("Enemy Turn");
             }
+            ActionUserParticle.actionUserParticle.disable();
         }
         else if (PersistentDataManager.levelNumber == 0)
         {
@@ -147,6 +149,7 @@ public class ActionController : MonoBehaviour
 
     async static Task EnemySequence(Enemy e)
     {
+        ActionUserParticle.actionUserParticle.setAction(e);
         //randomly runs one of many preset attacks
         Random rand = new Random();
         int numAtk = getAttackCount(e);
@@ -196,6 +199,7 @@ public class ActionController : MonoBehaviour
         TriggerAfterActionEffects(e);
         await Battle.UpdateDead();
         await Task.Delay(750);
+        ActionUserParticle.actionUserParticle.disable();
     }
 
     static int getAttackCount(Enemy e)
