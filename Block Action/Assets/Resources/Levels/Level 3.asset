@@ -12,38 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 3
   m_EditorClassIdentifier: 
-  gridAsString: '~~~~
+  gridAsString: '~~~~~
 
-    ~~~~
+    ~~~~~
 
-    ~~~~
+    ~~~~~
 
-    ~~~~'
-  gridWidth: 4
+    ~~~~~'
+  gridWidth: 5
   gridHeight: 4
-  bgmName: darkforestbattletheme
+  bgmName: regionalbattle
   background: Dark Forest
   enemyWaves:
-  - 'Mushroom 1 1 1 0 -1
+  - 'Lizard_Monster 0.5 0.5 1 0 1
 
-    Hog 2 2 1 0 1
+    Forest_Bear 0.5 0.5 1 0 3'
+  - 'Lizard_Monster 1 1 1 0 1
 
-    Hog 1 1 1 0 1'
-  - 'Hog 1 1 1 0 1
+    Forest_Bear 1 1 1 0 3
 
-    Mushroom 2 2 1 0 -1
-
-    Hog_Hunter 1.5 1.5 1 0 1'
-  - Hog_Hunter 2 2 1 0 3
+    Lizard_Monster 1 1
+    1 0 1'
   midLevelEffects:
-  - wave 1 text Try out these random blocks.
-  - wave 1 add_block block1 0
-  - wave 1 add_block block2 0
-  - wave 1 add_block block3 0
-  - wave 1 add_block block4 0
-  - wave 1 add_block frame1 0
-  - wave 1 add_block frame2 0
-  - wave 2 text New soul obtained!
-  - wave 3 add_block mushroom 0
+  - wave 1 text New enemies appear!
+  - wave 2 add_block lizardMonster 0
+  - wave 2 add_block forestBear 0
   firstClearRewards:
-  - mushroom
+  - lizardMonster
+  - forestBear

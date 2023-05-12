@@ -12,30 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 4
   m_EditorClassIdentifier: 
-  gridAsString: '~~~~
+  gridAsString: '~~~~~
 
-    ~~~~
+    ~~~~~
 
-    ~~~~
+    ~~~~~
 
-    ~~~~'
-  gridWidth: 4
-  gridHeight: 4
+    0~~~0
+
+    ~~0~~'
+  gridWidth: 5
+  gridHeight: 5
   bgmName: regionalbattle
   background: Dark Forest
   enemyWaves:
-  - 'Lizard_Monster 1 1 1 0 1
+  - 'Plant 1 1 1 0 4
 
-    Forest_Bear 1 1 1 0 3
+    Plant 2 2 1 0 4
 
-    Lizard_Monster 1 1
-    1 0 1'
+    Plant 1 1 1 0 4'
   midLevelEffects:
-  - wave 1 text These hogs have some dangerous abilities...
-  - wave 1 add_block block1 0
-  - wave 1 add_block block2 0
-  - wave 1 add_block block3 0
-  - wave 1 add_block block4 0
-  - wave 1 add_block frame1 0
-  - wave 1 add_block frame2 0
-  firstClearRewards: []
+  - wave 1 text Be wary of these plants...
+  firstClearRewards:
+  - plant

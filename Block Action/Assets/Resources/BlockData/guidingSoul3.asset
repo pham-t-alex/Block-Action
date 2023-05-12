@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soulName: Guiding_Soul
   description: A supportive soul. Not very good at combat, but useful as a guide.
-  shapeAsString: ~
-  width: 1
-  height: 1
+  shapeAsString: '~~
+
+    ~~'
+  width: 2
+  height: 2
   element: 0
   cooldown: 2
   isSoulBlock: 1

@@ -58,14 +58,7 @@ public abstract class Fighter : MonoBehaviour
 
     public void updateHealthBar()
     {
-        if (health > 0)
-        {
-            healthBar.setHealth(health, maxHealth);
-        }
-        else
-        {
-            //healthBar.setHealth(health, maxHealth);
-        }
+        healthBar.setHealth(health, maxHealth);
     }
 
     public static Vector3 WorldToScreenSpace(Vector3 worldPos, Camera cam, RectTransform area)

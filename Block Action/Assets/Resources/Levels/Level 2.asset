@@ -12,32 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 2
   m_EditorClassIdentifier: 
-  gridAsString: '~~~
+  gridAsString: '~~~~
 
-    ~~~'
-  gridWidth: 3
-  gridHeight: 2
+    ~~~~
+
+    ~~~~
+
+    ~~~~'
+  gridWidth: 4
+  gridHeight: 4
   bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
-  - 'Hog 1 1 1 0 1
-
-    Hog 1 1 1 0 1'
-  - 'Hog 1 1 1 0 1
-
-    Hog 1 1 1 0 1
+  - 'Mushroom 0.5 0.5 1 0 -1
 
     Hog 1 1 1 0 1
 
     Hog 1 1 1 0 1'
-  - 'Hog 4 1 1 0 1
+  - 'Hog 1 1 1 0 1
 
-    Hog_Hunter 2 2 1 0 1'
-  - 'Hog_Hunter 3 2 1 0 3
+    Mushroom 0.5 0.5 1 0 -1
 
-    Hog_Hunter 5 1 1 0 1'
-  - Hog_Hunter 10 2 1 0 1
+    Hog_Hunter 1 1 1 0 1'
+  - Hog_Hunter 2 2 1 0 3
   midLevelEffects:
-  - wave 1 text Each turn your strength increases!
-  - repeating buff player atk 0.1 100
-  firstClearRewards: []
+  - wave 2 text New soul obtained!
+  - wave 3 add_block mushroom 0
+  firstClearRewards:
+  - mushroom

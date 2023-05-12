@@ -27,12 +27,12 @@ MonoBehaviour:
     apply_element self nature 3'
   - 'All
 
-    buff self def 0.2 4
+    buff self def 0.1 4
 
     stun self -50
 
     apply_when_hit self 5 buff
-    self atk 0.2 3'
+    self atk 0.3 3'
   - 'All
 
     damage singletarget 12'
@@ -40,7 +40,7 @@ MonoBehaviour:
 
     damage singletarget 14'
   startingStatuses:
-  - unremovable buff def 0.3 1000
+  - unremovable buff def 0.2 1000
   fadeOnDefeat: 1
   idle: {fileID: 21300000, guid: 3f320fcc10ac14941b284ee0d0e181b6, type: 3}
   attack: {fileID: 21300000, guid: ebc912191c647984592531482e305616, type: 3}

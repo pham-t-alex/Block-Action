@@ -17,9 +17,11 @@ MonoBehaviour:
     prey.
   shapeAsString: '~0
 
-    ~~'
+    ~~
+
+    ~0'
   width: 2
-  height: 2
+  height: 3
   element: 0
   cooldown: 3
   isSoulBlock: 1

@@ -10,19 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7cf92abb5e2971429f53ccd1317873b, type: 3}
-  m_Name: hog2
+  m_Name: lizardMonster
   m_EditorClassIdentifier: 
-  soulName: Hog
-  description: The soul of a hog. This beast's soul channels the power of the herd,
-    swarming and overwhelming enemies.
-  shapeAsString: '~~~
+  soulName: Lizard_Monster
+  description: The soul of a lizard monster.
+  shapeAsString: '0~~
 
-    00~'
+    0~0
+
+    ~~0'
   width: 3
-  height: 2
-  element: 0
-  cooldown: 2
+  height: 3
+  element: 1
+  cooldown: 3
   isSoulBlock: 1
   effects:
+  - damage singletarget 20
   - damage enemies 20
-  color: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
+  - apply_element enemies fire 2
+  - apply_repeating enemies 2 damage self 10
+  color: {r: 0.16470589, g: 0.37647063, b: 0.20000002, a: 1}

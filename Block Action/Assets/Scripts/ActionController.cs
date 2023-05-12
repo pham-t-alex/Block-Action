@@ -195,7 +195,7 @@ public class ActionController : MonoBehaviour
         }
         TriggerAfterActionEffects(e);
         await Battle.UpdateDead();
-        await Task.Delay(500);
+        await Task.Delay(750);
     }
 
     static int getAttackCount(Enemy e)
