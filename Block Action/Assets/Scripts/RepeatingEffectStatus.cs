@@ -7,12 +7,14 @@ public class RepeatingEffectStatus : Status
 {
     public Effect repeatingEffect;
     public Fighter statusHolder;
+    public bool hasUser;
 
-    public RepeatingEffectStatus(int duration, Effect e, Fighter fighter)
+    public RepeatingEffectStatus(int duration, Effect e, Fighter fighter, bool hasUser)
     {
         numTurns = duration;
         repeatingEffect = e;
         statusHolder = fighter;
+        this.hasUser = hasUser;
     }
 
     public override void decrementTurns()
@@ -55,7 +57,14 @@ public class RepeatingEffectStatus : Status
                     repeatingEffect.targets.Add(Player.player);
                 }
             }
-            repeatingEffect.ActivateEffect(null);
+            if (hasUser)
+            {
+                repeatingEffect.ActivateEffect(statusHolder);
+            }
+            else
+            {
+                repeatingEffect.ActivateEffect(null);
+            }
             repeatingEffect.targets.Clear();
         }
     }

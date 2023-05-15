@@ -6,11 +6,12 @@ public class WhenHitEffect : Effect
 {
     public int duration;
     public Effect effect;
-
-    public WhenHitEffect(int duration, Effect effect)
+    public bool hasUser;
+    public WhenHitEffect(int duration, Effect effect, bool hasUser)
     {
         this.duration = duration;
         this.effect = effect;
+        this.hasUser = hasUser;
     }
     public override void ActivateEffect(Fighter fighter)
     {
@@ -18,7 +19,7 @@ public class WhenHitEffect : Effect
         {
             if (!f.dead)
             {
-                WhenHitStatus status = new WhenHitStatus(duration, effect, f);
+                WhenHitStatus status = new WhenHitStatus(duration, effect, f, hasUser);
                 f.statusEffects.Add(status);
                 if (f.Equals(Player.player))
                 {

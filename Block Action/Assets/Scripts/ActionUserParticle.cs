@@ -32,7 +32,7 @@ public class ActionUserParticle : MonoBehaviour
     public void setAction(Fighter f)
     {
         ParticleSystem.EmissionModule em = GetComponent<ParticleSystem>().emission;
-        em.rateOverTime = 10;
+        em.rateOverTime = 20;
         transform.position = f.transform.position - new Vector3(0, f.GetComponent<SpriteRenderer>().bounds.size.y / 2f);
         ParticleSystem.ShapeModule sm = GetComponent<ParticleSystem>().shape;
         sm.radius = (f.GetComponent<SpriteRenderer>().bounds.size.x / 2);

@@ -23,7 +23,7 @@ MonoBehaviour:
     ~~0~~'
   gridWidth: 5
   gridHeight: 5
-  bgmName: regionalbattle
+  bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
   - 'Plant 1 1 1 0 4

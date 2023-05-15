@@ -7,12 +7,14 @@ public class AfterDamageStatus : Status
 {
     public Effect afterDamageEffect;
     public Fighter statusHolder;
+    public bool hasUser;
 
-    public AfterDamageStatus(int duration, Effect e, Fighter fighter)
+    public AfterDamageStatus(int duration, Effect e, Fighter fighter, bool hasUser)
     {
         numTurns = duration;
         afterDamageEffect = e;
         statusHolder = fighter;
+        this.hasUser = hasUser;
     }
 
     public void ActivateInnerEffect()
@@ -52,7 +54,14 @@ public class AfterDamageStatus : Status
                 afterDamageEffect.targets.Add(Player.player);
             }
         }
-        afterDamageEffect.ActivateEffect(null);
+        if (hasUser)
+        {
+            afterDamageEffect.ActivateEffect(statusHolder);
+        }
+        else
+        {
+            afterDamageEffect.ActivateEffect(null);
+        }
         afterDamageEffect.targets.Clear();
     }
 

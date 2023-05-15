@@ -25,7 +25,7 @@ MonoBehaviour:
   cooldown: 4
   isSoulBlock: 1
   effects:
-  - apply_after_damage self 1 heal self 5
+  - apply_after_damage self no_user 1 heal self 5
   - damage enemies 20
   - damage enemies 20
   color: {r: 1, g: 0.47788578, b: 0, a: 1}

@@ -32,10 +32,11 @@ MonoBehaviour:
     conditional element = user fire buff
     self atk 0.5 3
 
-    conditional element = user fire apply_delayed self 1 damage
-    self 10'
+    conditional element = user fire apply_after_damage self no_user
+    2 true_damage self 10'
   startingStatuses:
-  - unremovable after_damage 1000 apply_repeating singletarget 3 damage self 5
+  - unremovable after_damage user 1000 conditional element = user fire apply_repeating
+    singletarget no_user 3 damage self 5
   fadeOnDefeat: 1
   idle: {fileID: 21300000, guid: 3951000e5e9bc0d41b3346871f5e2149, type: 3}
   attack: {fileID: 21300000, guid: a0abc43c6192e0944b056cbfc9f3efda, type: 3}

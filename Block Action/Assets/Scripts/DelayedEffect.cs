@@ -6,11 +6,12 @@ public class DelayedEffect : Effect
 {
     public int delay;
     public Effect effect;
-
-    public DelayedEffect(int delay, Effect effect)
+    public bool hasUser;
+    public DelayedEffect(int delay, Effect effect, bool hasUser)
     {
         this.delay = delay;
         this.effect = effect;
+        this.hasUser = hasUser;
     }
     public override void ActivateEffect(Fighter fighter)
     {
@@ -18,7 +19,7 @@ public class DelayedEffect : Effect
         {
             if (!f.dead)
             {
-                DelayedEffectStatus status = new DelayedEffectStatus(delay, effect, f);
+                DelayedEffectStatus status = new DelayedEffectStatus(delay, effect, f, hasUser);
                 f.statusEffects.Add(status);
                 if (f.Equals(Player.player))
                 {

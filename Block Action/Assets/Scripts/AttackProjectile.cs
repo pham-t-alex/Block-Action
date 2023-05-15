@@ -43,6 +43,7 @@ public class AttackProjectile : MonoBehaviour
             GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), target.transform.position, Quaternion.identity);
             ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;
             emission.rateOverTime = 400 * damage / target.maxHealth;
+            target.health -= damage;
             GameObject indicator = Resources.Load<GameObject>("Indicator");
             GameObject g = GameObject.Instantiate(indicator, target.transform);
             g.GetComponent<Indicator>().FlyAway();

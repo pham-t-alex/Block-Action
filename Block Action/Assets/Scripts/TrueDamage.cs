@@ -39,6 +39,7 @@ public class TrueDamage : Effect
                 }
                 GameObject indicator = Resources.Load<GameObject>("Indicator");
                 GameObject g = GameObject.Instantiate(indicator, f.transform);
+                g.GetComponent<Indicator>().FlyAway();
                 TMP_Text text = g.GetComponent<TMP_Text>();
                 text.color = new Color(1, 0, 0);
                 text.text = (int)(dmg) + "";

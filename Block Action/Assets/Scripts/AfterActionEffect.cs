@@ -6,11 +6,13 @@ public class AfterActionEffect : Effect
 {
     public int duration;
     public Effect effect;
+    public bool hasUser;
 
-    public AfterActionEffect(int duration, Effect effect)
+    public AfterActionEffect(int duration, Effect effect, bool hasUser)
     {
         this.duration = duration;
         this.effect = effect;
+        this.hasUser = hasUser;
     }
     public override void ActivateEffect(Fighter fighter)
     {
@@ -18,7 +20,7 @@ public class AfterActionEffect : Effect
         {
             if (!f.dead)
             {
-                AfterActionStatus status = new AfterActionStatus(duration, effect, f);
+                AfterActionStatus status = new AfterActionStatus(duration, effect, f, hasUser);
                 f.statusEffects.Add(status);
                 if (f.Equals(Player.player))
                 {

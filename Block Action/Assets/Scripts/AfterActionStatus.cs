@@ -7,12 +7,14 @@ public class AfterActionStatus : Status
 {
     public Effect afterActionEffect;
     public Fighter statusHolder;
+    public bool hasUser;
 
-    public AfterActionStatus(int duration, Effect e, Fighter fighter)
+    public AfterActionStatus(int duration, Effect e, Fighter fighter, bool hasUser)
     {
         numTurns = duration;
         afterActionEffect = e;
         statusHolder = fighter;
+        this.hasUser = hasUser;
     }
 
     public void ActivateInnerEffect()
@@ -52,7 +54,14 @@ public class AfterActionStatus : Status
                 afterActionEffect.targets.Add(Player.player);
             }
         }
-        afterActionEffect.ActivateEffect(null);
+        if (hasUser)
+        {
+            afterActionEffect.ActivateEffect(statusHolder);
+        }
+        else
+        {
+            afterActionEffect.ActivateEffect(null);
+        }
         afterActionEffect.targets.Clear();
     }
 

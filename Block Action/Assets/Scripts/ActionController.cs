@@ -91,10 +91,10 @@ public class ActionController : MonoBehaviour
             if (!Battle.finishedDead())
             {
                 Battle.b.bs = BattleState.EnemyAction;
+                ActionUserParticle.actionUserParticle.disable();
                 EnemyTurn();
                 Debug.Log("Enemy Turn");
             }
-            ActionUserParticle.actionUserParticle.disable();
         }
         else if (PersistentDataManager.levelNumber == 0)
         {
@@ -106,6 +106,7 @@ public class ActionController : MonoBehaviour
             effect.ActivateEffect(null);
             await Task.Delay(500);
             Battle.b.bs = BattleState.EnemyAction;
+            ActionUserParticle.actionUserParticle.disable();
             EnemyTurn();
         }
     }
@@ -132,6 +133,7 @@ public class ActionController : MonoBehaviour
         if (!Battle.finishedDead())
         {
             //reset soulblocks to original position
+            ActionUserParticle.actionUserParticle.disable();
             GridFitter.ResetSoulObjects();
             GimmickController.gimmickController.index = 0;
             Battle.b.bs = BattleState.StatusEffects;
@@ -150,6 +152,7 @@ public class ActionController : MonoBehaviour
     async static Task EnemySequence(Enemy e)
     {
         ActionUserParticle.actionUserParticle.setAction(e);
+        await Task.Delay(500);
         //randomly runs one of many preset attacks
         Random rand = new Random();
         int numAtk = getAttackCount(e);
@@ -198,8 +201,7 @@ public class ActionController : MonoBehaviour
         }
         TriggerAfterActionEffects(e);
         await Battle.UpdateDead();
-        await Task.Delay(750);
-        ActionUserParticle.actionUserParticle.disable();
+        await Task.Delay(500);
     }
 
     static int getAttackCount(Enemy e)

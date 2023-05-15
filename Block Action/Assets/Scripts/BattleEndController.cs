@@ -73,6 +73,7 @@ public class BattleEndController : MonoBehaviour
 
     public static void TriggerVictory()
     {
+        ActionUserParticle.actionUserParticle.disable();
         if (Battle.b.bs != BattleState.End)
         {
             battleEndController.victorious = true;
@@ -97,6 +98,7 @@ public class BattleEndController : MonoBehaviour
     //you win the level, but it doesn't feel like a victory - for scripted levels
     public static void TriggerEnd()
     {
+        ActionUserParticle.actionUserParticle.disable();
         battleEndController.victorious = true;
         Battle.b.bs = BattleState.End;
         ScreenDarkener.DarkenScreen();
@@ -117,6 +119,7 @@ public class BattleEndController : MonoBehaviour
 
     public static void TriggerDefeat()
     {
+        ActionUserParticle.actionUserParticle.disable();
         if (Battle.b.bs != BattleState.End)
         {
             battleEndController.victorious = false;

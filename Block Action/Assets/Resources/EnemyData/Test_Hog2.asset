@@ -10,22 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
-  m_Name: Test_Hog
+  m_Name: Test_Hog2
   m_EditorClassIdentifier: 
   enemyName: Hog_(Test)
-  defaultMaxHealth: 100
-  defaultStartingHealth: 100
+  defaultMaxHealth: 300
+  defaultStartingHealth: 300
   description: A test hog, for testing purposes.
   baseElement: 0
-  actionsPerTurn: 1
+  actionsPerTurn: 2
   maxStunCharge: 100
   actions:
   - 'All
 
-    scaled_effect action health user percentage 0 100 0.5 4.5 damage singletarget
-    10'
-  startingStatuses:
-  - unremovable after_damage no_user 1000 damage self 5
+    damage singletarget 20'
+  - 'Normal
+
+    buff enemies atk 0.2 3'
+  - 'Defensive
+
+    buff self def 0.5 3'
+  - 'Defensive
+
+    heal self 20'
+  - 'Normal
+
+    conditional health %< user 50 change_state self Defensive'
+  - 'Defensive
+
+    apply_repeating singletarget no_user 100 true_damage self 10'
+  - 'Defensive
+
+    conditional health %> user 50 change_state self Normal'
+  startingStatuses: []
   fadeOnDefeat: 1
   idle: {fileID: 1019089891, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   attack: {fileID: -1085413582, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}

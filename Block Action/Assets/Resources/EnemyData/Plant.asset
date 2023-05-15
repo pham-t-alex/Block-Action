@@ -22,14 +22,14 @@ MonoBehaviour:
   actions:
   - 'All
 
-    conditional element = user nature apply_when_hit self 3 damage singletarget
-    5'
+    conditional element = user nature apply_when_hit self no_user 3 damage
+    singletarget 3'
   - 'Normal
 
     conditional health %< user 70 change_state self Aggressive
 
     apply_when_hit
-    self 1000 damage singletarget 5
+    self no_user 1000 damage singletarget 5
 
     apply_element self nature 2'
   - 'Aggressive
@@ -48,7 +48,7 @@ MonoBehaviour:
     conditional element = user nature heal enemies
     10'
   startingStatuses:
-  - unremovable when_hit 1000 damage singletarget 5
+  - unremovable when_hit no_user 1000 damage singletarget 5
   fadeOnDefeat: 1
   idle: {fileID: 926237698, guid: d16876019b49e054fa7aad00127a9be6, type: 3}
   attack: {fileID: 389022227, guid: d16876019b49e054fa7aad00127a9be6, type: 3}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
-  m_Name: Level 3
+  m_Name: Level 5
   m_EditorClassIdentifier: 
   gridAsString: '~~~~~
 
@@ -18,25 +18,18 @@ MonoBehaviour:
 
     ~~~~~
 
+    ~~~~~
+
     ~~~~~'
   gridWidth: 5
-  gridHeight: 4
-  bgmName: darkforestbattletheme
+  gridHeight: 5
+  bgmName: regionalbattle
   background: Dark Forest
   enemyWaves:
-  - 'Lizard_Monster 0.5 0.5 1 0 1
-
-    Forest_Bear 0.5 0.5 1 0 3'
-  - 'Lizard_Monster 1 1 1 0 1
-
-    Forest_Bear 1 1 1 0 3
-
-    Lizard_Monster 1 1
-    1 0 1'
+  - Test_Hog 1 1 1 0 0
   midLevelEffects:
-  - wave 1 text New enemies appear!
-  - wave 2 add_block lizardMonster 0
-  - wave 2 add_block forestBear 0
-  firstClearRewards:
-  - lizardMonster
-  - forestBear
+  - wave 1 add_block block1 0
+  - wave 1 add_block block2 0
+  - wave 1 add_block block3 0
+  - wave 1 add_block block4 0
+  firstClearRewards: []

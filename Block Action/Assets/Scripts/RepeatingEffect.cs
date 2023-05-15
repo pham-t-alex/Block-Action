@@ -6,11 +6,13 @@ public class RepeatingEffect : Effect
 {
     public int duration;
     public Effect effect;
+    public bool hasUser;
 
-    public RepeatingEffect(int duration, Effect effect)
+    public RepeatingEffect(int duration, Effect effect, bool hasUser)
     {
         this.duration = duration;
         this.effect = effect;
+        this.hasUser = hasUser;
     }
     public override void ActivateEffect(Fighter fighter)
     {
@@ -18,7 +20,7 @@ public class RepeatingEffect : Effect
         {
             if (!f.dead)
             {
-                RepeatingEffectStatus status = new RepeatingEffectStatus(duration, effect, f);
+                RepeatingEffectStatus status = new RepeatingEffectStatus(duration, effect, f, hasUser);
                 f.statusEffects.Add(status);
                 if (f.Equals(Player.player))
                 {

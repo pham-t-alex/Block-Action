@@ -31,8 +31,8 @@ MonoBehaviour:
 
     stun self -50
 
-    apply_when_hit self 5 buff
-    self atk 0.3 3'
+    apply_when_hit self no_user
+    5 buff self atk 0.3 3'
   - 'All
 
     damage singletarget 12'

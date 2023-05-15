@@ -7,11 +7,13 @@ public class DelayedEffectStatus : Status
 {
     public Effect delayedEffect;
     public Fighter statusHolder;
-    public DelayedEffectStatus(int duration, Effect e, Fighter fighter)
+    public bool hasUser;
+    public DelayedEffectStatus(int duration, Effect e, Fighter fighter, bool hasUser)
     {
         numTurns = duration;
         delayedEffect = e;
         statusHolder = fighter;
+        this.hasUser = hasUser;
     }
 
     public override void decrementTurns()
@@ -54,7 +56,14 @@ public class DelayedEffectStatus : Status
                     delayedEffect.targets.Add(Player.player);
                 }
             }
-            delayedEffect.ActivateEffect(null);
+            if (hasUser)
+            {
+                delayedEffect.ActivateEffect(statusHolder);
+            }
+            else
+            {
+                delayedEffect.ActivateEffect(null);
+            }
             delayedEffect.targets.Clear();
         }
     }

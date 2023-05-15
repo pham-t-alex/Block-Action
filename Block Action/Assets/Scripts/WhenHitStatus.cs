@@ -7,12 +7,14 @@ public class WhenHitStatus : Status
 {
     public Effect whenHitEffect;
     public Fighter statusHolder;
+    public bool hasUser;
 
-    public WhenHitStatus(int duration, Effect e, Fighter fighter)
+    public WhenHitStatus(int duration, Effect e, Fighter fighter, bool hasUser)
     {
         numTurns = duration;
         whenHitEffect = e;
         statusHolder = fighter;
+        this.hasUser = hasUser;
     }
 
     public void ActivateInnerEffect()
@@ -52,7 +54,14 @@ public class WhenHitStatus : Status
                 whenHitEffect.targets.Add(Player.player);
             }
         }
-        whenHitEffect.ActivateEffect(null);
+        if (hasUser)
+        {
+            whenHitEffect.ActivateEffect(statusHolder);
+        }
+        else
+        {
+            whenHitEffect.ActivateEffect(null);
+        }
         whenHitEffect.targets.Clear();
     }
 

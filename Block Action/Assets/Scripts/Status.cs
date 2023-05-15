@@ -78,33 +78,68 @@ public abstract class Status
         }
         else if (statusData[1].Equals("delayed"))
         {
-            string[] nextEffectData = new string[statusData.Length - 3];
-            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
-            status = new DelayedEffectStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+            string[] nextEffectData = new string[statusData.Length - 4];
+            System.Array.Copy(statusData, 4, nextEffectData, 0, statusData.Length - 4);
+            if (statusData[2].Equals("user"))
+            {
+                status = new DelayedEffectStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, true);
+            }
+            else
+            {
+                status = new DelayedEffectStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, false);
+            }
         }
         else if (statusData[1].Equals("repeating"))
         {
-            string[] nextEffectData = new string[statusData.Length - 3];
-            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
-            status = new RepeatingEffectStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+            string[] nextEffectData = new string[statusData.Length - 4];
+            System.Array.Copy(statusData, 4, nextEffectData, 0, statusData.Length - 4);
+            if (statusData[2].Equals("user"))
+            {
+                status = new RepeatingEffectStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, true);
+            }
+            else
+            {
+                status = new RepeatingEffectStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, false);
+            }
         }
         else if (statusData[1].Equals("after_action"))
         {
-            string[] nextEffectData = new string[statusData.Length - 3];
-            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
-            status = new AfterActionStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+            string[] nextEffectData = new string[statusData.Length - 4];
+            System.Array.Copy(statusData, 4, nextEffectData, 0, statusData.Length - 4);
+            if (statusData[2].Equals("user"))
+            {
+                status = new AfterActionStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, true);
+            }
+            else
+            {
+                status = new AfterActionStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, false);
+            }
         }
         else if (statusData[1].Equals("after_damage"))
         {
-            string[] nextEffectData = new string[statusData.Length - 3];
-            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
-            status = new AfterDamageStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+            string[] nextEffectData = new string[statusData.Length - 4];
+            System.Array.Copy(statusData, 4, nextEffectData, 0, statusData.Length - 4);
+            if (statusData[2].Equals("user"))
+            {
+                status = new AfterDamageStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, true);
+            }
+            else
+            {
+                status = new AfterDamageStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, false);
+            }
         }
         else if (statusData[1].Equals("when_hit"))
         {
-            string[] nextEffectData = new string[statusData.Length - 3];
-            System.Array.Copy(statusData, 3, nextEffectData, 0, statusData.Length - 3);
-            status = new WhenHitStatus(System.Convert.ToInt32(statusData[2]), Effect.effectFromStringArray(nextEffectData), fighter);
+            string[] nextEffectData = new string[statusData.Length - 4];
+            System.Array.Copy(statusData, 4, nextEffectData, 0, statusData.Length - 4);
+            if (statusData[2].Equals("user"))
+            {
+                status = new WhenHitStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, true);
+            }
+            else
+            {
+                status = new WhenHitStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, false);
+            }
         }
         status.removable = removable;
         return status;
@@ -189,7 +224,7 @@ public abstract class Status
         else if (s is AfterDamageStatus)
         {
             AfterDamageStatus afterDamageStatus = (AfterDamageStatus)s;
-            statusString += "After-action effect (" + afterDamageStatus.numTurns + " turns): ";
+            statusString += "After-damage effect (" + afterDamageStatus.numTurns + " turns): ";
             if (afterDamageStatus.statusHolder == Player.player)
             {
                 statusString += Effect.effectToString(afterDamageStatus.afterDamageEffect, true);
@@ -202,7 +237,7 @@ public abstract class Status
         else if (s is WhenHitStatus)
         {
             WhenHitStatus whenHitStatus = (WhenHitStatus)s;
-            statusString += "After-action effect (" + whenHitStatus.numTurns + " turns): ";
+            statusString += "When-hit effect (" + whenHitStatus.numTurns + " turns): ";
             if (whenHitStatus.statusHolder == Player.player)
             {
                 statusString += Effect.effectToString(whenHitStatus.whenHitEffect, true);

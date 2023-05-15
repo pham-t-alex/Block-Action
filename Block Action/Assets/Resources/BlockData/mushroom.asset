@@ -23,5 +23,5 @@ MonoBehaviour:
   cooldown: 4
   isSoulBlock: 1
   effects:
-  - apply_delayed self 3 damage enemies 40
+  - apply_delayed self user 3 def_ignoring_damage enemies 40
   color: {r: 0.6, g: 0.2509804, b: 0.27058825, a: 1}

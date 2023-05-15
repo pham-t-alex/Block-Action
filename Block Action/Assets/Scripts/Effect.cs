@@ -28,6 +28,18 @@ public abstract class Effect
             effect = new ConditionalEffect(effectFromStringArray(nextEffectData), c);
             return effect;
         }
+        if (effectData[0].Equals("scaled_effect"))
+        {
+            Scale s = Scale.scaleFromData(effectData[2], effectData[3], effectData[4], (float) System.Convert.ToDouble(effectData[5]), (float)System.Convert.ToDouble(effectData[6]), (float)System.Convert.ToDouble(effectData[7]), (float)System.Convert.ToDouble(effectData[8]));
+            if (effectData[1].Equals("action"))
+            {
+                //Note: example scaled effect: "scaled_effect action health user percentage 0 100 1 4 [effect]"
+                string[] nextEffectData = new string[effectData.Length - 9];
+                System.Array.Copy(effectData, 9, nextEffectData, 0, effectData.Length - 9);
+                effect = new ScalingActionEffect(effectFromStringArray(nextEffectData), s);
+            }
+            return effect;
+        }
         if (effectData[0].Equals("damage"))
         {
             effect = new Damage(System.Convert.ToInt32(effectData[2]));
@@ -57,15 +69,29 @@ public abstract class Effect
         }
         else if (effectData[0].Equals("apply_delayed"))
         {
-            string[] nextEffectData = new string[effectData.Length - 3];
-            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
-            effect = new DelayedEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+            string[] nextEffectData = new string[effectData.Length - 4];
+            System.Array.Copy(effectData, 4, nextEffectData, 0, effectData.Length - 4);
+            if (effectData[2].Equals("user"))
+            {
+                effect = new DelayedEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), true);
+            }
+            else
+            {
+                effect = new DelayedEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), false);
+            }
         }
         else if (effectData[0].Equals("apply_repeating"))
         {
-            string[] nextEffectData = new string[effectData.Length - 3];
-            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
-            effect = new RepeatingEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+            string[] nextEffectData = new string[effectData.Length - 4];
+            System.Array.Copy(effectData, 4, nextEffectData, 0, effectData.Length - 4);
+            if (effectData[2].Equals("user"))
+            {
+                effect = new RepeatingEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), true);
+            }
+            else
+            {
+                effect = new RepeatingEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), false);
+            }
         }
         else if (effectData[0].Equals("stun"))
         {
@@ -73,21 +99,42 @@ public abstract class Effect
         }
         else if (effectData[0].Equals("apply_after_action"))
         {
-            string[] nextEffectData = new string[effectData.Length - 3];
-            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
-            effect = new AfterActionEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+            string[] nextEffectData = new string[effectData.Length - 4];
+            System.Array.Copy(effectData, 4, nextEffectData, 0, effectData.Length - 4);
+            if (effectData[2].Equals("user"))
+            {
+                effect = new AfterActionEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), true);
+            }
+            else
+            {
+                effect = new AfterActionEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), false);
+            }
         }
         else if (effectData[0].Equals("apply_after_damage"))
         {
-            string[] nextEffectData = new string[effectData.Length - 3];
-            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
-            effect = new AfterDamageEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+            string[] nextEffectData = new string[effectData.Length - 4];
+            System.Array.Copy(effectData, 4, nextEffectData, 0, effectData.Length - 4);
+            if (effectData[2].Equals("user"))
+            {
+                effect = new AfterDamageEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), true);
+            }
+            else
+            {
+                effect = new AfterDamageEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), false);
+            }
         }
         else if (effectData[0].Equals("apply_when_hit"))
         {
-            string[] nextEffectData = new string[effectData.Length - 3];
-            System.Array.Copy(effectData, 3, nextEffectData, 0, effectData.Length - 3);
-            effect = new WhenHitEffect(System.Convert.ToInt32(effectData[2]), effectFromStringArray(nextEffectData));
+            string[] nextEffectData = new string[effectData.Length - 4];
+            System.Array.Copy(effectData, 4, nextEffectData, 0, effectData.Length - 4);
+            if (effectData[2].Equals("user"))
+            {
+                effect = new WhenHitEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), true);
+            }
+            else
+            {
+                effect = new WhenHitEffect(System.Convert.ToInt32(effectData[3]), effectFromStringArray(nextEffectData), false);
+            }
         }
         else if (effectData[0].Equals("change_state"))
         {
@@ -456,6 +503,13 @@ public abstract class Effect
         {
             effectString = ((ConditionalEffect)e).condition.ToString();
             effectString += effectToString(((ConditionalEffect)e).effect, forBlock);
+        }
+        else if (e is ScalingActionEffect)
+        {
+            effectString = effectToString(((ScalingActionEffect)e).effect, forBlock);
+            effectString += " (scaled by ";
+            effectString += ((ScalingActionEffect)e).scale.ToString();
+            effectString += ")";
         }
         else if (e is ElementalApplicationEffect)
         {
@@ -881,6 +935,10 @@ public abstract class Effect
         else if (e is ConditionalEffect)
         {
             return GetQuality(((ConditionalEffect)e).effect, isPlayer);
+        }
+        else if (e is ScalingActionEffect)
+        {
+            return GetQuality(((ScalingActionEffect)e).effect, isPlayer);
         }
         else
         {
