@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Plant
   m_EditorClassIdentifier: 
   enemyName: Plant
-  defaultMaxHealth: 200
-  defaultStartingHealth: 200
+  defaultMaxHealth: 150
+  defaultStartingHealth: 150
   description: 
   baseElement: 3
   actionsPerTurn: 1

@@ -24,7 +24,6 @@ MonoBehaviour:
   isSoulBlock: 1
   effects:
   - damage singletarget 40
-  - conditional health %< user target apply_repeating enemies no_user 3 damage self
-    5
   - apply_element singletarget fire 3
+  - apply_heal_block singletarget 3
   color: {r: 1, g: 0, b: 0, a: 1}

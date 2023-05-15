@@ -167,6 +167,10 @@ public abstract class Effect
                 effect = new ElementalApplicationEffect(Element.Elements.ELEMENTLESS, System.Convert.ToInt32(effectData[3]));
             }
         }
+        else if (effectData[0].Equals("apply_heal_block"))
+        {
+            effect = new HealBlockEffect(System.Convert.ToInt32(effectData[2]));
+        }
         if (effectData[1].Equals("self"))
         {
             effect.targetType = TargetType.Self;
@@ -550,6 +554,29 @@ public abstract class Effect
                 }
             }
         }
+        else if (e is HealBlockEffect)
+        {
+            effectString = $"Apply heal block ({((HealBlockEffect)e).numTurns} turns) to ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
+        }
         else
         {
             return null;
@@ -559,7 +586,7 @@ public abstract class Effect
 
     public static Quality GetQuality(Effect e, bool isPlayer)
     {
-        if (e is Damage || e is TrueDamage || e is DefIgnoringDamage || e is BuffRemovalEffect)
+        if (e is Damage || e is TrueDamage || e is DefIgnoringDamage || e is BuffRemovalEffect || e is StunEffect || e is HealBlockEffect)
         {
             if (isPlayer)
             {
@@ -830,31 +857,6 @@ public abstract class Effect
                         return Quality.Good;
                     }
                     return Quality.Neutral;
-                }
-            }
-        }
-        else if (e is StunEffect)
-        {
-            if (isPlayer)
-            {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.SingleTarget)
-                {
-                    return Quality.Good;
-                }
-                else
-                {
-                    return Quality.Bad;
-                }
-            }
-            else
-            {
-                if (e.targetType == TargetType.SingleTarget)
-                {
-                    return Quality.Good;
-                }
-                else
-                {
-                    return Quality.Bad;
                 }
             }
         }

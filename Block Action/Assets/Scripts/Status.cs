@@ -141,6 +141,10 @@ public abstract class Status
                 status = new WhenHitStatus(System.Convert.ToInt32(statusData[3]), Effect.effectFromStringArray(nextEffectData), fighter, false);
             }
         }
+        else if (statusData[1].Equals("heal_block"))
+        {
+            status = new HealBlockStatus(System.Convert.ToInt32(statusData[2]));
+        }
         status.removable = removable;
         return status;
     }
@@ -246,6 +250,11 @@ public abstract class Status
             {
                 statusString += Effect.effectToString(whenHitStatus.whenHitEffect, false);
             }
+        }
+        else if (s is HealBlockStatus)
+        {
+            HealBlockStatus healBlockStatus = (HealBlockStatus)s;
+            statusString += $"Heal block ({healBlockStatus.numTurns} turns)";
         }
         return statusString;
     }

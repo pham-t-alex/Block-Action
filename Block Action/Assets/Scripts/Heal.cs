@@ -19,6 +19,19 @@ public class Heal : Effect
         {
             if (!f.dead)
             {
+                bool blocked = false;
+                foreach (Status s in f.statusEffects)
+                {
+                    if (s is HealBlockStatus)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                }
+                if (blocked)
+                {
+                    continue;
+                }
                 GameObject healParticles = GameObject.Instantiate(Resources.Load<GameObject>("HealParticles"), f.transform.position, Quaternion.identity);
                 healParticles.transform.position -= new Vector3(0, f.GetComponent<SpriteRenderer>().bounds.size.y / 2);
                 ParticleSystem.ShapeModule sm = healParticles.GetComponent<ParticleSystem>().shape;

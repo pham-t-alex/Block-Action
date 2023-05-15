@@ -33,5 +33,6 @@ MonoBehaviour:
     Plant 1 1 1 0 4'
   midLevelEffects:
   - wave 1 text Be wary of these plants...
+  - wave 1 add_block block1 0
   firstClearRewards:
   - plant
