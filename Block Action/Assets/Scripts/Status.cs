@@ -145,6 +145,14 @@ public abstract class Status
         {
             status = new HealBlockStatus(System.Convert.ToInt32(statusData[2]));
         }
+        else if (statusData[1].Equals("life_steal"))
+        {
+            status = new LifeStealStatus(System.Convert.ToInt32(statusData[3]), (float)System.Convert.ToDouble(statusData[2]));
+        }
+        else if (statusData[1].Equals("taunt"))
+        {
+            status = new TauntStatus(System.Convert.ToInt32(statusData[2]), fighter);
+        }
         status.removable = removable;
         return status;
     }
@@ -255,6 +263,16 @@ public abstract class Status
         {
             HealBlockStatus healBlockStatus = (HealBlockStatus)s;
             statusString += $"Heal block ({healBlockStatus.numTurns} turns)";
+        }
+        else if (s is LifeStealStatus)
+        {
+            LifeStealStatus lifeStealStatus = (LifeStealStatus)s;
+            statusString += $"Life steal ({lifeStealStatus.scale}x, {lifeStealStatus.numTurns} turns)";
+        }
+        else if (s is TauntStatus)
+        {
+            TauntStatus taunt = (TauntStatus)s;
+            statusString += $"Taunt ({taunt.numTurns} turns)";
         }
         return statusString;
     }

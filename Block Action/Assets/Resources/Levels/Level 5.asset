@@ -26,7 +26,11 @@ MonoBehaviour:
   bgmName: regionalbattle
   background: Dark Forest
   enemyWaves:
-  - Test_Hog 1 1 1 0 0
+  - 'Lizard_Monster 1 1 1 0 1
+
+    Test_Hog 1 1 1 0 1
+
+    Test_Hog 1 1 1 0 1'
   midLevelEffects:
   - wave 1 add_block block1 0
   - wave 1 add_block block2 0

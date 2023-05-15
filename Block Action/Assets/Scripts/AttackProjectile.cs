@@ -58,6 +58,7 @@ public class AttackProjectile : MonoBehaviour
             if (user != null)
             {
                 ActionController.TriggerWhenHitEffects(target);
+                ActionController.TriggerLifeStealEffects(user, damage);
             }
             Destroy(gameObject);
         }

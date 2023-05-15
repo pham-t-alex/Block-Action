@@ -250,4 +250,17 @@ public class ActionController : MonoBehaviour
             }
         }
     }
+
+    public static void TriggerLifeStealEffects(Fighter f, int damage)
+    {
+        for (int i = 0; i < f.statusEffects.Count; i++)
+        {
+            if (f.statusEffects[i] is LifeStealStatus)
+            {
+                Heal h = new(damage * ((LifeStealStatus)f.statusEffects[i]).scale);
+                h.targets.Add(f);
+                h.ActivateEffect(null);
+            }
+        }
+    }
 }

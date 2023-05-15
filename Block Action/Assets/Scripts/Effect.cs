@@ -171,6 +171,15 @@ public abstract class Effect
         {
             effect = new HealBlockEffect(System.Convert.ToInt32(effectData[2]));
         }
+        else if (effectData[0].Equals("apply_life_steal"))
+        {
+            //e.g. apply_life_steal self 0.5 3
+            effect = new LifeStealEffect(System.Convert.ToInt32(effectData[3]), (float)System.Convert.ToDouble(effectData[2]));
+        }
+        else if (effectData[0].Equals("apply_taunt"))
+        {
+            effect = new TauntEffect(System.Convert.ToInt32(effectData[2]));
+        }
         if (effectData[1].Equals("self"))
         {
             effect.targetType = TargetType.Self;
@@ -577,6 +586,52 @@ public abstract class Effect
                 }
             }
         }
+        else if (e is LifeStealEffect)
+        {
+            effectString = $"Apply life steal ({((LifeStealEffect)e).scale}x, {((LifeStealEffect)e).duration} turns) to ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
+        }
+        else if (e is TauntEffect)
+        {
+            effectString = $"Apply taunt ({((TauntEffect)e).duration} turns) to ";
+            if (e.targetType == TargetType.Self)
+            {
+                effectString += "self";
+            }
+            else if (e.targetType == TargetType.AllEnemies)
+            {
+                effectString += "all enemies";
+            }
+            else if (e.targetType == TargetType.SingleTarget)
+            {
+                if (forBlock)
+                {
+                    effectString += "an enemy";
+                }
+                else
+                {
+                    effectString += "the player";
+                }
+            }
+        }
         else
         {
             return null;
@@ -611,7 +666,7 @@ public abstract class Effect
                 }
             }
         }
-        else if (e is Heal || e is DebuffRemovalEffect)
+        else if (e is Heal || e is DebuffRemovalEffect || e is LifeStealEffect)
         {
             if (isPlayer)
             {
@@ -930,7 +985,7 @@ public abstract class Effect
                 }
             }
         }
-        else if (e is StateChangeEffect)
+        else if (e is StateChangeEffect || e is TauntEffect)
         {
             return Quality.Neutral;
         }

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Test_Hog
   m_EditorClassIdentifier: 
   enemyName: Hog_(Test)
-  defaultMaxHealth: 100
-  defaultStartingHealth: 100
+  defaultMaxHealth: 200
+  defaultStartingHealth: 200
   description: A test hog, for testing purposes.
   baseElement: 0
   actionsPerTurn: 1
@@ -23,9 +23,12 @@ MonoBehaviour:
   - 'All
 
     scaled_effect action health user percentage 0 100 0.5 4.5 damage singletarget
-    10'
+    4'
+  - 'All
+
+    apply_taunt self 2'
   startingStatuses:
-  - unremovable after_damage no_user 1000 damage self 5
+  - unremovable after_damage no_user 1000 damage self 2
   fadeOnDefeat: 1
   idle: {fileID: 1019089891, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   attack: {fileID: -1085413582, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}

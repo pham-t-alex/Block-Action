@@ -36,7 +36,7 @@ public class GridFitter : MonoBehaviour
     public float bottomOffset; //space between the blocks and the bottom, in units
     public float rightOffset; //space between blocks and the grid in units
     public float scale; //default 1 (1x), can be modified to make blocks and grid bigger or smaller
-
+    public bool enemyTaunting = false;
 
     void Start()
     {
@@ -226,6 +226,14 @@ public class GridFitter : MonoBehaviour
             {
                 if (e.targetType == TargetType.SingleTarget)
                 {
+                    foreach (Enemy enemy in Battle.b.enemies)
+                    {
+                        if (enemy.taunting)
+                        {
+                            gridFitter.enemyTaunting = true;
+                            break;
+                        }
+                    }
                     Battle.b.bs = BattleState.EnemySelect;
                     break;
                 }
@@ -330,7 +338,7 @@ public class GridFitter : MonoBehaviour
         bool touchingEnemy = false;
         foreach (Enemy enemy in Battle.b.enemies)
         {
-            if (enemy.mouseTouching)
+            if (!enemy.dead && enemy.mouseTouching && (!gridFitter.enemyTaunting || enemy.taunting))
             {
                 touchingEnemy = true;
                 if (Input.GetMouseButtonDown(0))
@@ -344,6 +352,7 @@ public class GridFitter : MonoBehaviour
                     }
                     selectedSoulObject = null;
                     BlockInfoMenuHandler.InfoMenuHandler.Remove();
+                    gridFitter.enemyTaunting = false;
                     Battle.b.bs = BattleState.PlayerGrid;
                     //if mouse is touching an enemy and the player clicks, then add that enemy to the selected soul object's target list
                     //unselect the soul object, return to grid fitting phase

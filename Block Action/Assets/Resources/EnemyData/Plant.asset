@@ -28,10 +28,11 @@ MonoBehaviour:
 
     conditional health %< user 70 change_state self Aggressive
 
-    apply_when_hit
-    self no_user 1000 damage singletarget 5
+    conditional
+    health %< user 70 apply_when_hit self no_user 1000 damage singletarget 5
 
-    apply_element self nature 2'
+    conditional
+    health %< user 70 apply_element self nature 2'
   - 'Aggressive
 
     damage singletarget 15'

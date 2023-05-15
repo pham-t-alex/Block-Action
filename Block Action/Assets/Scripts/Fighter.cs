@@ -130,6 +130,10 @@ public abstract class Fighter : MonoBehaviour
 
     public async Task Fade()
     {
+        if (this is Enemy e)
+        {
+            e.taunting = false;
+        }
         buff = 0;
         defenseBuff = 0;
         statusEffects.Clear();

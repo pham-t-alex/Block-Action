@@ -81,6 +81,7 @@ public class GimmickController : MonoBehaviour
             }
         }
         gimmickController.index = 0;
+        GridFitter.gridFitter.enemyTaunting = false;
         Battle.b.bs = BattleState.PlayerGrid;
         BottomDarkener.UndarkenBottom();
         Debug.Log("Grid Fitting");

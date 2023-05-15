@@ -125,6 +125,7 @@ public class FighterController : MonoBehaviour
             enemy.setUnique("Enemy" + enemyCount);
             enemy.actionSets = new Dictionary<string, List<Action>>();
             enemy.buff = 1.0;
+            enemy.taunting = false;
             enemy.defenseBuff = 1.0;
             enemy.statusEffects = new List<Status>();
             int lower = System.Convert.ToInt32(enemyInfo[4]);

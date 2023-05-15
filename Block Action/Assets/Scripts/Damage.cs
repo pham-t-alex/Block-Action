@@ -66,6 +66,7 @@ public class Damage : Effect
                 if (fighter != null)
                 {
                     ActionController.TriggerWhenHitEffects(f);
+                    ActionController.TriggerLifeStealEffects(fighter, damageDealt);
                 }
             }
         }

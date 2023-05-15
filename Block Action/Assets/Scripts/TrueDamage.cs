@@ -58,6 +58,7 @@ public class TrueDamage : Effect
                 if (fighter != null)
                 {
                     ActionController.TriggerWhenHitEffects(f);
+                    ActionController.TriggerLifeStealEffects(fighter, (int)dmg);
                 }
             }
         }
