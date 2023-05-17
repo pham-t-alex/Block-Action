@@ -51,7 +51,8 @@ End of Dialogue.
 */
 
 #bgm=darkforesttheme
-Huff huff (I can't run anymore!!!) #speaker=Protagonist
+#move=1Protagonist #sprite=Enemy,lost_hog_hunter_shades_0 #move=4Enemy #enter=Protagonist #enter=Enemy
+Huff huff (I can't run anymore!!!) #speaker=Protagonist 
 No! I don't want to die! #speaker=Protagonist
-This is getting hard to look at. #speaker=???
+This is getting hard to look at. #speaker=Guiding Soul
 If you don't want to die then you better listen! Take this lantern! #speaker=???
