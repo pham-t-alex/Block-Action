@@ -51,7 +51,6 @@ Ex. #sprite=GuidanceSoul=FProtagSheet_0
 
 */
 
-/*
 Test Dialogue
 All methods to perform the following actions can be found in the "DialogueTest" dialogue ink file in the dialogue folder.
 Just type in a seperate line to create a line of dialogue.
@@ -66,6 +65,3 @@ Shifting enemy character back to Location4... #move=4Enemy
 Bringing out the protagonist character... #exit=Protagonist
 Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
-*/
-
-ow that hurt #speaker=Protagonist

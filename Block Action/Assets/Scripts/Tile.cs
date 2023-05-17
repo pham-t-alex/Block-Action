@@ -10,7 +10,9 @@ public class Tile : MonoBehaviour
     public bool framed;
     //If not locked, = 0
     public int lockDuration;
+    public int maxDuration;
     // Start is called before the first frame update
+    public GameObject tileLock;
     public bool locked
     {
         get
@@ -27,6 +29,8 @@ public class Tile : MonoBehaviour
         filled = false;
         framed = false;
         lockDuration = 0;
+        maxDuration = 0;
+        tileLock = null;
     }
 
     // Update is called once per frame
@@ -46,9 +50,23 @@ public class Tile : MonoBehaviour
 
     public void lockTile(int duration)
     {
-        GridFitter.gridFitter.grid.lockedTiles.Add(gameObject);
-        lockDuration += duration;
-        GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f);
+        if (lockDuration <= 0)
+        {
+            maxDuration = duration;
+            lockDuration = duration;
+            GridFitter.gridFitter.grid.lockedTiles.Add(gameObject);
+            tileLock = Instantiate(Resources.Load<GameObject>("TileLock"));
+            tileLock.transform.position = transform.position;
+            GetComponent<SpriteRenderer>().color = new Color(82f/255, 96f/255, 82f/255);
+        }
+        else
+        {
+            if (duration > lockDuration)
+            {
+                maxDuration = duration;
+                lockDuration = duration;
+            }
+        }
     }
 
     public void decrementLock()
@@ -56,10 +74,13 @@ public class Tile : MonoBehaviour
         if (lockDuration > 0)
         {
             lockDuration--;
+            GetComponent<SpriteRenderer>().color = new Color((36f + ((maxDuration - lockDuration) / (float)maxDuration) * (255-36))/255, (45f + ((maxDuration - lockDuration) / (float)maxDuration) * (255 - 45)) /255, (36f + ((maxDuration - lockDuration) / (float)maxDuration) * (255 - 36)) /255);
         }
         if (lockDuration <= 0)
         {
             lockDuration = 0;
+            Destroy(tileLock);
+            tileLock = null;
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
         }
     }

@@ -92,6 +92,18 @@ public abstract class Scale
         {
             scale = new HealthScale(t, c, min, max, minScale, maxScale);
         }
+        else if (subclass.Equals("fire"))
+        {
+            scale = new FireScale(t, c, min, max, minScale, maxScale);
+        }
+        else if (subclass.Equals("water"))
+        {
+            scale = new WaterScale(t, c, min, max, minScale, maxScale);
+        }
+        else if (subclass.Equals("nature"))
+        {
+            scale = new NatureScale(t, c, min, max, minScale, maxScale);
+        }
         return scale;
     }
 

@@ -26,7 +26,7 @@ MonoBehaviour:
     4'
   - 'All
 
-    apply_taunt self 2'
+    lock_tiles 2 4'
   startingStatuses:
   - unremovable after_damage no_user 1000 damage self 2
   fadeOnDefeat: 1

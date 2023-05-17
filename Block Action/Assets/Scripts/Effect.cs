@@ -58,6 +58,12 @@ public abstract class Effect
             }
             return effect;
         }
+        if (effectData[0].Equals("lock_tiles"))
+        {
+            effect = new GridLockingEffect(System.Convert.ToInt32(effectData[1]), System.Convert.ToInt32(effectData[2]));
+            effect.targetType = TargetType.Self;
+            return effect;
+        }
         if (effectData[0].Equals("damage"))
         {
             effect = new Damage(System.Convert.ToInt32(effectData[2]));
@@ -677,6 +683,10 @@ public abstract class Effect
                 effectString += $"{buffEffect.buffOrDuration * 100}% for a duration scaled by {buffEffect.scale.ToString()}";
             }
         }
+        else if (e is GridLockingEffect)
+        {
+            effectString = $"Lock {((GridLockingEffect)e).count} tiles for {((GridLockingEffect)e).duration} turns";
+        }
         else
         {
             return null;
@@ -1041,6 +1051,17 @@ public abstract class Effect
         else if (e is ScalingActionEffect)
         {
             return GetQuality(((ScalingActionEffect)e).effect, isPlayer);
+        }
+        else if (e is GridLockingEffect)
+        {
+            if (isPlayer)
+            {
+                return Quality.Bad;
+            }
+            else
+            {
+                return Quality.Good;
+            }
         }
         else
         {

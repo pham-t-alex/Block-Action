@@ -96,6 +96,7 @@ public class DialogueHandler : MonoBehaviour
             if (PersistentDataManager.storyState == 1)
             {
                 inkJSON = Resources.Load<TextAsset>($"Dialogue/Level{PersistentDataManager.levelNumber}-Pre");
+                //inkJSON = Resources.Load<TextAsset>($"Dialogue/Test");
                 if (inkJSON == null)
                 {
                     PersistentDataManager.storyState = 0;
