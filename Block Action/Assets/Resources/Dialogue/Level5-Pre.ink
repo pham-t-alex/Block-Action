@@ -1,28 +1,22 @@
-﻿#move=1Protagonist #enter=Protagonist #sprite=Enemy,guidancesoul #move=4Enemy #enter=Enemy
-In a small clearing ahead, the tree stood, imposing as they had expected. #speaker=Narrator
-That’s the tree, right? The one controlling the monsters? #speaker=Protagonist
-We’re here. No mistaking it. Look up. #speaker=Guiding Soul
-Alright, hello? Tree, or... #speaker=Protagonist
-What’s his...?
-I don't really think he has a name... #speaker=Guiding Soul
-Ah, then- #speaker=Protagonist
+﻿#move=1Protagonist #enter=Protagonist #sprite=Enemy,guidancesoul #move=4Enemy
+<i>cough</i> #speaker=Protagonist
+ahhgahh..! How do you run so fast? That's what you get for rushing! #enter=Enemy #speaker=Guiding Soul
+No... <i>wheeze</i> not... that... #speaker=Protagonist
+Huh? What's going on? #speaker=Guiding Soul
+ougghk- I... can't... #speaker=Protagonist
+The fog is suffocating you. Hold on, let me try something... #speaker=Guiding Soul
 #bgm=null
-<size=250>SILENCE.</size> #speaker=Big Tree
-The protag and soul freeze. #speaker=Narrator
-This miasma, you have noticed it, yes? #speaker=Big Tree
-We are aware. We thought- #speaker=Guiding Soul
-#bgm=dangertheme
-And you are aware of its purpose? #speaker=Big Tree
-...uhhh... #speaker=Protagonist
-Your kind ravaged these lands for decades. Always taking, never contributing. #speaker=Big Tree
-Even now, we are still trying to recover.
-Humans... they wish for complete control over every aspect of life.
-This unnatural affliction… a blight on our very existence.
-I assume this is another one of your kind's plots.
-No, that wasn’t us. We were trying to... #speaker=Protagonist
-Then, who is that next to you? Are you trying to say he’s not one of them? #speaker=Big Tree
-#bgm=regionalbattle
-I cannot take any more chances. #speaker=Big Tree
-As the forest’s heart, I call upon the remaining beasts to aid in removing this scourge.
-I don’t think he’s much of a listener. Are you ready? #speaker=Guiding Soul
-As ready as I'll ever be. #speaker=Protagonist
+Ahhhhhhh... #speaker=Protagonist
+Are you all right? #speaker=Guiding Soul
+Better now, thanks. #speaker=Protagonist
+Deep breaths, take your time. This is no ordinary fog---it must be the Big Tree's doing. #speaker=Guiding Soul
+The Big Tree... I think I've seen it from the city before. #speaker=Protagonist
+Of course. It towers over the entire forest, and you can see it from miles away. #speaker=Guiding Soul
+Well, which way is it from here? #speaker=Protagonist
+If I were you, I would climb to the top of the forest and look around. As a soul, though, I can feel its energy from that direction. It’s the most powerful soul in the forest. #speaker=Guiding Soul
+Wow... really? #speaker=Protagonist
+Yeah, there's nothing around here that really comes close to the amount of pure energy contained in that tree. #speaker=Guiding Soul
+That being said though, I can feel the presence of corrupted souls nearby.
+#bgm=darkforestbattletheme
+Ah--- #speaker=Protagonist
+They're all around us, be careful! #speaker=Guiding Soul

@@ -1,3 +1,4 @@
+#bgm=titletheme
 On a small slice of the world, a throne stood vacant for a long, long time. Is there anything more pointless than a vacant throne?
 
 Borders were drawn and crossed, elongated and perforated. No corner of the once peaceful land was safe.

@@ -51,7 +51,7 @@ End of Dialogue.
 */
 #bgm=null
 #move=1Protagonist #sprite=Enemy,guidancesoul #move=4Enemy #enter=Protagonist #enter=Enemy
-Wow, good job on not dying! We're not out of the woods just yet, but you're pretty good at using the lantern, so there's still a chance. #speaker=???
+Wow, good job on not dying! We're not out of the woods just yet, but you're pretty good at using the lantern, so there's still a chance. #speaker=Guiding Soul
 ... what in the world... #speaker=Protagonist
-Yeah, even if we get out of here, there's even more monsters out there... #speaker=???
+Yeah, even if we get out of here, there's even more monsters out there... #speaker=Guiding Soul
 Nice meeting you, let's go get more soul blocks. The more we have the stronger we'll be. Let's go!

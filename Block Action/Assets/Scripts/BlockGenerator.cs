@@ -30,9 +30,12 @@ public class BlockGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (string soulObjectName in PersistentDataManager.playerBlockInventory)
+        if (PersistentDataManager.levelNumber > 0)
         {
-            Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>($"BlockData/{soulObjectName}")));
+            foreach (string soulObjectName in PersistentDataManager.playerBlockInventory)
+            {
+                Battle.b.soulObjects.Add(generateSoulObject(Resources.Load<SoulObjectData>($"BlockData/{soulObjectName}")));
+            }
         }
     }
 
