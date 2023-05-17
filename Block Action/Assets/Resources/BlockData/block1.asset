@@ -27,3 +27,4 @@ MonoBehaviour:
   - apply_element singletarget fire 3
   - apply_heal_block singletarget 3
   color: {r: 1, g: 0, b: 0, a: 1}
+  altBlock: block2

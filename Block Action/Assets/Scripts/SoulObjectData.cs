@@ -19,4 +19,6 @@ public class SoulObjectData : ScriptableObject
     public List<string> effects;
 
     public Color color;
+
+    public string altBlock;
 }

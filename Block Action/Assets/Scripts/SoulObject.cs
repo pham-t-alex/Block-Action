@@ -45,6 +45,7 @@ public class SoulObject : MonoBehaviour
 
     public Vector3 startPosition;
 
+    public string altBlock;
     // Start is called before the first frame update
     void Start()
     {

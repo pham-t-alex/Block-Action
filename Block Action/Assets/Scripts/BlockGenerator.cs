@@ -147,6 +147,7 @@ public class BlockGenerator : MonoBehaviour
         soulObject.soulName = soulObjectData.soulName;
         soulObject.description = soulObjectData.description;
         soulObject.element = soulObjectData.element;
+        soulObject.altBlock = soulObjectData.altBlock;
 
         List<GameObject> effectIcons = new List<GameObject>();
 

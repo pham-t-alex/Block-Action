@@ -10,22 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7cf92abb5e2971429f53ccd1317873b, type: 3}
-  m_Name: block4
+  m_Name: guidingSoul5
   m_EditorClassIdentifier: 
-  soulName: block4
-  description: Heal and Buff Test Block
-  shapeAsString: '~00
+  soulName: Guiding_Soul
+  description: A supportive soul. Not very good at combat, but useful as a guide.
+  shapeAsString: '~~
 
-    ~0~'
-  width: 3
+    ~~'
+  width: 2
   height: 2
-  element: 3
-  cooldown: 2
+  element: 0
+  cooldown: 100
   isSoulBlock: 1
   effects:
-  - heal self 20
-  - buff self atk 0.2 3
-  - apply_element singletarget nature 3
-  - conditional element = target nature stun enemies 100
-  color: {r: 0, g: 1, b: 0.025494576, a: 1}
-  altBlock: block1
+  - damage singletarget 100
+  color: {r: 0.8666667, g: 0.8, b: 0.5372549, a: 1}
+  altBlock: guidingSoul3

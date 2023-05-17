@@ -38,6 +38,24 @@ public abstract class Effect
                 System.Array.Copy(effectData, 9, nextEffectData, 0, effectData.Length - 9);
                 effect = new ScalingActionEffect(effectFromStringArray(nextEffectData), s);
             }
+            else if (effectData[1].Equals("buff"))
+            {
+                //Note: example scaled effect: "scaled_effect buff health user percentage 0 100 1 4 [targetType] atk length 0.2" - 0.2 being othervalue
+                effect = new ScalingBuffEffect(s, effectData[10], effectData[11], System.Convert.ToDouble(effectData[12]));
+                Debug.Log(effectData[11]);
+                if (effectData[9].Equals("self"))
+                {
+                    effect.targetType = TargetType.Self;
+                }
+                else if (effectData[9].Equals("enemies"))
+                {
+                    effect.targetType = TargetType.AllEnemies;
+                }
+                else if (effectData[9].Equals("singletarget"))
+                {
+                    effect.targetType = TargetType.SingleTarget;
+                }
+            }
             return effect;
         }
         if (effectData[0].Equals("damage"))
@@ -520,7 +538,7 @@ public abstract class Effect
         else if (e is ScalingActionEffect)
         {
             effectString = effectToString(((ScalingActionEffect)e).effect, forBlock);
-            effectString += " (scaled by ";
+            effectString += " (# occurrences scaled by ";
             effectString += ((ScalingActionEffect)e).scale.ToString();
             effectString += ")";
         }
@@ -630,6 +648,33 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+        }
+        else if (e is ScalingBuffEffect)
+        {
+            ScalingBuffEffect buffEffect = (ScalingBuffEffect)e;
+            effectString = $"Apply ";
+            if (buffEffect.buffType == ScalingBuffEffect.BuffType.Def)
+            {
+                effectString += "def modifier";
+            }
+            else
+            {
+                effectString += "atk modifier";
+            }
+            if (buffEffect.scaleType == ScalingBuffEffect.ScaleType.Strength)
+            {
+                effectString += ", scaled by " + buffEffect.scale.ToString();
+                effectString += $" ({buffEffect.buffOrDuration} turns)";
+            }
+            else
+            {
+                effectString += " of ";
+                if (buffEffect.buffOrDuration > 0)
+                {
+                    effectString += "+";
+                }
+                effectString += $"{buffEffect.buffOrDuration * 100}% for a duration scaled by {buffEffect.scale.ToString()}";
             }
         }
         else
@@ -985,7 +1030,7 @@ public abstract class Effect
                 }
             }
         }
-        else if (e is StateChangeEffect || e is TauntEffect)
+        else if (e is StateChangeEffect || e is TauntEffect || e is ScalingBuffEffect) //got lazy on Scaling Buff Effect
         {
             return Quality.Neutral;
         }

@@ -29,3 +29,4 @@ MonoBehaviour:
   - damage enemies 20
   - damage enemies 20
   color: {r: 1, g: 0.47788578, b: 0, a: 1}
+  altBlock: block4

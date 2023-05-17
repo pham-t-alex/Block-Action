@@ -146,6 +146,24 @@ public class GridFitter : MonoBehaviour
                 }
             }
         }
+        else if (Input.GetMouseButtonDown(1) && selectedSoulObject == null)
+        {
+            for (int i = 0; i < Battle.b.soulObjects.Count; i++)
+            {
+                SoulObject s = Battle.b.soulObjects[i];
+                if (s.mouseTouching && !s.placed)
+                {
+                    if (s.altBlock != null && !s.altBlock.Equals(""))
+                    {
+                        Battle.b.soulObjects[i] = BlockGenerator.generateSoulObject(Resources.Load<SoulObjectData>($"BlockData/{s.altBlock}"));
+                        Destroy(s.gameObject);
+                        PlaceBlocks();
+                        Battle.b.soulObjects[i].relX *= gridFitter.scale;
+                        Battle.b.soulObjects[i].relY *= gridFitter.scale;
+                    }
+                }
+            }
+        }
         else
         {
             selectedTime -= Time.deltaTime; //decrements selected time
@@ -254,7 +272,7 @@ public class GridFitter : MonoBehaviour
         else //failed placement
         {
             AudioController.audioController.GetComponent<AudioSource>().PlayOneShot(AudioController.blockPlaceFail);
-            selectedSoulObject.transform.position = selectedSoulObject.startPosition; //return the object to previous position
+            //selectedSoulObject.transform.position = selectedSoulObject.startPosition; //return the object to previous position
             // COMEBACK
             soulObject.transform.localScale = defaultSize;
             selectedSoulObject = null; //unselect
@@ -267,6 +285,7 @@ public class GridFitter : MonoBehaviour
                 soulObject.SetRenderOrder(3);
             }
         }
+        PlaceBlocks();
     }
 
     //Find closest tile to a position
@@ -469,9 +488,9 @@ public class GridFitter : MonoBehaviour
         foreach (SoulObject soulObject in Battle.b.soulObjects)
         {
             // COMEBACK
-            soulObject.transform.localScale = defaultSize;
             if (!soulObject.placed) //if the soul object is not placed (this is important to not teleport frames back, they stay between turns)
             {
+                soulObject.transform.localScale = defaultSize;
                 float blockRightEdge = x + (defaultScale * soulObject.width);
                 if (maxX - blockRightEdge <= gridFitter.rightOffset)
                 {

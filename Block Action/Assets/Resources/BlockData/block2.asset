@@ -21,11 +21,12 @@ MonoBehaviour:
     0~~'
   width: 3
   height: 3
-  element: 
-  cooldown: 4
+  element: 0
+  cooldown: 2
   isSoulBlock: 1
   effects:
   - heal self 10
-  - buff self atk 0.25 2
-  - buff self def 0.2 2
+  - scaled_effect buff health user percentage 100 0 0 0.5 self def strength 3
+  - scaled_effect buff health user percentage 0 100 0 5 self atk length 0.3
   color: {r: 0, g: 0.31250715, b: 1, a: 1}
+  altBlock: block3
