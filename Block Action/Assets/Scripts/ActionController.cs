@@ -113,14 +113,15 @@ public class ActionController : MonoBehaviour
 
     public async static void EnemyTurn()
     {
-        foreach (Enemy e in Battle.b.enemies)
+        for (int i = 0; i < Battle.b.enemies.Count; i++)
         {
+            Enemy e = Battle.b.enemies[i];
             if (e.stunned)
             {
                 e.stunCharge = 0;
                 continue;
             }
-            for (int i = 0; i < e.actionCount; i++)
+            for (int j = 0; j < e.actionCount; j++)
             {
                 if (!e.dead && !e.stunned)
                 {

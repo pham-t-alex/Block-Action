@@ -64,6 +64,14 @@ public abstract class Effect
             effect.targetType = TargetType.Self;
             return effect;
         }
+        if (effectData[0].Equals("summon"))
+        {
+            string[] nextEffectData = new string[effectData.Length - 1];
+            System.Array.Copy(effectData, 1, nextEffectData, 0, effectData.Length - 1);
+            effect = new SummonEffect(nextEffectData);
+            effect.targetType = TargetType.Self;
+            return effect;
+        }
         if (effectData[0].Equals("damage"))
         {
             effect = new Damage(System.Convert.ToInt32(effectData[2]));
@@ -687,6 +695,10 @@ public abstract class Effect
         {
             effectString = $"Lock {((GridLockingEffect)e).count} tiles for {((GridLockingEffect)e).duration} turns";
         }
+        else if (e is SummonEffect)
+        {
+            effectString = "Summon an enemy into the battlefield";
+        }
         else
         {
             return null;
@@ -1052,7 +1064,7 @@ public abstract class Effect
         {
             return GetQuality(((ScalingActionEffect)e).effect, isPlayer);
         }
-        else if (e is GridLockingEffect)
+        else if (e is GridLockingEffect || e is SummonEffect)
         {
             if (isPlayer)
             {

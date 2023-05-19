@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
+  m_Name: Test_Hog3
+  m_EditorClassIdentifier: 
+  enemyName: Hog_(Test)
+  defaultMaxHealth: 500
+  defaultStartingHealth: 500
+  description: A test hog, for testing purposes.
+  baseElement: 0
+  actionsPerTurn: 1
+  maxStunCharge: 100
+  actions:
+  - 'All
+
+    summon Hog,1,1,1,0,0 Hog_Hunter,1,1,1,0,1'
+  startingStatuses: []
+  fadeOnDefeat: 1
+  idle: {fileID: 1019089891, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
+  attack: {fileID: -1085413582, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
+  hurt: {fileID: 1965061650, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
+  soulColor: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 1}

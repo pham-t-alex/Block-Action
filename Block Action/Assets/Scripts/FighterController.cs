@@ -285,4 +285,69 @@ public class FighterController : MonoBehaviour
         }
         enemy.actionSets[state].Add(a);
     }
+
+    public static void spawnEnemy(string enemyString, Fighter summoner)
+    {
+        int aliveCount = 0;
+        foreach (Enemy en in Battle.b.enemies)
+        {
+            if (!en.dead)
+            {
+                aliveCount++;
+            }
+        }
+        if (aliveCount >= 3)
+        {
+            return;
+        }
+
+        string[] enemyInfo = enemyString.Split(",");
+        GameObject e;
+        if (enemyInfo[0] == "Hog")
+        {
+            e = Instantiate(Resources.Load<GameObject>("Sprites/Enemies/Hog/Hog"), new Vector3(0, 0, 0), Quaternion.identity);
+        }
+        else
+        {
+            e = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        }
+
+        Battle.b.enemies.Add(e.GetComponent<Enemy>());
+        Battle.b.fighters.Add(e.GetComponent<Enemy>());
+
+        Enemy enemy = e.GetComponent<Enemy>();
+        enemy.setUnique("Enemy" + (Battle.b.enemies.Count + 1));
+        enemy.actionSets = new Dictionary<string, List<Action>>();
+        enemy.buff = 1.0;
+        enemy.taunting = false;
+        enemy.defenseBuff = 1.0;
+        enemy.statusEffects = new List<Status>();
+        int lower = System.Convert.ToInt32(enemyInfo[4]);
+        int upper = System.Convert.ToInt32(enemyInfo[5]);
+        setEnemyData(enemy, enemyInfo[0], lower, upper);
+        enemy.gameObject.AddComponent<BoxCollider2D>();
+        double hpScale = System.Convert.ToDouble(enemyInfo[1]);
+        double atkScale = System.Convert.ToDouble(enemyInfo[2]);
+        double buffScale = System.Convert.ToDouble(enemyInfo[3]);
+        ScaleEnemy(enemy, hpScale, atkScale, buffScale);
+
+        float y = -1 * Camera.main.orthographicSize;
+        y += fighterController.bottomOffset + (enemy.GetComponent<SpriteRenderer>().bounds.size.y / 2);
+        float center = summoner.transform.position.x;
+        float x = center - (summoner.GetComponent<SpriteRenderer>().bounds.size.x / 2) - fighterController.spaceBetweenEnemies - (enemy.GetComponent<SpriteRenderer>().bounds.size.x / 2);
+
+        foreach (Enemy en in Battle.b.enemies)
+        {
+            if (!en.dead && en != summoner && en != enemy)
+            {
+                if (Mathf.Abs(x - en.transform.position.x) < (en.GetComponent<SpriteRenderer>().bounds.size.x / 2) + (enemy.GetComponent<SpriteRenderer>().bounds.size.x / 2) + fighterController.spaceBetweenEnemies)
+                {
+                    x = center + (summoner.GetComponent<SpriteRenderer>().bounds.size.x / 2) + fighterController.spaceBetweenEnemies + (enemy.GetComponent<SpriteRenderer>().bounds.size.x / 2);
+                }
+            }
+        }
+
+        enemy.transform.position = new Vector3(x, y, 0);
+        enemy.makeHealthBar();
+    }
 }

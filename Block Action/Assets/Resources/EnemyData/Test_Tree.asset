@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
+  m_Name: Test_Tree
+  m_EditorClassIdentifier: 
+  enemyName: Pseudo_Plant
+  defaultMaxHealth: 1000
+  defaultStartingHealth: 1000
+  description: 
+  baseElement: 3
+  actionsPerTurn: 1
+  maxStunCharge: 1000
+  actions:
+  - 'All
+
+    summon Hog,1,1,1,0,1 Hog_Hunter,1,1,1,0,3 Mushroom,1,1,1,0,-1 Lizard_Monster,1,1,1,0,1
+    Forest_Bear,1,1,1,0,3 Plant,1,1,1,0,4'
+  startingStatuses: []
+  fadeOnDefeat: 0
+  idle: {fileID: 926237698, guid: d16876019b49e054fa7aad00127a9be6, type: 3}
+  attack: {fileID: 389022227, guid: d16876019b49e054fa7aad00127a9be6, type: 3}
+  hurt: {fileID: 926237698, guid: d16876019b49e054fa7aad00127a9be6, type: 3}
+  soulColor: {r: 0.9803922, g: 0.5254902, b: 0.18431373, a: 1}
