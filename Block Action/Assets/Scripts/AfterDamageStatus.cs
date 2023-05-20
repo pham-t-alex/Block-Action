@@ -30,6 +30,16 @@ public class AfterDamageStatus : Status
                 afterDamageEffect.targets.Add(enemy);
             }
         }
+        else if (afterDamageEffect.targetType == TargetType.OtherEnemies)
+        {
+            foreach (Enemy enemy in Battle.b.enemies)
+            {
+                if (enemy != statusHolder)
+                {
+                    afterDamageEffect.targets.Add(enemy);
+                }
+            }
+        }
         else if (afterDamageEffect.targetType == TargetType.SingleTarget)
         {
             if (statusHolder == Player.player)

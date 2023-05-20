@@ -6,5 +6,6 @@ public enum TargetType
 {
     Self,
     SingleTarget,
-    AllEnemies
+    AllEnemies,
+    OtherEnemies
 }

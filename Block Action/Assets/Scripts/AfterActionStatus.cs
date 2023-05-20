@@ -30,6 +30,16 @@ public class AfterActionStatus : Status
                 afterActionEffect.targets.Add(enemy);
             }
         }
+        else if (afterActionEffect.targetType == TargetType.OtherEnemies)
+        {
+            foreach (Enemy enemy in Battle.b.enemies)
+            {
+                if (enemy != statusHolder)
+                {
+                    afterActionEffect.targets.Add(enemy);
+                }
+            }
+        }
         else if (afterActionEffect.targetType == TargetType.SingleTarget)
         {
             if (statusHolder == Player.player)

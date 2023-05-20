@@ -17,9 +17,23 @@ MonoBehaviour:
   defaultStartingHealth: 1000
   description: 
   baseElement: 3
-  actionsPerTurn: 1
+  actionsPerTurn: 2
   maxStunCharge: 1000
   actions:
+  - 'All
+
+    summon Hog,1,1,1,0,1 Hog_Hunter,1,1,1,0,3 Mushroom,1,1,1,0,-1 Lizard_Monster,1,1,1,0,1
+    Forest_Bear,1,1,1,0,3 Plant,1,1,1,0,4'
+  - 'All
+
+    apply_taunt others 2
+
+    buff others def 0.2 2'
+  - 'All
+
+    buff others atk 0.2 3
+
+    lock_tiles 3 4'
   - 'All
 
     summon Hog,1,1,1,0,1 Hog_Hunter,1,1,1,0,3 Mushroom,1,1,1,0,-1 Lizard_Monster,1,1,1,0,1

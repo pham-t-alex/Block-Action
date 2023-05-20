@@ -33,6 +33,16 @@ public class RepeatingEffectStatus : Status
                     repeatingEffect.targets.Add(enemy);
                 }
             }
+            else if (repeatingEffect.targetType == TargetType.OtherEnemies)
+            {
+                foreach (Enemy enemy in Battle.b.enemies)
+                {
+                    if (enemy != statusHolder)
+                    {
+                        repeatingEffect.targets.Add(enemy);
+                    }
+                }
+            }
             else if (repeatingEffect.targetType == TargetType.SingleTarget)
             {
                 if (statusHolder == Player.player)

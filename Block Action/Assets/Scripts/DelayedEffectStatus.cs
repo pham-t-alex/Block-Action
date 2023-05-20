@@ -32,6 +32,16 @@ public class DelayedEffectStatus : Status
                     delayedEffect.targets.Add(enemy);
                 }
             }
+            else if (delayedEffect.targetType == TargetType.OtherEnemies)
+            {
+                foreach (Enemy enemy in Battle.b.enemies)
+                {
+                    if (enemy != statusHolder)
+                    {
+                        delayedEffect.targets.Add(enemy);
+                    }
+                }
+            }
             else if (delayedEffect.targetType == TargetType.SingleTarget)
             {
                 if (statusHolder == Player.player)

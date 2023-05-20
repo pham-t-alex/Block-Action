@@ -30,6 +30,16 @@ public class WhenHitStatus : Status
                 whenHitEffect.targets.Add(enemy);
             }
         }
+        else if (whenHitEffect.targetType == TargetType.OtherEnemies)
+        {
+            foreach (Enemy enemy in Battle.b.enemies)
+            {
+                if (enemy != statusHolder)
+                {
+                    whenHitEffect.targets.Add(enemy);
+                }
+            }
+        }
         else if (whenHitEffect.targetType == TargetType.SingleTarget)
         {
             if (statusHolder == Player.player)

@@ -179,6 +179,18 @@ public class FighterController : MonoBehaviour
             {
                 scaleEffect(((RepeatingEffectStatus)status).repeatingEffect, atkScale, buffScale);
             }
+            else if (status is AfterActionStatus)
+            {
+                scaleEffect(((AfterActionStatus)status).afterActionEffect, atkScale, buffScale);
+            }
+            else if (status is AfterDamageStatus)
+            {
+                scaleEffect(((AfterDamageStatus)status).afterDamageEffect, atkScale, buffScale);
+            }
+            else if (status is WhenHitStatus)
+            {
+                scaleEffect(((WhenHitStatus)status).whenHitEffect, atkScale, buffScale);
+            }
         }
         enemy.atkScale = atkScale;
         enemy.buffScale = buffScale;
@@ -187,15 +199,36 @@ public class FighterController : MonoBehaviour
     static void scaleEffect(Effect effect, double atkScale, double buffScale)
     {
         Effect innerEffect = effect;
-        while (innerEffect is DelayedEffect || innerEffect is RepeatingEffect)
+        while (innerEffect is DelayedEffect || innerEffect is RepeatingEffect || innerEffect is AfterActionEffect || innerEffect is AfterDamageEffect ||
+        innerEffect is WhenHitEffect || innerEffect is ConditionalEffect || innerEffect is ScalingActionEffect)
         {
             if (innerEffect is DelayedEffect)
             {
                 innerEffect = ((DelayedEffect)innerEffect).effect;
             }
-            else
+            else if (innerEffect is RepeatingEffect)
             {
                 innerEffect = ((RepeatingEffect)innerEffect).effect;
+            }
+            else if (innerEffect is AfterActionEffect)
+            {
+                innerEffect = ((AfterActionEffect)innerEffect).effect;
+            }
+            else if (innerEffect is AfterDamageEffect)
+            {
+                innerEffect = ((AfterDamageEffect)innerEffect).effect;
+            }
+            else if (innerEffect is WhenHitEffect)
+            {
+                innerEffect = ((WhenHitEffect)innerEffect).effect;
+            }
+            else if (innerEffect is ConditionalEffect)
+            {
+                innerEffect = ((ConditionalEffect)innerEffect).effect;
+            }
+            else
+            {
+                innerEffect = ((ScalingActionEffect)innerEffect).effect;
             }
         }
         if (innerEffect is Damage)

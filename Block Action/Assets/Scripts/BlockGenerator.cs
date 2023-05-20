@@ -228,7 +228,7 @@ public class BlockGenerator : MonoBehaviour
             }
             if (e is Damage || e is DefIgnoringDamage || e is TrueDamage)
             {
-                if (e.targetType == TargetType.AllEnemies)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.OtherEnemies)
                 {
                     effectIcons.Add(selectableIcons[0]);
                 }

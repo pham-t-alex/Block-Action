@@ -198,6 +198,17 @@ public class ActionController : MonoBehaviour
                 effect.targets.Add(Player.player);
                 effect.ActivateEffect(e);
             }
+            else if (effect.targetType == TargetType.OtherEnemies)
+            {
+                foreach (Enemy enemy in Battle.b.enemies)
+                {
+                    if (enemy != e)
+                    {
+                        effect.targets.Add(enemy);
+                    }
+                }
+                effect.ActivateEffect(e);
+            }
             effect.targets.Clear();
         }
         TriggerAfterActionEffects(e);

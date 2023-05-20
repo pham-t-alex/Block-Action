@@ -97,6 +97,14 @@ public class SoulObject : MonoBehaviour
                 }
                 effect.ActivateEffect(Player.player);
             }
+            else if (effect.targetType == TargetType.OtherEnemies)
+            {
+                foreach (Enemy e in Battle.b.enemies)
+                {
+                    effect.targets.Add(e);
+                }
+                effect.ActivateEffect(Player.player);
+            }
             else
             {
                 effect.ActivateEffect(Player.player);

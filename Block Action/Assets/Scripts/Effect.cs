@@ -55,6 +55,10 @@ public abstract class Effect
                 {
                     effect.targetType = TargetType.SingleTarget;
                 }
+                else if (effectData[9].Equals("others"))
+                {
+                    effect.targetType = TargetType.OtherEnemies;
+                }
             }
             return effect;
         }
@@ -224,6 +228,10 @@ public abstract class Effect
         {
             effect.targetType = TargetType.SingleTarget;
         }
+        else if (effectData[1].Equals("others")) //should be enemy-exclusive for now
+        {
+            effect.targetType = TargetType.OtherEnemies;
+        }
         return effect;
     }
 
@@ -266,6 +274,10 @@ public abstract class Effect
                     effectString += "the player";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
+            }
         }
         else if (e is Heal)
         {
@@ -288,6 +300,10 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
             }
             effectString += " by " + ((Heal)e).heal + " HP";
         }
@@ -320,6 +336,10 @@ public abstract class Effect
                     effectString += "the player's";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies'";
+            }
             effectString += " attack by " + (((Buff)e).buff * 100) + "% for " + ((Buff)e).numTurns + " turns";
         }
         else if (e is DefenseBuff)
@@ -351,6 +371,10 @@ public abstract class Effect
                     effectString += "the player's";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies'";
+            }
             effectString += " defense by " + (((DefenseBuff)e).defenseBuff * 100) + "% for " + ((DefenseBuff)e).numTurns + " turns";
         }
         else if (e is DelayedEffect)
@@ -374,6 +398,10 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
             }
             effectString += ": ";
             effectString += effectToString(((DelayedEffect)e).effect, forBlock);
@@ -401,6 +429,10 @@ public abstract class Effect
                     effectString += "the player";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
+            }
             effectString += ": ";
             effectString += effectToString(((RepeatingEffect)e).effect, forBlock);
         }
@@ -425,6 +457,10 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
             }
         }
         else if (e is AfterActionEffect || e is AfterDamageEffect || e is WhenHitEffect)
@@ -459,6 +495,10 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
             }
             effectString += ": ";
             if (e is AfterActionEffect)
@@ -496,6 +536,10 @@ public abstract class Effect
                     effectString += "the player's";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
+            }
             effectString += " state to " + ((StateChangeEffect)e).state;
         }
         else if (e is BuffRemovalEffect)
@@ -520,6 +564,10 @@ public abstract class Effect
                     effectString += "the player";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
+            }
         }
         else if (e is DebuffRemovalEffect)
         {
@@ -542,6 +590,10 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
             }
         }
         else if (e is ConditionalEffect)
@@ -594,6 +646,10 @@ public abstract class Effect
                     effectString += "the player";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
+            }
         }
         else if (e is HealBlockEffect)
         {
@@ -616,6 +672,10 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
             }
         }
         else if (e is LifeStealEffect)
@@ -640,6 +700,10 @@ public abstract class Effect
                     effectString += "the player";
                 }
             }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
+            }
         }
         else if (e is TauntEffect)
         {
@@ -662,6 +726,10 @@ public abstract class Effect
                 {
                     effectString += "the player";
                 }
+            }
+            else if (e.targetType == TargetType.OtherEnemies)
+            {
+                effectString += "other enemies";
             }
         }
         else if (e is ScalingBuffEffect)
@@ -712,7 +780,7 @@ public abstract class Effect
         {
             if (isPlayer)
             {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.SingleTarget)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.SingleTarget || e.targetType == TargetType.OtherEnemies)
                 {
                     return Quality.Good;
                 }
@@ -748,7 +816,7 @@ public abstract class Effect
             }
             else
             {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self || e.targetType == TargetType.OtherEnemies)
                 {
                     return Quality.Good;
                 }
@@ -795,7 +863,7 @@ public abstract class Effect
             }
             else
             {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self || e.targetType == TargetType.OtherEnemies)
                 {
                     if (((Buff)e).buff > 0)
                     {
@@ -864,7 +932,7 @@ public abstract class Effect
             }
             else
             {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self || e.targetType == TargetType.OtherEnemies)
                 {
                     if (((DefenseBuff)e).defenseBuff > 0)
                     {
@@ -920,7 +988,7 @@ public abstract class Effect
             }
             else
             {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self || e.targetType == TargetType.OtherEnemies)
                 {
                     return GetQuality(((DelayedEffect)e).effect, false);
                 }
@@ -963,7 +1031,7 @@ public abstract class Effect
             }
             else
             {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self || e.targetType == TargetType.OtherEnemies)
                 {
                     return GetQuality(((RepeatingEffect)e).effect, false);
                 }
@@ -1020,7 +1088,7 @@ public abstract class Effect
             }
             else
             {
-                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self)
+                if (e.targetType == TargetType.AllEnemies || e.targetType == TargetType.Self || e.targetType == TargetType.OtherEnemies)
                 {
                     if (e is AfterActionEffect)
                     {
