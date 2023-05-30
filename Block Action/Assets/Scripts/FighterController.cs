@@ -63,7 +63,7 @@ public class FighterController : MonoBehaviour
             {
                 totalWidth += fighterController.spaceBetweenEnemies;
             }
-            totalWidth += Battle.b.enemies[i].GetComponent<SpriteRenderer>().bounds.size.x;
+            totalWidth += Battle.b.enemies[i].width;
         }
         float rightOffset = 0;
         if (totalWidth < (Camera.main.orthographicSize * Screen.width / Screen.height) - 2 * (fighterController.minRightOffset))
@@ -76,13 +76,13 @@ public class FighterController : MonoBehaviour
         float x = (Camera.main.orthographicSize * Screen.width / Screen.height) - rightOffset;
         for (int i = Battle.b.enemies.Count - 1; i >= 0; i--)
         {
-            SpriteRenderer spriteRenderer = Battle.b.enemies[i].GetComponent<SpriteRenderer>();
-            x -= spriteRenderer.bounds.size.x / 2;
-            y += spriteRenderer.bounds.size.y / 2;
+            Enemy e = Battle.b.enemies[i];
+            x -= e.width / 2;
+            y += e.height / 2;
             Battle.b.enemies[i].transform.position = new Vector3(x, y, 0);
             Battle.b.enemies[i].makeHealthBar();
-            x -= spriteRenderer.bounds.size.x / 2;
-            y -= spriteRenderer.bounds.size.y / 2;
+            x -= e.width / 2;
+            y -= e.height / 2;
             x -= fighterController.spaceBetweenEnemies;
         }
     }
@@ -101,15 +101,25 @@ public class FighterController : MonoBehaviour
         {
             string[] enemyInfo = line.Split(' ');
             GameObject enemy;
-            if (enemyInfo[0] == "Hog")
+            /*if (enemyInfo[0] == "Hog")
             {
                 enemy = Instantiate(Resources.Load<GameObject>("Sprites/Enemies/Hog/Hog"), new Vector3(0, 0, 0), Quaternion.identity);
             }
             else
             {
                 enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            }*/
+            enemy = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            RuntimeAnimatorController animator = Resources.Load($"Sprites/Enemies/{enemyInfo[0]}/Animator") as RuntimeAnimatorController;
+            if (animator != null)
+            {
+                enemy.GetComponent<Animator>().runtimeAnimatorController = animator;
             }
-            
+            else
+            {
+                Destroy(enemy.GetComponent<Animator>());
+            }
+
             Battle.b.enemies.Add(enemy.GetComponent<Enemy>());
             Battle.b.fighters.Add(enemy.GetComponent<Enemy>());
             line = s.ReadLine();
@@ -262,6 +272,8 @@ public class FighterController : MonoBehaviour
     {
         EnemyData enemyData = Resources.Load<EnemyData>($"EnemyData/{enemyName}");
         enemy.GetComponent<SpriteRenderer>().sprite = enemyData.idle;
+        enemy.width = enemyData.idle.bounds.size.x;
+        enemy.height = enemyData.idle.bounds.size.y;
         enemy.type = enemyData.enemyName;
         enemy.maxHealth = enemyData.defaultMaxHealth;
         enemy.health = enemyData.defaultStartingHealth;
@@ -336,13 +348,23 @@ public class FighterController : MonoBehaviour
 
         string[] enemyInfo = enemyString.Split(",");
         GameObject e;
-        if (enemyInfo[0] == "Hog")
+        /*if (enemyInfo[0] == "Hog")
         {
             e = Instantiate(Resources.Load<GameObject>("Sprites/Enemies/Hog/Hog"), new Vector3(0, 0, 0), Quaternion.identity);
         }
         else
         {
             e = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        }*/
+        e = Instantiate(fighterController.enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        RuntimeAnimatorController animator = Resources.Load($"Sprites/Enemies/{enemyInfo[0]}/Animator") as RuntimeAnimatorController;
+        if (animator != null)
+        {
+            e.GetComponent<Animator>().runtimeAnimatorController = animator;
+        }
+        else
+        {
+            Destroy(e.GetComponent<Animator>());
         }
 
         Battle.b.enemies.Add(e.GetComponent<Enemy>());
@@ -365,17 +387,17 @@ public class FighterController : MonoBehaviour
         ScaleEnemy(enemy, hpScale, atkScale, buffScale);
 
         float y = -1 * Camera.main.orthographicSize;
-        y += fighterController.bottomOffset + (enemy.GetComponent<SpriteRenderer>().bounds.size.y / 2);
+        y += fighterController.bottomOffset + (enemy.height / 2);
         float center = summoner.transform.position.x;
-        float x = center - (summoner.GetComponent<SpriteRenderer>().bounds.size.x / 2) - fighterController.spaceBetweenEnemies - (enemy.GetComponent<SpriteRenderer>().bounds.size.x / 2);
+        float x = center - (((Enemy)summoner).width / 2) - fighterController.spaceBetweenEnemies - (enemy.width / 2);
 
         foreach (Enemy en in Battle.b.enemies)
         {
             if (!en.dead && en != summoner && en != enemy)
             {
-                if (Mathf.Abs(x - en.transform.position.x) < (en.GetComponent<SpriteRenderer>().bounds.size.x / 2) + (enemy.GetComponent<SpriteRenderer>().bounds.size.x / 2) + fighterController.spaceBetweenEnemies)
+                if (Mathf.Abs(x - en.transform.position.x) < (en.width / 2) + (enemy.width / 2) + fighterController.spaceBetweenEnemies)
                 {
-                    x = center + (summoner.GetComponent<SpriteRenderer>().bounds.size.x / 2) + fighterController.spaceBetweenEnemies + (enemy.GetComponent<SpriteRenderer>().bounds.size.x / 2);
+                    x = center + (((Enemy)summoner).width / 2) + fighterController.spaceBetweenEnemies + (enemy.width / 2);
                 }
             }
         }

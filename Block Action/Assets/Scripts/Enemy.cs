@@ -15,6 +15,8 @@ public class Enemy : Fighter
     public string state;
     public Color soulColor;
     public bool taunting;
+    public float width;
+    public float height;
 
     private string uniqueName;
 

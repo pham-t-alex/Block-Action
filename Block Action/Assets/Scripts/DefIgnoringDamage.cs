@@ -54,7 +54,8 @@ public class DefIgnoringDamage : Effect
 
                 if (f.Equals(Player.player))
                 {
-                    // Hurt animation only plays when Player takes damage
+                    //
+                    // animation only plays when Player takes damage
                     PlayerAnimator.SetTrigger("Hurt");
                     Debug.Log("Player takes " + damageDealt + " def-ignoring damage | HP: " + (prevHealth) + " -> " + f.health);
                 }

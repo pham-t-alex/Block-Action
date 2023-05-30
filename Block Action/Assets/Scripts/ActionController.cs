@@ -121,6 +121,11 @@ public class ActionController : MonoBehaviour
                 e.stunCharge = 0;
                 continue;
             }
+            Animator a = e.GetComponent<Animator>();
+            if (a != null)
+            {
+                a.SetTrigger("Attack");
+            }
             for (int j = 0; j < e.actionCount; j++)
             {
                 if (!e.dead && !e.stunned)
@@ -129,7 +134,7 @@ public class ActionController : MonoBehaviour
                 }
             }
             //attack animation
-            //EnemyAnimator.SetTrigger("Attack");
+            
         }
         if (!Battle.finishedDead())
         {
