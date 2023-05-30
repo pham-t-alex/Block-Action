@@ -28,10 +28,13 @@ MonoBehaviour:
   bgmName: regionalbattle
   background: Dark Forest
   enemyWaves:
-  - Test_Tree 1 1 1 0 3
+  - Test_Tree 1 1 1 0 4
   midLevelEffects:
   - wave 1 add_block block1 0
   - wave 1 add_block block2 0
   - wave 1 add_block block3 0
   - wave 1 add_block block4 0
+  - enemy_health% 1 Pseudo_Plant 80 change_state Pseudo_Plant Enraged
+  - enemy_health% 1 Pseudo_Plant 60 end_level_heal Pseudo_Plant 1000
+  - wave 1 buff player atk 8.9 3
   firstClearRewards: []

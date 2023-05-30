@@ -66,6 +66,28 @@ public class GimmickController : MonoBehaviour
             {
                 await ActivateMidLevelEffect(gimmickInfo, 1);
             }
+            else if (gimmickInfo[0].Equals("enemy_health%"))
+            {
+                //syntax: enemy_health [wave] [enemyname] [health%] gimmick
+                int wave = System.Convert.ToInt32(gimmickInfo[1]);
+                if (wave == Battle.b.wave)
+                {
+                    bool trigger = true;
+                    foreach (Enemy e in Battle.b.enemies)
+                    {
+                        if (e.type == gimmickInfo[2] && (e.health * 100.0 / e.maxHealth) > System.Convert.ToDouble(gimmickInfo[3]))
+                        {
+                            trigger = false;
+                        }
+                    }
+                    if (trigger)
+                    {
+                        await ActivateMidLevelEffect(gimmickInfo, 4);
+                        gimmickController.midLevelEffects.RemoveAt(gimmickController.index);
+                        gimmickController.index--;
+                    }
+                }
+            }
             if (Battle.b.bs == BattleState.End)
             {
                 return;
@@ -275,6 +297,32 @@ public class GimmickController : MonoBehaviour
         else if (gimmickInfo[i].Equals("end_level"))
         {
             BattleEndController.TriggerEnd();
+        }
+        else if (gimmickInfo[i].Equals("end_level_heal"))
+        {
+            //syntax: end_level_heal [enemyname] [heal]
+            int heal = System.Convert.ToInt32(gimmickInfo[i + 2]);
+            foreach (Enemy e in Battle.b.enemies)
+            {
+                if (!e.dead && e.type == gimmickInfo[i + 1])
+                {
+                    Heal h = new Heal(heal);
+                    h.targets.Add(e);
+                    h.ActivateEffect(null);
+                }
+            }
+            BattleEndController.TriggerEnd();
+        }
+        else if (gimmickInfo[i].Equals("change_state"))
+        {
+            //syntax: change_state [enemyname] [state]
+            foreach(Enemy e in Battle.b.enemies)
+            {
+                if (!e.dead && e.type == gimmickInfo[i + 1])
+                {
+                    e.state = gimmickInfo[i + 2];
+                }
+            }
         }
     }
 
