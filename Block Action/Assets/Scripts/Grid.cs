@@ -10,8 +10,7 @@ public class Grid : MonoBehaviour
     public List<GameObject> lockedTiles;
     public GameObject myPrefab;
     public List<SoulObject> soulObjectsInGrid;
-    static int i, a, lnCount, lnLength;
-    static float b;
+    static int i, lnCount, lnLength;
     public static float scale;
 
     // text file
@@ -54,8 +53,14 @@ public class Grid : MonoBehaviour
                 b -= scale; // move down a line
             }
         }*/
-        b = -3f; // top of the grid start
-
+        float minX = -1 * Camera.main.orthographicSize * Screen.width / Screen.height; //get left edge x coordinate
+        float minY = -1 * Camera.main.orthographicSize; //get bottom edge y coordinate
+        float centerX = 0;
+        float centerY = 0.6125f * minY;
+        float leftX = ((Battle.b.levelData.gridWidth - 1) * scale) / -2f + centerX;
+        float topY = ((Battle.b.levelData.gridHeight - 1) * scale) / 2f + centerY;
+        float y = topY;
+        
         if (Battle.b.levelData != null)
         {
             string grid = Battle.b.levelData.gridAsString;
@@ -64,7 +69,7 @@ public class Grid : MonoBehaviour
 
             while (line != null)
             {
-                for (a = 0; a < line.Length; a++) // a is each column
+                /*for (a = 0; a < line.Length; a++) // a is each column
                 {
                     if (line[a] == '~') // if it is a proper tile
                     {
@@ -74,7 +79,17 @@ public class Grid : MonoBehaviour
                         tiles.Add(tile); // add it to arraylist
                     }
                 }
-                b -= scale; // move down a line
+                b -= scale; // move down a line*/
+                for (int i = 0; i < line.Length; i++)
+                {
+                    if (line[i] == '~')
+                    {
+                        GameObject tile = Instantiate(myPrefab, new Vector3(leftX + (i * scale), y), Quaternion.identity);
+                        tile.transform.localScale = new Vector3(scale, scale);
+                        tiles.Add(tile);
+                    }
+                }
+                y -= scale;
                 line = s.ReadLine();
             }
         }
