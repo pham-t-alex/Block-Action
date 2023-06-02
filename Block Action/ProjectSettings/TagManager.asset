@@ -12,6 +12,8 @@ TagManager:
   - GameEndText
   - PauseButton
   - LevelNode
+  - DarkForestBackground
+  - ForestSkyBackground
   layers:
   - Default
   - TransparentFX

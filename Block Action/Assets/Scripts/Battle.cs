@@ -76,6 +76,37 @@ public class Battle : MonoBehaviour
         if (levelData != null)
         {
             AudioController.audioController.PlayBGM(levelData.bgmName);
+            string background = levelData.background;
+            if (background == "Forest Sky")
+            {
+                foreach (GameObject g in GameObject.FindGameObjectsWithTag("ForestSkyBackground"))
+                {
+                    g.SetActive(true);
+                    if (g.GetComponent<SpriteRenderer>() != null)
+                    {
+                        g.GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                }
+                foreach (GameObject g in GameObject.FindGameObjectsWithTag("DarkForestBackground"))
+                {
+                    g.SetActive(false);
+                }
+            }
+            else
+            {
+                foreach (GameObject g in GameObject.FindGameObjectsWithTag("DarkForestBackground"))
+                {
+                    g.SetActive(true);
+                    if (g.GetComponent<SpriteRenderer>() != null)
+                    {
+                        g.GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                }
+                foreach (GameObject g in GameObject.FindGameObjectsWithTag("ForestSkyBackground"))
+                {
+                    g.SetActive(false);
+                }
+            }
             Debug.Log(levelData.bgmName);
         }
         
