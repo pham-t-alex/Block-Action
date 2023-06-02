@@ -34,6 +34,17 @@ public class DefIgnoringDamage : Effect
                             p.Init(damageDealt, fighter, f, -0.5f, 0.5f);
                             continue;
                         }
+                        else if (e.type == "Will_o_Wisp")
+                        {
+                            AttackProjectile p = GameObject.Instantiate(Resources.Load<GameObject>("Wispball")).GetComponent<AttackProjectile>();
+                            p.Init(damageDealt, fighter, f, 0, 0.5f);
+                            continue;
+                        }
+                        else if (e.type == "Big_Tree")
+                        {
+                            TreeHand.treeHand.DealDamage(damageDealt, fighter);
+                            continue;
+                        }
                     }
                     GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
                     ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;

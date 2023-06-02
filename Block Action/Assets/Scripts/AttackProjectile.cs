@@ -24,6 +24,10 @@ public class AttackProjectile : MonoBehaviour
         this.user = user;
         this.target = target;
         transform.position = user.transform.position;
+        if (user is Enemy && ((Enemy)user).type == "Will_o_Wisp")
+        {
+            transform.position += new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0);
+        }
         transform.position += new Vector3(0.5f * xOffset * user.GetComponent<SpriteRenderer>().sprite.bounds.size.x, 0.5f * yOffset * user.GetComponent<SpriteRenderer>().sprite.bounds.size.y);
         transform.Rotate(0, 0, Mathf.Rad2Deg * Mathf.Atan((transform.position.y - target.transform.position.y) / (transform.position.x - target.transform.position.x)));
         delta = new Vector3(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y);

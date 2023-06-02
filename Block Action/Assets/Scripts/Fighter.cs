@@ -46,8 +46,16 @@ public abstract class Fighter : MonoBehaviour
         {
             return;
         }
+        Vector3 healthBarPosition;
         healthPrefab = Resources.Load<GameObject>("Healthbar");
-        Vector3 healthBarPosition = new Vector3(transform.position.x, transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.5f, 0);
+        if (this is Enemy e && e.large)
+        {
+            healthBarPosition = new Vector3(transform.position.x, -1 * Camera.main.orthographicSize + FighterController.fighterController.bottomOffset - 0.5f, 0);
+        }
+        else
+        {
+            healthBarPosition = new Vector3(transform.position.x, transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.5f, 0);
+        }
         Vector3 healthBarPos2 = WorldToScreenSpace(healthBarPosition, Camera.main, Healthbar.healthCanvas.GetComponent<RectTransform>());
         GameObject g = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity);
         g.transform.SetParent(Healthbar.healthCanvas.transform);

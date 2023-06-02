@@ -29,6 +29,17 @@ public class TrueDamage : Effect
                         p.Init((int)dmg, fighter, f, -0.5f, 0.5f);
                         continue;
                     }
+                    else if (e.type == "Will_o_Wisp")
+                    {
+                        AttackProjectile p = GameObject.Instantiate(Resources.Load<GameObject>("Wispball")).GetComponent<AttackProjectile>();
+                        p.Init((int)dmg, fighter, f, 0, 0.5f);
+                        continue;
+                    }
+                    else if (e.type == "Big_Tree")
+                    {
+                        TreeHand.treeHand.DealDamage((int)dmg, fighter);
+                        continue;
+                    }
                 }
                 f.health -= (int)(dmg);
                 if (fighter != null)

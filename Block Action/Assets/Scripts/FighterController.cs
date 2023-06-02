@@ -46,6 +46,7 @@ public class FighterController : MonoBehaviour
         float y = -1 * Camera.main.orthographicSize;
         y += fighterController.bottomOffset;
         SpriteRenderer playerSprite = Player.player.GetComponent<SpriteRenderer>();
+        playerSprite.sortingOrder = -180;
         y += playerSprite.bounds.size.y / 2;
         Player.player.transform.position = new Vector3(-7, y, 0);
         Player.player.makeHealthBar();
@@ -77,6 +78,18 @@ public class FighterController : MonoBehaviour
         for (int i = Battle.b.enemies.Count - 1; i >= 0; i--)
         {
             Enemy e = Battle.b.enemies[i];
+            if (e.large)
+            {
+                float largeX = (Camera.main.orthographicSize * Screen.width / Screen.height) - (e.width / 2f);
+                float largeY = Camera.main.orthographicSize - (e.height / 2f);
+                Battle.b.enemies[i].transform.position = new Vector3(largeX, largeY, 0);
+                Battle.b.enemies[i].makeHealthBar();
+                if (e.type == "Big_Tree")
+                {
+                    Instantiate(Resources.Load<GameObject>("treehand"), Player.player.transform.position + new Vector3(-1f, -1.2f), Quaternion.identity);
+                }
+                continue;
+            }
             x -= e.width / 2;
             y += e.height / 2;
             Battle.b.enemies[i].transform.position = new Vector3(x, y, 0);
@@ -280,6 +293,12 @@ public class FighterController : MonoBehaviour
         enemy.actionCount = enemyData.actionsPerTurn;
         enemy.stunChargeMax = enemyData.maxStunCharge;
         enemy.baseElement = enemyData.baseElement;
+        enemy.large = enemyData.large;
+        if (enemy.large)
+        {
+            enemy.GetComponent<SpriteRenderer>().sortingOrder = -200;
+        }
+        enemy.boss = enemyData.boss;
         if (enemy.baseElement == Element.Elements.ELEMENTLESS)
         {
             enemy.currentElementStack = 0;
@@ -389,7 +408,15 @@ public class FighterController : MonoBehaviour
         float y = -1 * Camera.main.orthographicSize;
         y += fighterController.bottomOffset + (enemy.height / 2);
         float center = summoner.transform.position.x;
-        float x = center - (((Enemy)summoner).width / 2) - fighterController.spaceBetweenEnemies - (enemy.width / 2);
+        float x;
+        if (((Enemy) summoner).large)
+        {
+            x = center - (((Enemy)summoner).width / 4) - (enemy.width / 2);
+        }
+        else
+        {
+            x = center - (((Enemy)summoner).width / 2) - fighterController.spaceBetweenEnemies - (enemy.width / 2);
+        }
 
         foreach (Enemy en in Battle.b.enemies)
         {
@@ -397,7 +424,14 @@ public class FighterController : MonoBehaviour
             {
                 if (Mathf.Abs(x - en.transform.position.x) < (en.width / 2) + (enemy.width / 2) + fighterController.spaceBetweenEnemies)
                 {
-                    x = center + (((Enemy)summoner).width / 2) + fighterController.spaceBetweenEnemies + (enemy.width / 2);
+                    if (((Enemy) summoner).large)
+                    {
+                        x = center + (((Enemy)summoner).width / 4) + (enemy.width / 2);
+                    }
+                    else
+                    {
+                        x = center + (((Enemy)summoner).width / 2) + fighterController.spaceBetweenEnemies + (enemy.width / 2);
+                    }
                 }
             }
         }

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
+  m_Name: Will_o_Wisp
+  m_EditorClassIdentifier: 
+  enemyName: Will_o_Wisp
+  defaultMaxHealth: 100
+  defaultStartingHealth: 100
+  description: Will o Wisp
+  baseElement: 1
+  actionsPerTurn: 1
+  maxStunCharge: 50
+  actions:
+  - 'All
+
+    scaled_effect action health user percentage 0 100 0.5 4.5 damage singletarget
+    5'
+  startingStatuses:
+  - unremovable after_damage no_user 1000 damage self 2
+  fadeOnDefeat: 1
+  idle: {fileID: 21300000, guid: 25375ace53fb5024aa15a0bd84b3817e, type: 3}
+  attack: {fileID: 21300000, guid: c5855d9e9017dd641b6352bdde166b60, type: 3}
+  hurt: {fileID: 21300000, guid: 7ffa5d37da4fbde4ba759cce3e4e7eaf, type: 3}
+  soulColor: {r: 0, g: 0.8156863, b: 1, a: 1}

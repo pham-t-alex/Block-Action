@@ -17,6 +17,8 @@ public class Enemy : Fighter
     public bool taunting;
     public float width;
     public float height;
+    public bool large;
+    public bool boss;
 
     private string uniqueName;
 
