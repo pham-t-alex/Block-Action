@@ -114,6 +114,10 @@ public abstract class Fighter : MonoBehaviour
             Vector3 infoPosition2 = WorldToScreenSpace(infoPosition, Camera.main, infoCanvas.GetComponent<RectTransform>());
             GameObject g = Instantiate(FighterController.fighterController.fighterInfoMenu, Vector3.zero, Quaternion.identity);
             g.transform.SetParent(infoCanvas.transform);
+            if (infoPosition2.y > 130)
+            {
+                infoPosition2.y = 130;
+            }
             g.GetComponent<RectTransform>().anchoredPosition = infoPosition2;
             g.transform.localScale = new Vector3(1, 1, 1);
             infoMenu = g.GetComponent<FighterInfoMenu>();

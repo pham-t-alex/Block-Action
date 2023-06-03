@@ -25,7 +25,6 @@ MonoBehaviour:
   cooldown: 3
   isSoulBlock: 1
   effects:
-  - buff self def 0.1 2
-  - buff self def 0.1 4
-  - buff self def 0.1 6
+  - scaled_effect buff health user percentage 100 0 0 0.5 self def value 4
   color: {r: 0.28235295, g: 0.2901961, b: 0.0627451, a: 1}
+  altBlock: 

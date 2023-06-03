@@ -46,19 +46,19 @@ public class Player : Fighter
         info += "Element: ";
         if (currentElement == Element.Elements.FIRE)
         {
-            info += "Fire x" + currentElementStack;
+            info += "<color=orange>Fire x" + currentElementStack + "</color>";
         }
         else if (currentElement == Element.Elements.WATER)
         {
-            info += "Water x" + currentElementStack;
+            info += "<color=blue>Water x" + currentElementStack + "</color>";
         }
         else if (currentElement == Element.Elements.NATURE)
         {
-            info += "Nature x" + currentElementStack;
+            info += "<color=green>Nature x" + currentElementStack + "</color>";
         }
         else if (currentElement == Element.Elements.ELEMENTLESS)
         {
-            info += "Elementless";
+            info += "<color=grey>Elementless</color>";
         }
         if (baseElement == currentElement)
         {
@@ -69,23 +69,23 @@ public class Player : Fighter
             info += " | Base: ";
             if (baseElement == Element.Elements.FIRE)
             {
-                info += "Fire\n";
+                info += "<color=orange>Fire</color>\n";
             }
             else if (baseElement == Element.Elements.WATER)
             {
-                info += "Water\n";
+                info += "<color=blue>Water</color>\n";
             }
             else if (baseElement == Element.Elements.NATURE)
             {
-                info += "Nature\n";
+                info += "<color=green>Nature</color>\n";
             }
             else if (baseElement == Element.Elements.ELEMENTLESS)
             {
-                info += "Elementless\n";
+                info += "<color=grey>Elementless</color>\n";
             }
         }
         info += "Stun Charge: " + stunCharge + "/" + stunChargeMax + "\n";
-        info += "Status Effects:";
+        info += "<u>Status Effects:</u>";
         foreach (Status status in statusEffects)
         {
             string s = Status.statusToString(status);

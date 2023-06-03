@@ -222,21 +222,21 @@ public class SoulObject : MonoBehaviour
         info += "Element: ";
         if (element == Element.Elements.FIRE)
         {
-            info += "Fire";
+            info += "<color=orange>Fire</color>";
         }
         else if (element == Element.Elements.WATER)
         {
-            info += "Water";
+            info += "<color=blue>Water</color>";
         }
         else if (element == Element.Elements.NATURE)
         {
-            info += "Nature";
+            info += "<color=green>Nature</color>";
         }
         else if (element == Element.Elements.ELEMENTLESS)
         {
-            info += "Elementless";
+            info += "<color=grey>Elementless</color>";
         }
-        info += "\nEffects:";
+        info += "\n<u>Effects:</u>";
         foreach (Effect e in effects)
         {
             string s = Effect.effectToString(e, true);

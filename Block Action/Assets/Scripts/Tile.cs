@@ -57,6 +57,7 @@ public class Tile : MonoBehaviour
             GridFitter.gridFitter.grid.lockedTiles.Add(gameObject);
             tileLock = Instantiate(Resources.Load<GameObject>("TileLock"));
             tileLock.transform.position = transform.position;
+            tileLock.transform.localScale = new Vector3(GridFitter.gridFitter.scale, GridFitter.gridFitter.scale);
             GetComponent<SpriteRenderer>().color = new Color(82f/255, 96f/255, 82f/255);
         }
         else
