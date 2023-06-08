@@ -20,7 +20,7 @@ public class Enemy : Fighter
     public bool large;
     public bool boss;
 
-    private string uniqueName;
+    public string uniqueName;
 
 
 
@@ -166,7 +166,7 @@ public class Enemy : Fighter
         }
         return info;
     }
-
+    /*
     public void setUnique(string unique)
     {
         uniqueName = unique;
@@ -176,7 +176,7 @@ public class Enemy : Fighter
     {
         return uniqueName;
     }
-
+    */
     public string ActionAsString(Action action)
     {
         List<Effect> actionData = action.effects;

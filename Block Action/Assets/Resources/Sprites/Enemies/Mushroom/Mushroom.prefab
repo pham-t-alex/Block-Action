@@ -12,14 +12,9 @@ GameObject:
   - component: {fileID: -2143331305839309126}
   - component: {fileID: -3063676574858463061}
   - component: {fileID: -7135011707343438370}
-  - component: {fileID: 6282075967959053837}
-  - component: {fileID: 9106968275441493728}
-  - component: {fileID: -6195313331056845386}
-  - component: {fileID: 5711260643107749558}
-  - component: {fileID: 2746904454354733468}
-  - component: {fileID: -3429828016897788469}
+  - component: {fileID: 7515041055999148829}
   m_Layer: 0
-  m_Name: Hog
+  m_Name: Mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -515895758, guid: 77e91b227f24a6b4380667165abf6867, type: 3}
+  m_Sprite: {fileID: -1047734743, guid: deb499abb90868a4b846f34c42ea9e63, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 7387881003405268669}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c8e8805a02ea42d4b809089e4aaa402a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 46e2715bcf8d41348927e869efb41d4a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -151,77 +146,7 @@ MonoBehaviour:
   width: 0
   height: 0
   uniqueName: 
---- !u!114 &6282075967959053837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387881003405268669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57466de04100b804bb046f1f18d38c3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  attackDone: 0
---- !u!114 &9106968275441493728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387881003405268669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57466de04100b804bb046f1f18d38c3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  attackDone: 0
---- !u!114 &-6195313331056845386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387881003405268669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57466de04100b804bb046f1f18d38c3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  attackDone: 0
---- !u!114 &5711260643107749558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387881003405268669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57466de04100b804bb046f1f18d38c3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  attackDone: 0
---- !u!114 &2746904454354733468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387881003405268669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57466de04100b804bb046f1f18d38c3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  attackDone: 0
---- !u!114 &-3429828016897788469
+--- !u!114 &7515041055999148829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

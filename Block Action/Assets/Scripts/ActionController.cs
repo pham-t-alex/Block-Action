@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 public class ActionController : MonoBehaviour
 {
-    //private EnemyAnimator enemyAnimator;
-
     //references player
     static PlayerAnimator playerAnimator;
     public GameObject player;
@@ -121,6 +119,28 @@ public class ActionController : MonoBehaviour
                 e.stunCharge = 0;
                 continue;
             }
+            /*
+            GameObject currEnemy = Resources.Load<GameObject>("Sprites/Enemies/Hog/Hog");
+            EnemyAnimator ani = currEnemy.AddComponent<EnemyAnimator>();
+            Animator a = e.GetComponent<Animator>();
+            ani.Animate(a);
+            
+            RuntimeAnimatorController animatorController = a.runtimeAnimatorController;
+            AnimationClip clip = null;
+            for (int integrate = 0; integrate < animatorController.animationClips.Length; integrate++)
+            {
+                if (animatorController.animationClips[integrate].name == "attack")
+                {
+                    Debug.Log("clip found");
+                    clip = animatorController.animationClips[integrate];
+                    AnimationEvent animationEvent = clip.events[0];
+                    animationEvent.objectReferenceParameter = currEnemy;
+                    Debug.Log("clip found" + animationEvent.functionName);
+                    break;
+                }
+            }
+            */
+
             Animator a = e.GetComponent<Animator>();
             if (a != null)
             {
@@ -131,6 +151,13 @@ public class ActionController : MonoBehaviour
                 if (!e.dead && !e.stunned)
                 {
                     await EnemySequence(e);
+                    /*
+                    while (a.attackDone == false)
+                    {
+                        await Task.Yield();
+                    }
+                    a.attackDone = false;
+                    */
                 }
             }
             //attack animation

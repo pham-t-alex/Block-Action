@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
 {
-    public static Animator animator;
-    public static bool attackDone;
+    public Animator animator;
+    public bool attackDone;
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,16 +19,23 @@ public class EnemyAnimator : MonoBehaviour
 
     }
 
+    public void Animate(Animator a)
+    {
+        animator = a;
+        attackDone = false;
+    }
+
     // Calls animation
     // @param trigger the trigger connected to the animation
-    public static void SetTrigger(string trigger)
+    public void SetTrigger(string trigger)
     {
         //Starts animation 
         animator.SetTrigger(trigger);
     }
 
-    public void AttackDone()
+    public void EnemyAttackDone()
     {
         attackDone = true;
+        Debug.Log("pls");
     }
 }

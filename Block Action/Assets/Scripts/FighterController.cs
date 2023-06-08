@@ -132,9 +132,10 @@ public class FighterController : MonoBehaviour
             {
                 Destroy(enemy.GetComponent<Animator>());
             }
-
-            Battle.b.enemies.Add(enemy.GetComponent<Enemy>());
-            Battle.b.fighters.Add(enemy.GetComponent<Enemy>());
+            Enemy e = enemy.GetComponent<Enemy>();
+            e.uniqueName = enemyInfo[0];
+            Battle.b.enemies.Add(e);
+            Battle.b.fighters.Add(e);
             line = s.ReadLine();
         }
         s = new StringReader(waveData);
@@ -145,7 +146,7 @@ public class FighterController : MonoBehaviour
             enemyCount++;
             string[] enemyInfo = line.Split(' ');
             Enemy enemy = Battle.b.enemies[i];
-            enemy.setUnique("Enemy" + enemyCount);
+            //enemy.setUnique("Enemy" + enemyCount);
             enemy.actionSets = new Dictionary<string, List<Action>>();
             enemy.buff = 1.0;
             enemy.taunting = false;
@@ -385,12 +386,12 @@ public class FighterController : MonoBehaviour
         {
             Destroy(e.GetComponent<Animator>());
         }
-
-        Battle.b.enemies.Add(e.GetComponent<Enemy>());
-        Battle.b.fighters.Add(e.GetComponent<Enemy>());
-
         Enemy enemy = e.GetComponent<Enemy>();
-        enemy.setUnique("Enemy" + (Battle.b.enemies.Count + 1));
+        enemy.uniqueName = enemyInfo[0];
+        Battle.b.enemies.Add(enemy);
+        Battle.b.fighters.Add(enemy);
+
+        enemy.uniqueName = enemyInfo[0];
         enemy.actionSets = new Dictionary<string, List<Action>>();
         enemy.buff = 1.0;
         enemy.taunting = false;

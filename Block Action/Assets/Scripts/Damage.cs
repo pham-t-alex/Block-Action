@@ -71,6 +71,11 @@ public class Damage : Effect
                 else
                 {
                     //EnemyAnimator.SetTrigger("Hurt");
+                    Animator a = f.GetComponent<Animator>();
+                    if (a != null)
+                    {
+                        a.SetTrigger("Hurt");
+                    }
                     Debug.Log("Enemy takes " + damageDealt + " damage | HP: " + (prevHealth) + " -> " + f.health);
                 }
 
