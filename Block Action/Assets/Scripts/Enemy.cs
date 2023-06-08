@@ -19,6 +19,7 @@ public class Enemy : Fighter
     public float height;
     public bool large;
     public bool boss;
+    public bool attackDone;
 
     public string uniqueName;
 
@@ -72,6 +73,12 @@ public class Enemy : Fighter
         mouseTouching = false;
         DestroyInfoMenu();
         timeHovered = 0;
+    }
+
+    public void AttackDone()
+    {
+        attackDone = true;
+        Debug.Log("wooo");
     }
 
     public override string GetName()

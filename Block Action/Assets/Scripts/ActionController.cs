@@ -142,7 +142,7 @@ public class ActionController : MonoBehaviour
             */
 
             Animator a = e.GetComponent<Animator>();
-            if (a != null)
+            if (a != null && e.actionCount > 0)
             {
                 a.SetTrigger("Attack");
             }
@@ -151,13 +151,14 @@ public class ActionController : MonoBehaviour
                 if (!e.dead && !e.stunned)
                 {
                     await EnemySequence(e);
-                    /*
-                    while (a.attackDone == false)
+                    if (a != null)
                     {
-                        await Task.Yield();
+                        while (e.attackDone == false)
+                        {
+                            await Task.Yield();
+                        }
+                        e.attackDone = false;
                     }
-                    a.attackDone = false;
-                    */
                 }
             }
             //attack animation
@@ -185,7 +186,7 @@ public class ActionController : MonoBehaviour
     async static Task EnemySequence(Enemy e)
     {
         ActionUserParticle.actionUserParticle.setAction(e);
-        await Task.Delay(500);
+        await Task.Delay(300);
         //randomly runs one of many preset attacks
         Random rand = new Random();
         int numAtk = getAttackCount(e);
