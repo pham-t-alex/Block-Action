@@ -44,6 +44,10 @@ public class Damage : Effect
                             TreeHand.treeHand.DealDamage(damageDealt, fighter);
                             continue;
                         }
+                        else if (e.type == "Hog" || e.type == "Hog_Hunter" || e.type == "Forest_Bear")
+                        {
+                            GameObject.Instantiate(Resources.Load<GameObject>("Claw/clawPrefab"), f.transform.position, Quaternion.identity);
+                        }
                     }
                     GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);
                     ParticleSystem.EmissionModule emission = particles.GetComponent<ParticleSystem>().emission;
