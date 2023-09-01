@@ -32,5 +32,4 @@ MonoBehaviour:
   midLevelEffects:
   - enemy_health% 1 Big_Tree 80 change_state Big_Tree Enraged
   - enemy_health% 1 Big_Tree 60 end_level_heal Big_Tree 1000
-  firstClearRewards:
-  - wisp
+  firstClearRewards: []

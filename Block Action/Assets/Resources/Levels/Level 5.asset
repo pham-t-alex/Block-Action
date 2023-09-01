@@ -36,4 +36,5 @@ MonoBehaviour:
   - wave 1 add_block block2 0
   - wave 1 add_block block3 0
   - wave 1 add_block block4 0
-  firstClearRewards: []
+  firstClearRewards:
+  - wisp

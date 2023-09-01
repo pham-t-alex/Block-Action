@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8e37651e86c24ab25c13cd7513e28, type: 3}
+  m_Name: Evo_Plant
+  m_EditorClassIdentifier: 
+  enemyName: Evolved_Plant
+  defaultMaxHealth: 200
+  defaultStartingHealth: 200
+  description: 
+  baseElement: 3
+  actionsPerTurn: 1
+  maxStunCharge: 200
+  actions:
+  - 'All
+
+    conditional element = user nature apply_when_hit self no_user 5 damage
+    singletarget 5'
+  - 'Normal
+
+    conditional health %< user 70 change_state self Aggressive
+
+    conditional
+    health %< user 70 apply_when_hit self no_user 1000 damage singletarget 5
+
+    conditional
+    health %< user 70 apply_element self nature 2'
+  - 'Aggressive
+
+    damage singletarget 20'
+  - 'Aggressive
+
+    damage singletarget 10
+
+    conditional element = user nature
+    damage singletarget 10'
+  - 'All
+
+    heal enemies 10
+
+    conditional element = user nature heal enemies
+    10'
+  startingStatuses:
+  - unremovable when_hit no_user 1000 damage singletarget 7
+  fadeOnDefeat: 1
+  idle: {fileID: -1646793066, guid: d16876019b49e054fa7aad00127a9be6, type: 3}
+  attack: {fileID: 1672095044, guid: d16876019b49e054fa7aad00127a9be6, type: 3}
+  hurt: {fileID: -1646793066, guid: d16876019b49e054fa7aad00127a9be6, type: 3}
+  large: 0
+  boss: 0
+  soulColor: {r: 0.9803922, g: 0.5254902, b: 0.18431373, a: 1}
