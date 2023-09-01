@@ -10,30 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
-  m_Name: Level 3
+  m_Name: Level 8
   m_EditorClassIdentifier: 
-  gridAsString: '~~~~~
+  gridAsString: '~~~~~~
 
-    ~~~~~
+    ~~~~~~
 
-    ~~~~~
+    ~~~~~~
 
-    ~~~~~'
-  gridWidth: 5
-  gridHeight: 4
-  bgmName: darkforestbattletheme
-  background: Dark Forest
+    ~~~~~~
+
+    ~~~~~~
+
+    ~~~~~~'
+  gridWidth: 6
+  gridHeight: 6
+  bgmName: regionalbattle
+  background: Forest Sky
   enemyWaves:
-  - 'Lizard_Monster 0.5 0.5 1 0 1
-
-    Forest_Bear 0.5 0.5 1 0 3'
-  - 'Lizard_Monster 1 1 1 0 1
-
-    Forest_Bear 1 1 1 0 3
-
-    Lizard_Monster 1 1
-    1 0 1'
-  midLevelEffects: []
-  firstClearRewards:
-  - plant
-  - forestBear
+  - Big_Tree 1 1 1 0 4
+  midLevelEffects:
+  - enemy_health% 1 Big_Tree 80 change_state Big_Tree Enraged
+  - enemy_health% 1 Big_Tree 60 end_level_heal Big_Tree 1000
+  firstClearRewards: []

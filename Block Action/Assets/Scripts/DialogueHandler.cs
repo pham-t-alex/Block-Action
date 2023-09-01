@@ -59,6 +59,20 @@ public class DialogueHandler : MonoBehaviour
 
     void Start()
     {
+        if (PersistentDataManager.levelNumber == 8)
+        {
+            GameObject.Find("forestbg").SetActive(false);
+            GameObject.Find("treebasebg").SetActive(false);
+        }
+        else if (PersistentDataManager.levelNumber == 7) {
+            GameObject.Find("forestbg").SetActive(false);
+            GameObject.Find("treebossbg").SetActive(false);
+        }
+        else
+        {
+            GameObject.Find("treebossbg").SetActive(false);
+            GameObject.Find("treebasebg").SetActive(false);
+        }
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueSpeaker.SetActive(false);

@@ -12,27 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 4
   m_EditorClassIdentifier: 
-  gridAsString: '~~~~~
+  gridAsString: '~~~
 
-    ~~~~~
+    ~~~
 
-    ~~~~~
-
-    0~~~0
-
-    ~~0~~'
-  gridWidth: 5
-  gridHeight: 5
+    ~~~'
+  gridWidth: 3
+  gridHeight: 3
   bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
-  - 'Plant 1 1 1 0 4
-
-    Evo_Plant 1 1 1 0 4
-
-    Plant 1 1 1 0 4'
-  midLevelEffects:
-  - wave 1 text Be wary of these plants...
-  - wave 1 add_block block1 0
+  - Hog 1 1 1 0 0
+  midLevelEffects: []
   firstClearRewards:
-  - plant
+  - wisp

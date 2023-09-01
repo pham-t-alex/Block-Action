@@ -79,33 +79,24 @@ public class Battle : MonoBehaviour
             string background = levelData.background;
             if (background == "Forest Sky")
             {
-                foreach (GameObject g in GameObject.FindGameObjectsWithTag("ForestSkyBackground"))
-                {
-                    g.SetActive(true);
-                    if (g.GetComponent<SpriteRenderer>() != null)
-                    {
-                        g.GetComponent<SpriteRenderer>().enabled = true;
-                    }
-                }
-                foreach (GameObject g in GameObject.FindGameObjectsWithTag("DarkForestBackground"))
-                {
-                    g.SetActive(false);
-                }
+                GameObject.Find("forestbg").SetActive(false);
+                GameObject.Find("darkforestparticles").SetActive(false);
+                GameObject.Find("treebasebg").SetActive(false);
+                GameObject.Find("treebaseparticles").SetActive(false);
+            }
+            else if (background == "Tree Base")
+            {
+                GameObject.Find("treebossbg").SetActive(false);
+                GameObject.Find("skyparticles").SetActive(false);
+                GameObject.Find("forestbg").SetActive(false);
+                GameObject.Find("darkforestparticles").SetActive(false);
             }
             else
             {
-                foreach (GameObject g in GameObject.FindGameObjectsWithTag("DarkForestBackground"))
-                {
-                    g.SetActive(true);
-                    if (g.GetComponent<SpriteRenderer>() != null)
-                    {
-                        g.GetComponent<SpriteRenderer>().enabled = true;
-                    }
-                }
-                foreach (GameObject g in GameObject.FindGameObjectsWithTag("ForestSkyBackground"))
-                {
-                    g.SetActive(false);
-                }
+                GameObject.Find("treebossbg").SetActive(false);
+                GameObject.Find("skyparticles").SetActive(false);
+                GameObject.Find("treebasebg").SetActive(false);
+                GameObject.Find("treebaseparticles").SetActive(false);
             }
             Debug.Log(levelData.bgmName);
         }

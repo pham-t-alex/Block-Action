@@ -35,8 +35,7 @@ MonoBehaviour:
 
     Hog_Hunter 1 1 1 0 1'
   - Hog_Hunter 2 2 1 0 3
-  midLevelEffects:
-  - wave 2 text New soul obtained!
-  - wave 3 add_block mushroom 0
+  midLevelEffects: []
   firstClearRewards:
   - mushroom
+  - lizardMonster
