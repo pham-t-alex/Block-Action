@@ -22,6 +22,20 @@ MonoBehaviour:
   bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
-  - Hog 1 1 1 0 0
+  - 'Hog 1 1 1 0 0
+
+    Lizard_Monster 1 1 1 0 1
+
+    Forest_Bear 1 1 1 0 3'
+  - 'Mushroom 1 1 1 0 -1
+
+    Will_o_Wisp 1 1 1 0 0
+
+    Plant 1 1 1 0 2'
+  - 'Forest_Bear 1 1 1 0 3
+
+    Evo_Plant 1 1 1 0 4
+
+    Plant 1 1 1 0 2'
   midLevelEffects: []
   firstClearRewards: []
