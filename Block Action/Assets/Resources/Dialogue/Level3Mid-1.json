@@ -1,0 +1,1 @@
+﻿{"inkVersion":20,"root":[["^Well, here's a new foe. ",{"#":"enter=GuidanceSoul"},{"#":"speaker=Guiding Soul"},"\n","^Be careful when you attack this plant, as it will hurt you back.","\n","^It also has two different states, be wary of which is active.","\n",["done",{"#f":5,"#n":"g-0"}],null],"done",{"#f":1}],"listDefs":{}}

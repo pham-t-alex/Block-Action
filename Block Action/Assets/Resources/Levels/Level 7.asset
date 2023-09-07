@@ -43,12 +43,12 @@ MonoBehaviour:
 
     Plant 0.334 2
     1 2 2'
-  - 'Forest_Bear 0.4 1 2 1 1
+  - 'Forest_Bear 0.467 1 2 1 1
 
-    Will_o_Wisp 1.4 1 1 0 0
+    Will_o_Wisp 1.6 1 1 0 0
 
-    Mushroom 1.4 10 1
-    0 -1'
+    Mushroom 1.6 10
+    1 0 -1'
   midLevelEffects:
   - wave 1 dialogue Level7Mid-1
   - wave 1 buff player def -0.5 100

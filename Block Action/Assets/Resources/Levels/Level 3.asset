@@ -16,24 +16,26 @@ MonoBehaviour:
 
     ~~~~~
 
-    ~~~~~
-
     ~~~~~'
   gridWidth: 5
-  gridHeight: 4
+  gridHeight: 3
   bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
-  - 'Lizard_Monster 0.5 0.5 1 0 1
+  - 'Plant 0.5 0.5 1 1 2
+
+    Mushroom 0.5 1 1 0 -1'
+  - 'Lizard_Monster 0.5 1 1 0 1
+
+    Forest_Bear 0.5 1 1 0 1
+
+    Hog 1 1 1 0 2'
+  - 'Evo_Plant 0.5 1 1 0 4
 
     Forest_Bear 0.5 0.5 1 0 3'
-  - 'Lizard_Monster 1 1 1 0 1
-
-    Forest_Bear 1 1 1 0 3
-
-    Lizard_Monster 1 1
-    1 0 1'
-  midLevelEffects: []
+  midLevelEffects:
+  - wave 1 dialogue Level3Mid-1
+  - wave 2 dialogue Level3Mid-2
   firstClearRewards:
   - plant
   - forestBear
