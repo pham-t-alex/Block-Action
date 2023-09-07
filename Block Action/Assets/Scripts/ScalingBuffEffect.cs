@@ -36,7 +36,6 @@ public class ScalingBuffEffect : Effect
         }
         else
         {
-            Debug.Log("?");
             this.scaleType = ScaleType.Strength;
         }
         buffOrDuration = otherValue;

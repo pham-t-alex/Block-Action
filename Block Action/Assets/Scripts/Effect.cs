@@ -42,7 +42,6 @@ public abstract class Effect
             {
                 //Note: example scaled effect: "scaled_effect buff health user percentage 0 100 1 4 [targetType] atk length 0.2" - 0.2 being othervalue
                 effect = new ScalingBuffEffect(s, effectData[10], effectData[11], System.Convert.ToDouble(effectData[12]));
-                Debug.Log(effectData[11]);
                 if (effectData[9].Equals("self"))
                 {
                     effect.targetType = TargetType.Self;

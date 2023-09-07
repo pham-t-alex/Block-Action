@@ -78,7 +78,6 @@ public class Enemy : Fighter
     public void AttackDone()
     {
         attackDone = true;
-        Debug.Log("wooo");
     }
 
     public override string GetName()

@@ -141,6 +141,7 @@ public class Battle : MonoBehaviour
         {
             await Player.player.Fade();
         }
+        
         foreach (Enemy e in b.enemies)
         {
             if (e.dead && !e.faded)
@@ -177,10 +178,17 @@ public class Battle : MonoBehaviour
                 Battle.b.enemies.Clear();
                 Battle.b.wave++;
                 FighterController.PlaceFighters();
-                GridFitter.ResetSoulObjects();
+                /*GridFitter.ResetSoulObjects();
                 Battle.b.turnNumber++;
                 b.bs = BattleState.Gimmicks;
-                GimmickController.MidLevelEffects();
+                GimmickController.MidLevelEffects();*/
+
+                ActionUserParticle.actionUserParticle.disable();
+                GridFitter.ResetSoulObjects();
+                GimmickController.gimmickController.index = 0;
+                Battle.b.bs = BattleState.StatusEffects;
+                Debug.Log("Status Effects");
+                Status.TriggerStatusEffects();
             }
             else
             {

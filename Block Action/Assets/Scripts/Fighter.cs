@@ -144,6 +144,7 @@ public abstract class Fighter : MonoBehaviour
     {
         if (this is Enemy e)
         {
+            Debug.Log(e.type + " fading");
             e.taunting = false;
         }
         buff = 0;

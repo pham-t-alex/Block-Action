@@ -213,7 +213,7 @@ public class GimmickController : MonoBehaviour
                     {
                         DefBuffStatus status = new DefBuffStatus(length, buffValue, Player.player);
                         Player.player.statusEffects.Add(status);
-                        Player.player.defenseBuff *= buffValue;
+                        Player.player.defenseBuff -= buffValue;
                     }
                 }
             }

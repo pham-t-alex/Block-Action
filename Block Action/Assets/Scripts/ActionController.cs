@@ -153,12 +153,13 @@ public class ActionController : MonoBehaviour
                     await EnemySequence(e);
                     if (a != null)
                     {
-                        while (e.attackDone == false)
+                        while (e.attackDone == false)// && !(e.dead && e.faded))
                         {
                             await Task.Yield();
                         }
                         e.attackDone = false;
                     }
+                    await Battle.UpdateDead();
                 }
             }
             //attack animation
@@ -245,7 +246,6 @@ public class ActionController : MonoBehaviour
             effect.targets.Clear();
         }
         TriggerAfterActionEffects(e);
-        await Battle.UpdateDead();
         await Task.Delay(500);
     }
 

@@ -65,7 +65,7 @@ public class AttackProjectile : MonoBehaviour
                 ActionController.TriggerLifeStealEffects(user, damage);
             }
             Destroy(gameObject);
-            Battle.UpdateDead();
+            //Battle.UpdateDead();
         }
     }
 }
