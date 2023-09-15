@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
   m_Name: Level 4
   m_EditorClassIdentifier: 
-  gridAsString: '~~~
+  gridAsString: '~~~~~
 
-    ~~~
+    ~~~~~
 
-    ~~~'
+    ~~~~~'
   gridWidth: 5
   gridHeight: 3
   bgmName: darkforestbattletheme
