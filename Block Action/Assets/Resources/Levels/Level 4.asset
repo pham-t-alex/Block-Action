@@ -17,7 +17,7 @@ MonoBehaviour:
     ~~~
 
     ~~~'
-  gridWidth: 3
+  gridWidth: 5
   gridHeight: 3
   bgmName: darkforestbattletheme
   background: Dark Forest
