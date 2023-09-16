@@ -19,8 +19,8 @@ MonoBehaviour:
     ~~~0~
 
     ~00~~'
-  gridWidth: 4
-  gridHeight: 5
+  gridWidth: 5
+  gridHeight: 4
   bgmName: darkforestbattletheme
   background: Dark Forest
   enemyWaves:
@@ -28,10 +28,7 @@ MonoBehaviour:
 
     Lizard_Monster 1 1 1 0 1
 
-    Will_o_Wisp 1 1 1 0 0
-
-
-'
+    Will_o_Wisp 1 1 1 0 0'
   - 'Forest_Bear 1 1 1 0 2
 
     Plant 1 0.5 1 0 2
