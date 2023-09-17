@@ -83,7 +83,7 @@ public class BattleEndController : MonoBehaviour
             gameEndText.GetComponent<TMP_Text>().color = new Color(0.8f, 1, 1);
             battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "VICTORY"));
             GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
-            if (Battle.b.levelNumber == PersistentDataManager.levelsCompleted + 1)
+            if (!PersistentDataManager.bonusVariant && Battle.b.levelNumber == PersistentDataManager.levelsCompleted + 1)
             {
                 PersistentDataManager.levelsCompleted++;
                 foreach (string reward in Battle.b.levelData.firstClearRewards)
