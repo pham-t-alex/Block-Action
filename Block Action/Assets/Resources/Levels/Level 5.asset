@@ -36,8 +36,9 @@ MonoBehaviour:
     Plant 1 1 1 0 2'
   - 'Forest_Bear 0.5 0.5 1 0 3
 
-    Evo_Plant 1 1 1 0 4
+    Evo_Plant 0.75 0.75 1 0 4
 
-    Hog_Hunter 1 1 1 0 3'
+    Hog_Hunter 1 1
+    1 0 3'
   midLevelEffects: []
   firstClearRewards: []
