@@ -20,10 +20,10 @@ public class Player : Fighter
     // Start is called before the first frame update
     public void Initialize()
     {
-        health = 100; //might not be valid
+        health = 100 + (10 * PersistentDataManager.playerBlockInventory.Count);
         buff = 1.0;
         defenseBuff = 1.0;
-        maxHealth = 100;
+        maxHealth = 100 + (10 * PersistentDataManager.playerBlockInventory.Count);
         baseElement = Element.Elements.ELEMENTLESS;
         currentElement = baseElement;
         currentElementStack = 0;

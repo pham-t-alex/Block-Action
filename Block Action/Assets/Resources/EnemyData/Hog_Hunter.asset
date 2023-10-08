@@ -17,9 +17,9 @@ MonoBehaviour:
   defaultStartingHealth: 120
   description: A corrupted hog hunter. Excels in ruthlessly hunting down whatever
     creature it intends to kill.
+  baseElement: 0
   actionsPerTurn: 1
   maxStunCharge: 100
-  states: []
   actions:
   - 'Normal
 
@@ -32,10 +32,12 @@ MonoBehaviour:
     buff singletarget atk -0.5 2'
   - 'Normal
 
-    damage singletarget 15'
+    damage singletarget 12'
   startingStatuses: []
   fadeOnDefeat: 1
   idle: {fileID: 819675316, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   attack: {fileID: 508702825, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
   hurt: {fileID: 2121103764, guid: d54f62d934c800d4d9ed7ea7bda9f5a6, type: 3}
+  large: 0
+  boss: 0
   soulColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}

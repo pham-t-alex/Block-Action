@@ -87,6 +87,22 @@ public class StageStatus : MonoBehaviour
         PersistentDataManager.levelNumber = stageNumber;
         PersistentDataManager.bonusVariant = bonusVariant;
         PersistentDataManager.storyOnly = isStoryOnly;
+        if (PersistentDataManager.devMode)
+        {
+            PersistentDataManager.playerBlockInventory.Clear();
+            for (int i = 1; i < stageNumber; i++)
+            {
+                LevelData levelData = Resources.Load<LevelData>($"Levels/Level {i}");
+                if (levelData != null)
+                {
+                    foreach (string reward in levelData.firstClearRewards)
+                    {
+                        PersistentDataManager.playerBlockInventory.Add(reward);
+                    }
+                }
+            }
+        }
+        
         if (bonusVariant)
         {
             PersistentDataManager.storyState = 0;

@@ -11,4 +11,6 @@ public static class PersistentDataManager
     public static bool bonusVariant = false;
     public static int storyState = 0; //0 = invalid, 1 = pre-battle, 2 = post-battle
     public static bool storyOnly = false;
-}
+
+    public static bool devMode = false;
+}   
