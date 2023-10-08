@@ -41,7 +41,14 @@ public class Battle : MonoBehaviour
                 }
                 else
                 {
-                    _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+                    if (PersistentDataManager.bonusVariant)
+                    {
+                        _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}B");
+                    }
+                    else
+                    {
+                        _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+                    }
                     if (_levelData == null)
                     {
                         UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
@@ -72,7 +79,14 @@ public class Battle : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
         levelNumber = PersistentDataManager.levelNumber;
-        _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+        if (PersistentDataManager.bonusVariant)
+        {
+            _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}B");
+        }
+        else
+        {
+            _levelData = Resources.Load<LevelData>($"Levels/Level {levelNumber}");
+        }
         if (levelData != null)
         {
             AudioController.audioController.PlayBGM(levelData.bgmName);

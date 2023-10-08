@@ -12,6 +12,7 @@ public class StageStatus : MonoBehaviour
     [SerializeField] public bool isStoryOnly;
 
     public int stageNumber;
+    public bool bonusVariant;
     public bool isStageUnlocked;
     public static List<GameObject> stageObjects = new List<GameObject>();
 
@@ -61,7 +62,7 @@ public class StageStatus : MonoBehaviour
 
     // Checks number of levels completed and will unlock if conditions are met
     public void updateStageStatus() {
-        if (PersistentDataManager.levelsCompleted + 1 >= stageNumber) {
+        if (PersistentDataManager.levelsCompleted + 1 >= stageNumber + System.Convert.ToInt32(bonusVariant)) {
             isStageUnlocked = true;
             changeLockedColor(); // changeLockedIcon();
         }
@@ -84,8 +85,14 @@ public class StageStatus : MonoBehaviour
     public void SetCurrentLevel() {
         PersistentDataManager.storyState = 1;
         PersistentDataManager.levelNumber = stageNumber;
+        PersistentDataManager.bonusVariant = bonusVariant;
         PersistentDataManager.storyOnly = isStoryOnly;
-
+        if (bonusVariant)
+        {
+            PersistentDataManager.storyState = 0;
+            SceneManager.LoadScene("SampleScene");
+            return;
+        }
         SceneManager.LoadScene("Story");
         Debug.Log("Dark Forest Level");
         Debug.Log("Stage Number: " + stageNumber);
