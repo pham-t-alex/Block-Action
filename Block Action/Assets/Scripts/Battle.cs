@@ -10,6 +10,7 @@ public class Battle : MonoBehaviour
     public List<SoulObject> placedSoulObjects;
     public BattleState bs;
     private static Battle _b;
+    public bool newWave = false;
     public int turnNumber;
     public int _levelNumber = -1;
     public int levelNumber
@@ -202,7 +203,9 @@ public class Battle : MonoBehaviour
                 GimmickController.gimmickController.index = 0;
                 Battle.b.bs = BattleState.StatusEffects;
                 Debug.Log("Status Effects");
+                b.newWave = true;
                 Status.TriggerStatusEffects();
+                b.newWave = false;
             }
             else
             {

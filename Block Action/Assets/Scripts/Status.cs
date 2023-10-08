@@ -23,6 +23,10 @@ public abstract class Status
     {
         foreach (Fighter f in Battle.b.fighters)
         {
+            if (f is Enemy && Battle.b.newWave)
+            {
+                continue;
+            }
             int statusEffectsSize = f.statusEffects.Count;
             for (int i = 0; i < statusEffectsSize; i++)
             {
