@@ -31,8 +31,9 @@ MonoBehaviour:
 
     Mushroom 0.5 0.5 1 0 -1
 
-    Hog_Hunter 1 1 1 0 1'
-  - Hog_Hunter 1.5 1.5 1 0 3
+    Lizard_Monster 0.5 0.5 0.5 0
+    1'
+  - Hog_Hunter 1.5 1 1 0 3
   midLevelEffects: []
   firstClearRewards:
   - mushroom

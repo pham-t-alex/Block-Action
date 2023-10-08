@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d93d989c00d534a80b116ea4306031, type: 3}
+  m_Name: Level 12
+  m_EditorClassIdentifier: 
+  gridAsString: '~~~~~~
+
+    ~~~~~~
+
+    ~~~~~~
+
+    ~~~~~~
+
+    ~~~~~~
+
+    ~~~~~~'
+  gridWidth: 6
+  gridHeight: 6
+  bgmName: regionalbattle
+  background: Forest Sky
+  enemyWaves:
+  - Big_Tree 1 1 1 0 4
+  midLevelEffects:
+  - enemy_health% 1 Big_Tree 80 change_state Big_Tree Enraged
+  - enemy_health% 1 Big_Tree 60 end_level_heal Big_Tree 1000
+  firstClearRewards: []
