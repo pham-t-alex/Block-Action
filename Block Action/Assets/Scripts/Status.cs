@@ -43,7 +43,7 @@ public abstract class Status
                 await Battle.UpdateDead();
             }
         }
-        if (!Battle.finishedDead())
+        if (!Battle.finishedDead() || Battle.b.newWave)
         {
             Battle.b.turnNumber++;
             Battle.b.bs = BattleState.Gimmicks;

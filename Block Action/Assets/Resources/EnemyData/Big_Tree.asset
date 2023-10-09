@@ -22,7 +22,7 @@ MonoBehaviour:
   actions:
   - 'Normal
 
-    summon Lizard_Monster,1,1,1,0,1'
+    summon Lizard_Monster,1.5,1.5,1,0,1'
   - 'Normal
 
     apply_taunt others 2
@@ -35,7 +35,7 @@ MonoBehaviour:
     lock_tiles 3 4'
   - 'Normal
 
-    summon Will_o_Wisp,1,1,1,0,0'
+    summon Will_o_Wisp,1.5,1.5,1,0,0'
   - 'Enraged
 
     damage singletarget 10'

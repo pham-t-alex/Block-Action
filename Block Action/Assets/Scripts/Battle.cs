@@ -205,7 +205,6 @@ public class Battle : MonoBehaviour
                 Debug.Log("Status Effects");
                 b.newWave = true;
                 Status.TriggerStatusEffects();
-                b.newWave = false;
             }
             else
             {
