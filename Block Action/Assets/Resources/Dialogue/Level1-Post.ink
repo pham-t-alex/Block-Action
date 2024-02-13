@@ -49,6 +49,7 @@ Bringing out the protagonist character... #exit=Protagonist
 Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
 */
+#background=forestbg
 #bgm=null
 #move=1Protagonist #sprite=Enemy,guidancesoul #move=4Enemy #enter=Protagonist #enter=Enemy
 Wow, good job on not dying! We're not out of the woods just yet, but you're pretty good at using the lantern, so there's still a chance. #speaker=Guiding Soul

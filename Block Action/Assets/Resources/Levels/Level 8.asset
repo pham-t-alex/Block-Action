@@ -26,8 +26,10 @@ MonoBehaviour:
   bgmName: regionalbattle
   background: Forest Sky
   enemyWaves:
-  - Big_Tree 1 1 1 0 4
+  - Big_Tree 1 1 1 0 6
   midLevelEffects:
+  - wave 1 dialogue Level8Mid-1
+  - enemy_health% 1 Big_Tree 65 dialogue Level8Mid-2
   - enemy_health% 1 Big_Tree 65 change_state Big_Tree Enraged
   - enemy_health% 1 Big_Tree 30 end_level_heal Big_Tree 1000
   firstClearRewards: []

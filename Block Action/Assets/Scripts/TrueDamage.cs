@@ -35,7 +35,7 @@ public class TrueDamage : Effect
                         p.Init((int)dmg, fighter, f, 0, 0.5f);
                         continue;
                     }
-                    else if (e.type == "Big_Tree")
+                    else if (e.type == "Big_Tree" && targetType == TargetType.SingleTarget)
                     {
                         TreeHand.treeHand.DealDamage((int)dmg, fighter);
                         continue;

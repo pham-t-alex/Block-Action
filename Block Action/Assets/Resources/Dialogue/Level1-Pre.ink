@@ -49,7 +49,7 @@ Bringing out the protagonist character... #exit=Protagonist
 Bringing out the enemy character... #exit=Enemy
 End of Dialogue.
 */
-
+#background=forestbg
 #bgm=darkforesttheme
 #move=1Protagonist #sprite=Enemy,lost_hog_hunter_shades_0 #move=4Enemy #enter=Protagonist #enter=Enemy
 Huff huff (I can't run anymore!!!) #speaker=Protagonist 

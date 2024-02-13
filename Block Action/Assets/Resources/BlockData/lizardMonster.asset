@@ -28,5 +28,7 @@ MonoBehaviour:
   - damage singletarget 20
   - damage enemies 20
   - apply_element enemies fire 2
+  - apply_element singletarget fire 1
   - apply_repeating enemies no_user 2 damage self 10
   color: {r: 0.16470589, g: 0.37647063, b: 0.20000002, a: 1}
+  altBlock: 

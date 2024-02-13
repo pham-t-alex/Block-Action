@@ -22,24 +22,53 @@ MonoBehaviour:
   actions:
   - 'Normal
 
-    summon Lizard_Monster,1.5,1.5,1,0,1'
+    summon Lizard_Monster,0.75,1,1,0,1'
   - 'Normal
 
     apply_taunt others 2
 
-    buff others def 0.2 2'
+    scaled_effect buff nature user value 0
+    5 0 0.4 others def strength 2
+
+    scaled_effect buff nature user value 0 5 0
+    0.4 others atk strength 2
+
+    scaled_effect buff nature user value 0 5 -0.4
+    0 self def strength 2'
   - 'Normal
 
-    buff others atk 0.2 3
+    apply_life_steal self 0.5 1
 
-    lock_tiles 3 4'
+    scaled_effect action nature user
+    value 1 5 1 5 true_damage others 20
+
+    remove_buff self 1
+
+    apply_element
+    self nature 2'
   - 'Normal
 
-    summon Will_o_Wisp,1.5,1.5,1,0,0'
+    summon Will_o_Wisp,1.5,1,1,0,0'
   - 'Enraged
 
     damage singletarget 10'
-  startingStatuses: []
+  - 'Enraged
+
+    damage singletarget 6
+
+    scaled_effect buff nature user value
+    1 5 1 5 singletarget def length -0.4'
+  - 'Enraged
+
+    apply_element self nature 5
+
+    buff self atk 0.2 1000
+
+    buff
+    self def -0.2 1000'
+  startingStatuses:
+  - unremovable repeating user 1000 scaled_effect action nature user value 1 5 0
+    6 lock_tiles 1 1
   fadeOnDefeat: 0
   idle: {fileID: 21300000, guid: 07c69b4de3414084780e55a705d49812, type: 3}
   attack: {fileID: 21300000, guid: 31fc2c62347deb743b80ee890187c03d, type: 3}

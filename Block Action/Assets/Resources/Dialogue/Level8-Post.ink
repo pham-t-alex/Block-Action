@@ -1,4 +1,5 @@
-﻿#move=1Protagonist #enter=Protagonist #sprite=Enemy,guidancesoul #move=4Enemy #enter=Enemy
+﻿#background=treebossbg
+#move=1Protagonist #enter=Protagonist #sprite=Enemy,guidancesoul #move=4Enemy #enter=Enemy
 <i>Howls</i> #speaker=Big Tree
 Keep it up, it’s almost down! #speaker=Guiding Soul
 <i>But there are no splinters on the ground</i> #speaker=Protagonist

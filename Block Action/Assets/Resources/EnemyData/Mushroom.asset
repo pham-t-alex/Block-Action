@@ -21,10 +21,12 @@ MonoBehaviour:
   maxStunCharge: 10000
   actions: []
   startingStatuses:
-  - unremovable delayed no_user 3 damage singletarget 100
+  - unremovable delayed user 3 damage singletarget 100
   - unremovable delayed no_user 3 true_damage self 100000
   fadeOnDefeat: 1
   idle: {fileID: 21300000, guid: f2fb8cb447a4cf448a5896df0ce83be9, type: 3}
   attack: {fileID: 21300000, guid: b82e6901a7aea4d4aa1120af37fdc427, type: 3}
   hurt: {fileID: 21300000, guid: a4e1468e67d808a48b1a7c99425a1faa, type: 3}
+  large: 0
+  boss: 0
   soulColor: {r: 0.6, g: 0.2509804, b: 0.27058825, a: 1}

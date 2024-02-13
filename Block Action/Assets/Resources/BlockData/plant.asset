@@ -26,3 +26,4 @@ MonoBehaviour:
   - apply_when_hit self no_user 3 damage enemies 20
   - apply_when_hit self no_user 3 apply_element enemies nature 2
   color: {r: 0.9803922, g: 0.5254902, b: 0.18431373, a: 1}
+  altBlock: 

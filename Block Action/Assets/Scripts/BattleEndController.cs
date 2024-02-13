@@ -73,6 +73,7 @@ public class BattleEndController : MonoBehaviour
 
     public static void TriggerVictory()
     {
+        Debug.Log("Victory");
         ActionUserParticle.actionUserParticle.disable();
         if (Battle.b.bs != BattleState.End)
         {
@@ -133,7 +134,7 @@ public class BattleEndController : MonoBehaviour
             Battle.b.bs = BattleState.End;
             ScreenDarkener.DarkenScreen();
             gameEndText.SetActive(true);
-            gameEndText.GetComponent<TMP_Text>().color = new Color(0.6f, 0, 0);
+            gameEndText.GetComponent<TMP_Text>().color = new Color(0.7f, 0, 0);
             battleEndController.StartCoroutine(ShowEndText(gameEndText.GetComponent<TMP_Text>(), "DEFEAT"));
             GameObject.FindGameObjectWithTag("PauseButton").SetActive(false);
             PersistentDataManager.storyState = 0;
@@ -147,7 +148,7 @@ public class BattleEndController : MonoBehaviour
         for (int i = 0; i < text.Length; i++)
         {
             textComponent.text += text[i];
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 }

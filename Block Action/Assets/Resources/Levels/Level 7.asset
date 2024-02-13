@@ -26,29 +26,29 @@ MonoBehaviour:
   bgmName: dangertheme
   background: Tree Base
   enemyWaves:
-  - 'Hog 0.5 0.5 1 0 2
+  - 'Hog 0.5 1 1 0 2
 
-    Hog_Hunter 0.5 0.5 1 0 3
+    Hog_Hunter 0.5 1 1 0 3
 
-    Hog 0.5 0.5 1 0 2'
-  - 'Will_o_Wisp 0.5 0.5 1 0 0
+    Hog 0.5 1 1 0 2'
+  - 'Will_o_Wisp 0.5 1 1 0 0
 
-    Lizard_Monster 0.5 0.5 1 0 1
+    Lizard_Monster 0.5 1 1 0 1
 
-    Evo_Plant 0.5
-    0.5 1 0 4'
-  - 'Hog_Hunter 0.5 0.5 1 0 2
-
-    Lizard_Monster 0.5 0.5 1 0 1
-
-    Plant 0.5 0.5
+    Evo_Plant 0.5 1
     1 0 4'
-  - 'Forest_Bear 0.5 0.5 1 0 3
+  - 'Hog_Hunter 0.5 1 1 0 2
 
-    Will_o_Wisp 0.5 0.5 1 0 0
+    Lizard_Monster 0.5 1 1 0 1
 
-    Mushroom 0.5 0.5
-    1 0 -1'
+    Plant 0.5 1 1 0
+    4'
+  - 'Forest_Bear 0.5 1 1 0 3
+
+    Will_o_Wisp 0.5 1 1 0 0
+
+    Mushroom 0.5 1 1 0
+    -1'
   midLevelEffects:
   - wave 1 dialogue Level7Mid-1
   - wave 1 text Miasma defense debuff applied.

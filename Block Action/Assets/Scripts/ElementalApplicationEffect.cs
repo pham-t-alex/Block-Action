@@ -122,5 +122,9 @@ public class ElementalApplicationEffect : Effect
         {
             f.currentElementStack = 0;
         }
+        else if (f.currentElementStack == 0)
+        {
+            f.currentElement = Element.Elements.ELEMENTLESS;
+        }
     }
 }

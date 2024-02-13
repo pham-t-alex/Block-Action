@@ -39,7 +39,7 @@ public class Damage : Effect
                             p.Init(damageDealt, fighter, f, 0, 0.5f);
                             continue;
                         }
-                        else if (e.type == "Big_Tree")
+                        else if (e.type == "Big_Tree" && targetType == TargetType.SingleTarget)
                         {
                             TreeHand.treeHand.DealDamage(damageDealt, fighter);
                             continue;
@@ -47,6 +47,14 @@ public class Damage : Effect
                         else if (e.type == "Hog" || e.type == "Hog_Hunter" || e.type == "Forest_Bear")
                         {
                             GameObject.Instantiate(Resources.Load<GameObject>("Claw/clawPrefab"), f.transform.position, Quaternion.identity);
+                        }
+                        else if (e.type == "Plant" || e.type == "Evolved_Plant")
+                        {
+                            GameObject.Instantiate(Resources.Load<GameObject>("Bite/bitePrefab"), f.transform.position, Quaternion.identity);
+                        }
+                        else if (e.type == "Mushroom")
+                        {
+                            GameObject.Instantiate(Resources.Load<GameObject>("MushExplosion/mushexplosion"), f.transform.position, Quaternion.identity);
                         }
                     }
                     GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), f.transform.position, Quaternion.identity);

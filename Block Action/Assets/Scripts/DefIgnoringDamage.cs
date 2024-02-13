@@ -40,7 +40,7 @@ public class DefIgnoringDamage : Effect
                             p.Init(damageDealt, fighter, f, 0, 0.5f);
                             continue;
                         }
-                        else if (e.type == "Big_Tree")
+                        else if (e.type == "Big_Tree" && targetType == TargetType.SingleTarget)
                         {
                             TreeHand.treeHand.DealDamage(damageDealt, fighter);
                             continue;

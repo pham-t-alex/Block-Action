@@ -214,7 +214,15 @@ public class Battle : MonoBehaviour
                     Destroy(e);
                 }
                 Battle.b.enemies.Clear();
-                BattleEndController.TriggerVictory();
+                if (!BattleEndController.battleEndController.victorious)
+                {
+                    BattleEndController.TriggerVictory();
+                }
+                else
+                {
+                    b.bs = BattleState.End;
+                }
+                
             }
             return true;
         }

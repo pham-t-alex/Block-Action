@@ -12,6 +12,7 @@ using Story = Ink.Runtime.Story;
 using System.Drawing;
 using System;
 using Color = UnityEngine.Color;
+using UnityEngine.Video;
 
 public class DialogueHandler : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class DialogueHandler : MonoBehaviour
     [SerializeField] public TextMeshProUGUI dialogueText;
     [SerializeField] public TextMeshProUGUI displayNameText;
     [SerializeField] public TextAsset inkJSON;
+
+    [SerializeField] public GameObject canvas;
+    [SerializeField] public GameObject dialogueChars;
 
     public Sprite[] sprites;
 
@@ -37,6 +41,7 @@ public class DialogueHandler : MonoBehaviour
     private bool canContinueToNextLine = false;
     private bool spacePressedSameFrame = false;
     private bool actionIsPerforming = false;
+    private bool videoDone = false;
     private DialogueCharacter[] characterArray;
     private GameObject[] locationArray;
 
@@ -47,6 +52,8 @@ public class DialogueHandler : MonoBehaviour
     private const string CHARACTER_LOCATION = "move";
     private const string SET_BGM = "bgm";
     private const string CHANGE_SPRITE = "sprite";
+    private const string CHANGE_BG = "background";
+    private const string PLAY_END_VIDEO = "endvideo";
 
     void Awake()
     {
@@ -59,20 +66,6 @@ public class DialogueHandler : MonoBehaviour
 
     void Start()
     {
-        if (PersistentDataManager.levelNumber == 8)
-        {
-            GameObject.Find("forestbg").SetActive(false);
-            GameObject.Find("treebasebg").SetActive(false);
-        }
-        else if (PersistentDataManager.levelNumber == 7) {
-            GameObject.Find("forestbg").SetActive(false);
-            GameObject.Find("treebossbg").SetActive(false);
-        }
-        else
-        {
-            GameObject.Find("treebossbg").SetActive(false);
-            GameObject.Find("treebasebg").SetActive(false);
-        }
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueSpeaker.SetActive(false);
@@ -200,27 +193,65 @@ public class DialogueHandler : MonoBehaviour
         }
         else // Stop and exit dialogue mode if no more lines of dialogue are present
         {
-            ExitDialogueMode();
-            if (PersistentDataManager.storyState == 1)
+            FinishStory();
+        }
+    }
+
+    public void FinishStory()
+    {
+        ExitDialogueMode();
+        if (PersistentDataManager.storyState == 1)
+        {
+            PersistentDataManager.storyState = 0;
+            if (Resources.Load<LevelData>($"Levels/Level {PersistentDataManager.levelNumber}") == null)
             {
-                PersistentDataManager.storyState = 0;
-                if (Resources.Load<LevelData>($"Levels/Level {PersistentDataManager.levelNumber}") == null)
-                {
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
-                }
-                else
-                {
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
-                }
+                UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
             }
             else
             {
-                PersistentDataManager.storyState = 0;
-                PersistentDataManager.levelNumber = -1;
-                PersistentDataManager.storyOnly = false;
-                UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
             }
         }
+        else
+        {
+            PersistentDataManager.storyState = 0;
+            PersistentDataManager.levelNumber = -1;
+            PersistentDataManager.storyOnly = false;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("StageSelection");
+        }
+    }
+
+    public IEnumerator PlayVideo(VideoClip clip, bool end)
+    {
+        videoDone = false;
+        VideoPlayer videoPlayer = GameObject.Find("Main Camera").AddComponent<VideoPlayer>();
+        videoPlayer.clip = clip;
+        videoPlayer.playOnAwake = false;
+        canContinueToNextLine = false;
+
+        canvas.SetActive(false);
+        dialogueChars.SetActive(false);
+        videoPlayer.Play();
+
+        videoPlayer.loopPointReached += FinishVideo;
+        yield return new WaitUntil(() => videoDone);
+
+        if (end)
+        {
+            FinishStory();
+        }
+        else
+        {
+            canContinueToNextLine = true;
+
+            canvas.SetActive(true);
+            dialogueChars.SetActive(true);
+        }
+    }
+
+    public void FinishVideo(VideoPlayer vp)
+    {
+        videoDone = true;
     }
 
     public IEnumerator DisplayLine(string line)
@@ -361,6 +392,32 @@ public class DialogueHandler : MonoBehaviour
 
                     gObject.GetComponent<SpriteRenderer>().sprite = sprites[index];
                     break;
+                case CHANGE_BG:
+                    string bg = tagAction;
+                    Transform t = GameObject.Find("Backgrounds").transform;
+                    for (int i = 0; i < t.childCount; i++)
+                    {
+                        GameObject g = t.GetChild(i).gameObject;
+                        if (g.name == bg)
+                        {
+                            g.SetActive(true);
+                        }
+                        else
+                        {
+                            g.SetActive(false);
+                        }
+                    }
+                    print("Background Set");
+                    break;
+                case PLAY_END_VIDEO:
+                    string video = tagAction;
+                    VideoClip clip = Resources.Load<VideoClip>("Video/" + tagAction);
+                    if (clip != null)
+                    {
+                        StartCoroutine(PlayVideo(clip, true));
+                    }
+                    break;
+
                 default: // Default Error Catcher
                     print("Nothing to handle current tag");
                     break;

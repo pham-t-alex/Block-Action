@@ -35,6 +35,7 @@ public class TreeHand : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = treeHandAttack;
         GetComponent<SpriteRenderer>().sortingOrder = -160;
         transform.position += new Vector3(1.5f, 1.1f);
+        GameObject.Instantiate(Resources.Load<GameObject>("TreeCrush/treeCrushPrefab"), transform.position, Quaternion.identity);
         time = 0.3f;
 
         GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("DamageParticles"), Player.player.transform.position, Quaternion.identity);

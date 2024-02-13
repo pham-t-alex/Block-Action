@@ -1,4 +1,5 @@
-﻿#bgm=null
+﻿#background=forestbg
+#bgm=null
 #move=1Protagonist #enter=Protagonist #sprite=Enemy,guidancesoul #move=4Enemy
 Found you rats! Making the forest go crazy, there's only room for one hermit here! #speaker=???
 You fight the witch. #speaker=Narrator
